@@ -96,7 +96,7 @@ public class EditorPresetRegistry {
 
     private static List<EditorPresetField> rootShopFields() {
         return List.of(
-                choice("settings.menu", Material.BOOK, EditorScope.MENU.listIds().toArray(new String[0])),
+                choice("settings.menu", Material.BOOK, EditorScope.SHOP_MENU_TEMPLATE.listIds().toArray(new String[0])),
                 field("settings.menu-settings", Material.WRITABLE_BOOK, EditorPresetFieldType.SECTION),
                 field("settings.buy-more", Material.CHEST, EditorPresetFieldType.BOOLEAN),
                 new EditorPresetField("settings.allow-favourite", "Allow Favourite",
@@ -154,7 +154,7 @@ public class EditorPresetRegistry {
                 field("buy-more", Material.CHEST, EditorPresetFieldType.BOOLEAN),
                 EditorPresetField.choice("buy-more-menu.menu", "Buy More Menu File",
                         "Menu file used when this product opens the buy-more GUI.", Material.CHEST,
-                        EditorScope.MENU.listIds().toArray(new String[0])),
+                        EditorScope.BUY_MORE_MENU.listIds().toArray(new String[0])),
                 new EditorPresetField("buy-more-menu.max-amount", "Buy More Max Amount",
                         "Maximum amount selectable in the buy-more menu.", Material.SLIME_BALL, EditorPresetFieldType.INTEGER),
                 field("hide-message", Material.PAPER, EditorPresetFieldType.BOOLEAN),

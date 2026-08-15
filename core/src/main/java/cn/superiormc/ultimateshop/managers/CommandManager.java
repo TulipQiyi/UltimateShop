@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class CommandManager {
+public class CommandManager extends AbstractManager {
 
     public static CommandManager commandManager;
 

@@ -5,7 +5,12 @@ The plugin generates the following configuration files, some of which will only 
 * `datas`: The location for storing plugin data files. <mark style="color:red;">It will only be generated without using a database. Do not modify any content here</mark>.
 * `items`: The location for storing saved item files.&#x20;
 * `languages`: The location for storing language files. You can set the language file used by the plugin through the `config-files.language` option in the `config.yml` file. You can customize various messages within the plugin game through language files. For per player language, or send action bar/title/boss bar/sound, please view [this page](../features/advanced-language-managment.md).
-* `menus`: The location for storing menu configuration files.&#x20;
+* `menus`: The location for storing common menu configuration files.&#x20;
+* `shop_menu_templates`: The location for storing shop menu template files.
+* `buy_more_menus`: The location for storing buy more menu files.
+* `favourite_menus`: The location for storing favourite menu files.
+* `search_menus`: The location for storing search menu files.
+* `item_sell_menus`: The location for storing item sell menu files.
 
 {% hint style="info" %}
 Many people seem to be confused about one thing: what you open through the `/shop` command is a menu, not a shop. If you want to set the slot for items in the shop menu, you should set it in the configuration file of the menu.
@@ -132,6 +137,39 @@ sell:
         1:
           type: permission
           permission: 'group.vip'
+  price-modifier:
+    item-sell-menu:
+      # Products with `price-modifier: true` open this item sell menu when clicked.
+      enabled: true
+      menu: item-sell
+    durability:
+      type: durability
+      enabled: true
+      deduction-coefficient: 1
+      minimum-multiplier: 0.1
+    lore:
+      type: lore
+      enabled: false
+      operation: SET
+      pattern: 'Item Value[：:]\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+))'
+      value-group: 1
+      minimum-value: 0
+      maximum-value: 1000000
+      maximum-number-length: 64
+    nbt:
+      type: nbt
+      enabled: false
+      key: item_value
+      value-type: AUTO
+      operation: SET
+      minimum-value: 0
+      maximum-value: 1000000
+      maximum-number-length: 64
+    mythic-changer:
+      type: match_item
+      enabled: false
+      mode: STACK
+      rules: {}
 
 give-item:
   # Support value: BUKKIT, SMART

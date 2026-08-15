@@ -207,8 +207,13 @@ public class ObjectDisplayItemStack {
             } else if (type.equals("path")) {
                 tempVal1 = ButtonComponent.of(tempVal3, FormImage.Type.PATH, icon.split(";;")[1]);
             }
-        } else if (ConfigManager.configManager.getBoolean("menu.bedrock.auto-add-icon.enabled") && ItemMaterialManager.enableThis()) {
-            tempVal1 = ButtonComponent.of(tempVal3, FormImage.Type.URL, getMaterialTextureUrl());
+        } else if (ConfigManager.configManager.getBoolean("menu.bedrock.auto-add-icon.enabled")) {
+            String autoUrl = getMaterialTextureUrl();
+            if (autoUrl != null) {
+                tempVal1 = ButtonComponent.of(tempVal3, FormImage.Type.URL, getMaterialTextureUrl());
+            } else {
+                tempVal1 = ButtonComponent.of(tempVal3);
+            }
         } else {
             tempVal1 = ButtonComponent.of(tempVal3);
         }

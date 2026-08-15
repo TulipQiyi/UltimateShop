@@ -47,6 +47,18 @@ public abstract class DatabaseDialect {
 
     public abstract String deleteFavourites();
 
+    public String deleteUseTimes() {
+        return "DELETE FROM ultimateshop_useTimes WHERE playerUUID = ?";
+    }
+
+    public String deleteRandomPlaceholders() {
+        return "DELETE FROM ultimateshop_randomPlaceholders WHERE playerUUID = ?";
+    }
+
+    public String deleteCustomPlaceholders() {
+        return "DELETE FROM ultimateshop_customPlaceholders WHERE playerUUID = ?";
+    }
+
     public abstract String insertFavourite();
 
     public abstract String createTransactionLogTable();

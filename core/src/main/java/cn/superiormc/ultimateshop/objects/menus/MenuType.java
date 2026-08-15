@@ -6,6 +6,7 @@ public enum MenuType {
     Common,
     More,
     Search,
+    ItemSell,
     Favourite
 
 }

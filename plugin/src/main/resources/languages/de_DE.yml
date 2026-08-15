@@ -1,0 +1,1238 @@
+error:
+  product-not-found: "&#98FB98[UltimateShop] &c{product} nicht gefunden!"
+  shop-not-found: "&#98FB98[UltimateShop] &c{shop} nicht gefunden!"
+  player-not-found: "&#98FB98[UltimateShop] &c{player} nicht gefunden!"
+  item-not-found: "&#98FB98[UltimateShop] &c{item} nicht gefunden!"
+  save-item-not-found: "&#98FB98[UltimateShop] &cWir können das gespeicherte Objekt {item} nicht finden!"
+  args: "&#98FB98[UltimateShop] &cBefehl falsch verwendet. Solltest du Hilfe benötigen, nutze /shop help!"
+  in-game: "&#98FB98[UltimateShop] &cDieser Befehlt muss im Spiel genutzt werden!"
+  miss-permission: "&#98FB98[UltimateShop] &cDu besitzt keine Berechtigung diesen Befehl zu nutzen!"
+  menu-not-found: "&#98FB98[UltimateShop] &cMenü nicht gefunden: {menu}!"
+  buy-more-menu-direct-open: "&#98FB98[UltimateShop] &cDieses Menü ist ein buy more Menu und kann nicht direkt geöffnet werden!"
+  shop-menu-not-found: "&#98FB98[UltimateShop] &c{shop}'s Menü konnte nicht gefunden werden: {menu}!"
+  shop-does-not-have-menu: "&#98FB98[UltimateShop] &cShop {shop} hat kein gültiges Menü!"
+  random-placeholder-not-found: "&#98FB98[UltimateShop] &cPlatzhalter nicht gefunden: {placeholder}!"
+
+  custom-placeholder-not-found: "&#98FB98[UltimateShop] &cBenutzerdefinierter Platzhalter {placeholder} wurde nicht gefunden!"
+  custom-placeholder-invalid-number: "&#98FB98[UltimateShop] &cDer Wert des benutzerdefinierten Platzhalters muss eine Zahl sein: {value}!"
+  custom-placeholder-player-arg-required: "&#98FB98[UltimateShop] &cDer benutzerdefinierte Platzhalter {placeholder} enthält spielerbezogene Daten; du musst einen Spieler angeben!"
+  random-placeholder-player-arg-required: "&#98FB98[UltimateShop] &cDer Zufallsplatzhalter {placeholder} enthält spielerbezogene Daten; du musst einen Spieler angeben!"
+  result-empty: "&#98FB98[UltimateShop] &cDieser Gegenstand scheint im Shop nicht vorhanden zu sein!"
+  favourite-empty: "&#98FB98[UltimateShop] &cDieses Favoritenmenü enthält noch keine Produkte!"
+  favourite-not-allowed: "&#98FB98[UltimateShop] &cProdukt {item} kann nicht zu den Favoriten hinzugefügt werden."
+  favourite-limit-reached: "&#98FB98[UltimateShop] &cFavoritenmenü {menu} ist voll. Limit: {limit}."
+plugin:
+  reloading: "&#98FB98[UltimateShop] &fVersuche das Plugin neu zu starten. Das System kann ruckeln oder gar abstürzen, solltest du viele Produkte im Shop und viele Spieler Online haben. Wir empfehlen den Server, statt des Plugins, neu zu starten."
+  reloaded: "&#98FB98[UltimateShop] &fPlugin neu gestartet!"
+  reload-close-gui: "&#98FB98[UltimateShop] &fDein GUI wurde geschlossen, da der Admin das Plugin neu startet!"
+  saved: "&#98FB98[UltimateShop] &fGegenstand gespeichert!"
+  generated: "&#98FB98[UltimateShop] &fDas Format der Haltepunkte wurde im Plugin-Konfigurationsordner generiert, bitte kopieren Sie diese in Ihre Menü- oder Shop-Konfigurationen!"
+
+  search: |
+    &#98FB98&lUltimateShop &7Suche Ergebnis
+    &fZiel- Gegenstand: {item-name} in Shop {shop} &7(/shop Menü {shop})
+    &fKaufen Preis: {buy-price}
+    &fVerkaufen Preis: {sell-price}
+  search-gui-name-input: "&fGib den Namen des gesuchten Gegenstands im Chat ein. Mit {value} entfernst du den Namensfilter."
+  search-gui-name-empty: "Keiner"
+  item-sell-no-price: "&cNichts verkäuflich"
+  item-sell-nothing: "&#98FB98[UltimateShop] &cIn diesem Menü gibt es keine verkäuflichen Gegenstände."
+placeholderapi:
+  unknown-shop: "Unbekannter Shop"
+  unknown-product: "Unbekanntes Produkt"
+
+command-tab:
+  unknown-shop: "[Unbekannter Shop]"
+  unknown-random-placeholder: "[Unbekannter Zufalls-Placeholder]"
+  type-item-id: "[Gewünschte Item-ID eingeben]"
+
+# All messages also support multi lines, just do it like this!
+  unknown-custom-placeholder: "[Unbekannter benutzerdefinierter Platzhalter]"
+help:
+  main: |
+    &#98FB98&lUltimateShop &7Made by @PQguanfang
+    &f/shop help &7- Hilfe aufrufen.
+    &f/shop menu <menuName> &7- Spezifisches Menü aufrufen.
+    &f/shop menu <shopName> &7- Spezifisches Shopmenü aufrufen.
+    &f/shop sellall &7- Öffnet das verkaufe alles Menü.
+  main-admin: |
+    &#98FB98&lUltimateShop &7Made by @PQguanfang
+    &f/shop help &7- Hilfe aufrufen.
+    &f/shop menu <menuName> &7- Spezifisches Menü aufrufen.
+    &f/shop menu <shopName> &7- Spezifisches Shopmenü aufrufen.
+    &f/shop quickbuy <shopName> <itemName> &7- Schnellkauf eines speziellen Gegenstandes ohne Menü.
+    &f/shop quicksell <shopName> <itemName> &7- Schnellverkauf eines speziellen Gegenstandes ohne Menü.
+    &f/shop reload &7- Plugin neu starten.
+    &f/shop sellall &7- Öffnet das verkaufe alles Menü.
+    &f/shop setbuytimes <shopName> <itemName> <playerName> [amount] &7- Setzt die Anzahl wie oft ein Gegenstand von jemandem gekauft werden darf.
+    &f/shop setselltimes <shopName> <itemName> <playerName> [amount] &7- Setzt die Anzahl wie oft ein Gegenstand von jemandem verkauft werden darf.
+    &f/shop addbuytimes <shopName> <itemName> <playerName> <amount> &7- Erhöht die Anzahl wie oft ein Gegenstand von jemand gekauft werden darf.
+    &f/shop addselltimes <shopName> <itemName> <playerName> <amount> &7- Erhöht die Anzahl wie oft ein Gegenstand von jemand verkauft werden darf.
+    &f/shop resetrandomplaceholder <placeholderID> &7-Setzt Platzhalterwert zurück. &c(Premium)
+    &f/shop setrandomplaceholder <placeholderID> [element] &7- Setzt Platzhalterwert. &c(Premium)
+    &f/shop getplaceholdervalue <text> &7- Gibt Platzhalterwert zurück. &c(Premium)
+    &f/shop saveitem <itemID> &7- Platzierte Gegenstände speichern.
+    &f/shop generateitemformat &7- Generiert platzierte Gegenstände ins ItemFormat.
+    &f/shop givesellstick <itemID> <playerID> [amount] &7- Gib verkaufsitem an Spieler. &c(Premium)
+  main-console: |
+    &#98FB98&lUltimateShop &7Made by @PQguanfang
+    &f/shop help &7- Hilfe aufrufen.
+    &f/shop menu <menuName> <playerName> &7- Spezifisches Menü aufrufen beim Spieler öffnen lassen.
+    &f/shop menu <shopName> <playerName> &7- Spezifisches Shopmenü aufrufen beim Spieler öffnen lassen.
+    &f/shop reload &7- Plugin neu starten.
+    &f/shop setbuytimes <shopName> <itemName> <playerName> [amount] &7- Setzt die Anzahl wie oft ein Gegenstand von jemandem gekauft werden darf.
+    &f/shop setselltimes <shopName> <itemName> <playerName> [amount] &7- Setzt die Anzahl wie oft ein Gegenstand von jemandem verkauft werden darf.
+    &f/shop addbuytimes <shopName> <itemName> <playerName> <amount> &7- Erhöht die Anzahl wie oft ein Gegenstand von jemand gekauft werden darf.
+    &f/shop addselltimes <shopName> <itemName> <playerName> <amount> &7- Erhöht die Anzahl wie oft ein Gegenstand von jemand verkauft werden darf.
+    &f/shop resetrandomplaceholder <placeholderID> &7-Setzt Platzhalterwert zurück. &c(Premium)
+    &f/shop setrandomplaceholder <placeholderID> [element] &7- Setzt Platzhalterwert. &c(Premium)
+    &f/shop getplaceholdervalue <text> &7- Gibt Platzhalterwert zurück. &c(Premium)
+    &f/shop givesellstick <itemID> <playerID> [amount] &7- Gib verkaufsitem an Spieler. &c(Premium)
+
+inventory-full: "&#98FB98[UltimateShop] &fTransaktion kann nicht durchgeführt werden, da das Inventar voll ist!"
+start-sell-all: "&#98FB98[UltimateShop] &fAlle deiner {amount} verkaufbaren Gegenstände wurden verkauft, dein Erlös war {reward}!"
+start-sell-stick: "&#98FB98[UltimateShop] &fAlle verkäuflichen Gegenstände in diesem Behälter wurden verkauft; du hast {reward} mit dem Multiplikator {multiplier} erhalten!"
+give-sell-stick: "&#98FB98[UltimateShop] &fGib {player} {item} x{amount}!"
+give-save-item: "&#98FB98[UltimateShop] &fGib {player} {item} x{amount}!"
+add-times: "&#98FB98[UltimateShop] &fFüge {times} zu {player}'s {item} Verwendungszeiten!"
+set-times: "&#98FB98[UltimateShop] &fSetze {player}'s {item} Verwendungszeigen auf {times}!"
+add-times-shop: "&#98FB98[UltimateShop] &fFüge {times} zu {player}'s {shop}'s Produktgebrauchtzeiten!"
+set-times-shop: "&#98FB98[UltimateShop] &fSetze {player}'s {shop}'s Produktgebrauchzzeiten auf {times}!"
+success-buy: "&#98FB98[UltimateShop] &fErfolgreich {item}x{amount}, zum Preis von {price} gekauft!"
+success-sell: "&#98FB98[UltimateShop] &f{item}&fx{amount} erfolgreich verkauft, {price} &fmit dem Multiplikator &cx{multiplier} erhalten!"
+menu-condition-not-meet: "&#98FB98[UltimateShop] &cDie Bedingung, um das Menü zu öffnen, wurde nicht erfüllt!"
+buy-condition-not-meet: "&#98FB98[UltimateShop] &cDie Bedingung, um das Prdukt zu kaufen, wurde nicht erfüllt!"
+sell-condition-not-meet: "&#98FB98[UltimateShop] &cDie Bedingung, um das Prdukt zu verkaufen, wurde nicht erfüllt!"
+limit-reached-buy-player: "&#98FB98[UltimateShop] &cSie können Artikel {item} nicht mehr kaufen, Sie haben diesen Artikel heute {times} gekauft, und sein Tagesbestand ist {limit} für Sie, nächste Aktualisierungszeit: {refresh}."
+limit-reached-sell-player: "&#98FB98[UltimateShop] &cSie können Artikel {item} nicht mehr verkaufen, Sie haben diesen Artikel heute {times} verkauft, und sein Tageslimit ist {limit} für Sie, nächste Aktualisierungszeit: {refresh}."
+limit-reached-buy-server: "&#98FB98[UltimateShop] &cDu kannst Gegenstand {item} nicht mehr kaufen, alle Spieler kaufen diesen Gegenstand heute {times} und sein täglicher Bestand ist {limit}, nächste Aktualisierungszeit: {refresh}."
+limit-reached-sell-server: "&#98FB98[UltimateShop] &cDu kannst Gegenstand {item} nicht mehr verkaufen, alle Spieler verkauften diesen Gegenstand heute {times} und sein täglicher Bestand ist Limitiert auf {limit}, nächste Aktualisierungszeit: {refresh}."
+buy-price-not-enough: "&#98FB98[UltimateShop] &cDu hast nicht genügend Geld um {item} zu kaufen. Preis: {price}."
+sell-products-not-enough: "&#98FB98[UltimateShop] &cDu hast nicht genügend {item} zum verkaufen."
+parsed-value: "&#98FB98[UltimateShop] &fErmittelter Wert: {text}"
+reset-random-placeholder: "&#98FB98[UltimateShop] &fErfolgreich Platzhalter {placeholder} zurückgesetzt und der neue Wert ist {value}."
+set-random-placeholder: "&#98FB98[UltimateShop] &fErfolgreich Platzhalter {placeholder} Wert gesetzt: {value}. Bitte beachten Sie, dass die Aktualisierungszeit nicht zurückgesetzt wird!"
+gui-updated: "&#98FB98[UltimateShop] &fGUI für Spieler {player} aktualisiert!"
+gui-not-opened: "&#98FB98[UltimateShop] &c{player} hat keine GUI geöffnet!"
+
+override-lang:
+  shop-title: 'Item-Shop'
+  buy-more-title: 'Menge wählen'
+  buy-more-add-1: '&7Klicke, um 1 hinzuzufügen.'
+  buy-more-add-10: '&7Klicke, um 10 hinzuzufügen.'
+  buy-more-add-32: '&7Klicke, um 32 hinzuzufügen.'
+  buy-more-reduce-1: '&7Klicke, um 1 zu verringern.'
+  buy-more-reduce-10: '&7Klicke, um 10 zu verringern.'
+  buy-more-reduce-32: '&7Klicke, um 32 zu verringern.'
+  buy-more-buy-button: '&a&lKLICK ZUM KAUFEN'
+  buy-more-sell-button: '&c&lKLICK ZUM VERKAUFEN'
+  buy-more-buy-button-lore-1: '&aKlicke zum Bestätigen und Kaufen'
+  buy-more-buy-button-lore-2: '&adie ausgewählte Menge.'
+  buy-more-sell-button-lore-1: '&cKlicke zum Bestätigen und Verkaufen'
+  buy-more-sell-button-lore-2: '&cdie ausgewählte Menge.'
+  back-button: '&c« Zurück'
+  close-button: '&cDieses Menü schließen'
+  next-page-button: '&cNächste Seite »'
+  previous-page-button: '&c« Vorherige Seite'
+  welcome-message: '&fWillkommen im Shop.'
+  farming-name: '&a&lFARMING'
+  farming-lore-1: '&7Verkaufe und kaufe verschiedene Items'
+  farming-lore-2: '&7wie Samen.'
+  drops-name: '&b&lDROPS'
+  drops-lore-1: '&7Verkaufe und kaufe verwandte Items'
+  drops-lore-2: '&7von Mob-Drops wie Fäden.'
+  concretes-name: '&a&lBETON'
+  concretes-lore-1: '&7Verkaufe und kaufe Betonblöcke'
+  concretes-lore-2: '&7und all ihren Farbvarianten.'
+  flowers-name: '&a&lBLUMEN'
+  flowers-lore-1: '&7Verkaufe und kaufe viele Arten von'
+  flowers-lore-2: '&7Blumen in diesem Bereich.'
+  logs-name: '&a&lHOLZ UND SETZLINGE'
+  logs-lore-1: '&7Verkaufe und kaufe alle Varianten der Oberwelt'
+  logs-lore-2: '&7Stämme und ihre Setzlinge.'
+  minerals-name: '&a&lMINERALIEN'
+  minerals-lore-1: '&7Verkaufe und kaufe verschiedene Mineralien'
+  minerals-lore-2: '&7wie Diamant, Eisen und mehr.'
+  blocks-name: '&a&lBLÖCKE'
+  blocks-lore-1: '&7Verkaufe und kaufe verschiedene Arten'
+  blocks-lore-2: '&7verschiedener Blöcke.'
+  terracotta-name: '&a&lTERRAKOTTA'
+  terracotta-lore-1: '&7Verkaufen and buy blocks of terracotta'
+  terracotta-lore-2: '&7und all ihren Farbvarianten.'
+  glass-name: '&7&lGLAS'
+  glass-lore-1: '&7Verkaufe und kaufe Glasblöcke und Scheiben'
+  glass-lore-2: '&7und all ihren Farbvarianten.'
+  wool-name: '&a&lWOLLE'
+  wool-lore-1: '&7Verkaufe und kaufe Wollblöcke'
+  wool-lore-2: '&7und all ihren Farbvarianten.'
+  special-items-name: '&d&lSPEZIALITEMS'
+  special-items-lore-1: '&7Verkaufe und kaufe einige besondere'
+  special-items-lore-2: '&7oder seltene Items.'
+  redstone-name: '&c&lREDSTONE'
+  redstone-lore-1: '&7Verkaufe und kaufe alles rund um'
+  redstone-lore-2: '&7zu Redstone wie Komparatoren.'
+  fish-name: '&9&lFISCH-SHOP'
+  fish-lore-1: '&7Verkaufe oder kaufe verschiedenen rohen Fisch'
+  fish-lore-2: '&7oder gekochten Fisch.'
+  transports-name: '&a&lTRANSPORT'
+  transports-lore-1: '&7Einige Dinge rund um'
+  transports-lore-2: '&7Transport wie Schienen.'
+  blocks-shop-name: 'Block-Shop'
+  concretes-shop-name: 'Beton-Shop'
+  drops-shop-name: 'Drops-Shop'
+  farming-shop-name: 'Farm-Shop'
+  fish-shop-name: 'Fisch-Shop'
+  flowers-shop-name: 'Blumen-Shop'
+  glass-shop-name: 'Glas-Shop'
+  logs-shop-name: 'Holz-Shop'
+  minerals-shop-name: 'Mineralien-Shop'
+  redstone-shop-name: 'Redstone-Shop'
+  special-items-shop-name: 'Spezialitem-Shop'
+  terracotta-shop-name: 'Terrakotta-Shop'
+  wools-shop-name: 'Woll-Shop'
+  daily-shop-name: 'Tages-Shop (PREMIUM erforderlich)'
+  transport-shop-name: 'Transport-Shop'
+  menu:
+    sell-all:
+      title: '&fAlles verkaufen &7- Esc zu bestätigen verkaufen!'
+    bedrock:
+      price-extra-line:
+        default: '&6Kauf: {buy-price} &6| Verkauf: {sell-price}'
+        only-buy: '&6Kauf: {buy-price}'
+        only-sell: '&6Verkauf: {sell-price}'
+      buy-or-sell:
+        title: 'Auswählen Menge: {item-name}'
+        buttons:
+          amount:
+            name: 'Menge'
+            tip: 'Menge hier eingeben!'
+      info:
+        title: 'Produktinfo: {item-name} x{amount}'
+        buttons:
+          buy: 'Kaufen'
+          sell: 'Verkaufen'
+          buy-more: 'Menge wählen'
+          sell-all: 'Alles verkaufen'
+          back: '&cZurück'
+      favourite-edit:
+        title: 'Bearbeiten Favorit: {item-name}'
+        content: '&7Wählen Sie wie zu bearbeiten Favorit Eintrag #{index}.'
+        buttons:
+          forward: '&eVerschieben Vorwärts'
+          backward: '&eVerschieben Rückwärts'
+          remove: '&cEntfernen'
+          back: '&7Zurück'
+    prompt:
+      cancel-keyword: 'abbrechen'
+    search-gui:
+      title: '&8Produkt Suche'
+      prompt:
+        clear-keyword: 'leeren'
+    favourite:
+      title: '&8Favorit Liste'
+      content: '&7Speichern der Produkte Sie handeln meist häufig und behalten sie nur einen Klick entfernt.'
+    dialog:
+      default-button: 'OK'
+      search:
+        input: 'Suche'
+        buttons:
+          search: 'Suche'
+      buy-more:
+        title: 'Auswählen Menge: {item-name}'
+        input: 'Menge'
+        buttons:
+          confirm: 'Bestätigen'
+      info:
+        title: 'Produkt Info: {item-name} x{amount}'
+        buttons:
+          buy: 'Kaufen'
+          sell: 'Verkaufen'
+          buy-more: 'Auswählen Menge'
+          sell-all: 'Alles verkaufen'
+          back: '&cZurück'
+      favourite-edit:
+        title: 'Bearbeiten Favorit: {item-name}'
+        content: '&7Wählen Sie wie zu bearbeiten Favorit Eintrag #{index}.'
+        buttons:
+          forward: '&eVerschieben Vorwärts'
+          backward: '&eVerschieben Rückwärts'
+          remove: '&cEntfernen'
+          back: '&7Zurück'
+  placeholder:
+    compare:
+      up: '↑'
+      down: '↓'
+      same: '-'
+    cron:
+      format: "yyyy-MM-dd HH:mm:ss"
+    refresh:
+      format: "yyyy-MM-dd HH:mm:ss"
+      never: "Nie"
+    next:
+      with-day-format: "{d}d {h}h {m}m {s}s"
+      without-day-format: "{h}h {m}m {s}s"
+      never: "Warten auf die nächste Aktualisierung"
+    price:
+      split-symbol-any: ', '
+      split-symbol-all: ', '
+      replace-new-line-symbol: ', '
+      unknown: "Unbekannt"
+      unknown-price-type: "Unbekannter Preistyp"
+      empty: "Preis ist leer!"
+    click:
+      buy: '&#FFFACDLinksklick zum Kaufen!'
+      sell: '&#FFFACDRechtsklick zum Verkaufen!'
+      buy-with-no-sell: '&#FFFACDKlicken zum Kaufen!'
+      sell-with-no-buy: '&#FFFACDKlicken zum Verkaufen!'
+      buy-max-limit-player: '&#ff3300Du kannst nicht mehr kaufen!'
+      buy-max-limit-server: '&#ff3300AUSVERKAUFT!'
+      sell-max-limit-player: '&#ff3300Kann nicht mehr verkaufen!'
+      sell-max-limit-server: '&#ff3300DIESES ITEM KANN NICHT VERKAUFT WERDEN!'
+      buy-price-not-enough: '&#ff3300Nicht genug Geld zum Kaufen!'
+      sell-price-not-enough: '&#ff3300Nicht genug Items zum Verkaufen!'
+      error: '&#ff3300Fehler!'
+      buy-condition-not-meet: '&#ff3300Kaufbedingung nicht erfüllt!'
+      sell-condition-not-meet: '&#ff3300Verkaufsbedingung nicht erfüllt!'
+    sell-stick:
+      infinite: "&cUnendlich"
+  display-item:
+    add-lore:
+    - '@n@y '
+    - '@a&eKauf: {buy-price}'
+    - '@b(@z[rich])&eVerkaufen: {sell-price}'
+    - '@b@z[rich]&eVerkaufen: {sell-price} &8(Tax:&c -10%&8)'
+    - '@b@z[vip]&6VIP Bonus:&a +10%'
+    - '@c&#FF7777Spieler Kaufen Bestand: {buy-times-player}/{buy-limit-player}'
+    - '@d&#FF7777Server Kaufen Bestand: {buy-times-server}/{buy-limit-server}'
+    - '@e&#FF7777Spieler Verkaufen Limit: {sell-times-player}/{sell-limit-player}'
+    - '@f&#FF7777Server Verkaufen Limit: {sell-times-server}/{sell-limit-server}'
+    - '@g '
+    - '@g&#ff3300cCan nicht Mehr kaufen!'
+    - '@g&8Aktualisieren Zeit: {buy-refresh-player}'
+    - '@i '
+    - '@i&#ff3300Verkauft Aus!'
+    - '@i&8Aktualisieren Zeit: {buy-refresh-server}'
+    - '@h '
+    - '@h&#ff3300kann nicht verkaufen mehr!'
+    - '@h&8Aktualisieren Zeit: {sell-refresh-player}'
+    - '@j'
+    - '@j&#ff3300kann nicht verkaufen mehr für Server!'
+    - '@j&8Aktualisieren Zeit: {sell-refresh-server}'
+    - '@n@y '
+    - '@a@u@y{buy-click}'
+    - '@b@v@y{sell-click}'
+    - '@k@q@y&#FFFACDRechts-Shift Klicken zum pick Menge!'
+    - '@l(@o)@y(@w)&#FFFACDSwap hand (F Key) zu hinzufügen Favorit!'
+    - '@m@v@y(@w)&#FFFACDDrop (Q key) zu Alles verkaufen!'
+    - '(@n)&c&l:( kann nicht tun dieser'
+    - '(@a)@u@p&cDieser Gegenstand kann nicht sein gekauft'
+    - '(@b)@v@p&cDieser Gegenstand kann nicht sein verkauft'
+
+  item-sell-title: 'Gegenstände verkaufen'
+  item-sell-confirm-name: '&aVerkauf bestätigen'
+  item-sell-confirm-price: '&7Preis: &f{price}'
+  item-sell-confirm-original-price: '&7Ursprünglicher Preis: &f{original-price}'
+  item-sell-confirm-multiplier: '&7Endgültiger Multiplikator: &fx{multiplier}'
+  item-sell-confirm-amount: '&7Verkäufliche Gegenstände: &f{item-amount}'
+  item-sell-confirm-unsellable: '&7Nicht verkäufliche Gegenstände: &f{unsellable-amount}'
+  item-sell-confirm-click: '&aKlicken, um die oben aufgeführten Gegenstände zu verkaufen.'
+  search-gui-guide-name: '&eSuchfilter'
+  search-gui-guide-line-1: '&7Platzieren Gegenstände in der Slots unten'
+  search-gui-guide-line-2: '&7oder Typ ein Produkt Name in Chat.'
+  search-gui-guide-line-3: '&7Verwenden dieser Menü zu schnell finden'
+  search-gui-guide-line-4: '&7passende Produkte über Ihre Shops.'
+  search-gui-clear-name: '&cZurücksetzen Suche'
+  search-gui-clear-line-1: '&7Zurückkehren alle Filter Gegenstände und leeren der Name Suche.'
+  search-gui-empty-name: '&eStart ein Suche'
+  search-gui-empty-line-1: '&7Platzieren Gegenstände in der Filter Slots unten.'
+  search-gui-empty-line-2: '&7Oder verwenden der Trichter oben zu Suche durch Name.'
+  search-gui-state-name: '&aSuche Übersicht'
+  search-gui-state-line-1: '&7Gefunden Produkte: &f{result-amount}'
+  search-gui-state-line-2: '&7Angezeigt &f{showing-amount} &7Ergebnisse von &f{input-amount} &7Filter.'
+  search-gui-state-line-3: '&7Name Filter: &f{name-keyword}'
+  search-gui-no-result-name: '&ckeine passenden Produkte'
+  search-gui-no-result-line-1: '&7Nichts in der Standard Shops entspricht'
+  search-gui-no-result-line-2: '&7der aktuell Gegenstände oder Name Filter.'
+  search-gui-result-shop: '&8Shop: &f{shop}'
+  search-gui-result-product: '&8Produkt: &f{product}'
+  search-gui-result-click: '&7Klicken zum handeln dieser Produkt.'
+  favourite-empty-name: '&7leerer Favoritenplatz'
+  favourite-empty-line-1: '&7Speichern Produkte hier von beliebige Shop-Menü.'
+  favourite-empty-line-2: '&7Verwenden Bearbeitungsmodus zu sortieren oder entfernen Einträge.'
+  favourite-result-shop: '&8Shop: &f{shop}'
+  favourite-result-product: '&8Produkt: &f{product}'
+  favourite-result-click: '&7Klicken zum handeln dieser Produkt.'
+  favourite-result-enter-edit: '&7Verwenden der Schaltfläche unten zu eingeben Bearbeitungsmodus.'
+  favourite-result-edit-forward: '&7Links-klicken: verschieben dieser Eintrag vorwärts.'
+  favourite-result-edit-backward: '&7Rechts-klicken: verschieben dieser Eintrag rückwärts.'
+  favourite-result-edit-remove: '&7Drücken Sie Q: dies entfernen Eintrag.'
+  edit-mode-enable-name: '&eAktivieren Bearbeitungsmodus'
+  edit-mode-enable-line-1: '&7Neu anordnen oder entfernen gespeichert Produkte.'
+  edit-mode-disable-name: '&aBearbeitungsmodus verlassen'
+  edit-mode-disable-line-1: '&7zu normalen Klicks zurückkehren und wieder handeln.'
+  add-favourite-action: 'Hinzufügen Favorit'
+  search-menu-button-name: '&bProdukt Suche'
+  search-menu-button-line-1: '&7Suche durch Gegenstand oder durch Name.'
+  search-menu-button-line-2: '&7Hilfreich wenn Ihre Shop wächst groß.'
+  favourite-menu-button-name: '&dFavorit Liste'
+  favourite-menu-button-line-1: '&7Behalten Ihre meist-verwendet Produkte'
+  favourite-menu-button-line-2: '&7in eins Schnellzugriffsmenü.'
+  sell-all-menu-button-name: '&6Alles verkaufen'
+  sell-all-menu-button-line-1: '&7öffnen Sie Massen- verkaufen Menü für'
+  sell-all-menu-button-line-2: '&7Ihre aktuell Inventar Inhalte.'
+  sell:
+    sell-chest:
+      price-empty: 'Kein verkaufen Verlauf'
+editor:
+  scope:
+    shop: 'Shop'
+    menu: 'Menü'
+    shop_menu_template: 'Shop-Menüvorlage'
+    buy_more_menu: 'Mehr kaufen Menü'
+    favourite_menu: 'Favoritenmenü'
+    search_menu: 'Suchmenü'
+    item_sell_menu: 'Gegenstandsverkaufsmenü'
+  common:
+    root: 'Wurzel'
+    back:
+      name: '&eZurück'
+      desc: '&7zurück zu der vorherige Bildschirm'
+    refresh:
+      name: '&eAktualisieren'
+    reload:
+      name: '&aPlugin neu laden'
+    clear:
+      name: '&cLeeren'
+      desc: '&7dies entfernen Wert'
+    enabled: 'aktiviert'
+    disabled: 'deaktiviert'
+    previous-page:
+      name: '&evorherige Seite'
+      desc: '&7zu der vorherige Seite'
+    next-page:
+      name: '&enächste Seite'
+      desc: '&7zu der nächste Seite'
+  action:
+    open: '&aLinksklick zum Öffnen'
+    edit: '&aLinksklick zum Bearbeiten'
+    delete: '&cRechtsklick zum Löschen'
+    toggle: '&aLinksklick zum Umschalten'
+    cycle: '&aLinksklick zum Wechseln'
+    cycle-back: '&aUmschalt+Linksklick für rückwärts'
+    cycle-action: '&aLinksklick zum Wechseln des Aktionstyps'
+    cycle-condition: '&aLinksklick zum Wechseln des Bedingungstyps'
+    increase-ten: '&aLinksklick zu hinzufügen 10'
+    decrease-ten: '&cRechtsklick zu abziehen 10'
+    increase-one: '&aUmschalt + links zu hinzufügen 1'
+    decrease-one: '&cUmschalt + rechts zu abziehen 1'
+    middle-clear: '&eMittelklick zu leeren'
+    read-only: '&7Schreibgeschützte Zusammenfassung'
+  summary:
+    type: '&7Aktuell Typ: &f{value}'
+    section: 'Abschnitt'
+    list: 'Liste'
+    keys: '&7Untergeordnete Schlüssel: &f{value}'
+    size: '&7Aktuelle Größe: &f{value}'
+    value: '&7Aktueller Wert: &f{value}'
+  lore:
+    path: '&7Pfad: &f{value}'
+    kind: '&7Art: &f{value}'
+    description: '&7Beschreibung: &f{value}'
+    not-set: '&7aktueller Wert: &f<nicht setzen>'
+  value-kind:
+    item_section: 'Item-Abschnitt'
+    economy_section: 'Wirtschaftsabschnitt'
+    action_collection: 'Aktionssammlung'
+    condition_collection: 'Bedingungssammlung'
+    action_type: 'Aktionstyp'
+    condition_type: 'Bedingungstyp'
+    boolean: 'Boolesch'
+    integer: 'Ganzzahl'
+    double: 'Zahl'
+    string: 'Text'
+    string_list: 'Textliste'
+    integer_list: 'Ganzzahlliste'
+    section: 'Abschnitt'
+    unknown: 'Unbekannt'
+  root:
+    title: 'UltimateShop Editor'
+    shops:
+      name: '&eShops bearbeiten'
+      desc: '&7Öffnen Shop yml Dateien unter &f/shops'
+    menus:
+      name: '&eMenüs bearbeiten'
+      desc: '&7Öffnen Menü yml Dateien unter &f/menus'
+    close:
+      name: '&cSchließen'
+      desc: '&7schließen Sie Editor'
+    shop-menu-templates:
+      name: '&eShop-Menüvorlagen bearbeiten'
+      desc: '&7Öffnen Menü yml Dateien unter &f/shop_menu_templates'
+    buy-more-menus:
+      name: '&eMehr-kaufen-Menüs bearbeiten'
+      desc: '&7Öffnen Menü yml Dateien unter &f/buy_more_menus'
+    favourite-menus:
+      name: '&eFavoritenmenüs bearbeiten'
+      desc: '&7Öffnen Menü yml Dateien unter &f/favourite_menus'
+    search-menus:
+      name: '&eSuchmenüs bearbeiten'
+      desc: '&7Öffnen Menü yml Dateien unter &f/search_menus'
+    item-sell-menus:
+      name: '&eGegenstandsverkaufsmenüs bearbeiten'
+      desc: '&7Öffnen Menü yml Dateien unter &f/item_sell_menus'
+  file-list:
+    title: 'Editor {scope}s'
+    type: '&7Typ: &f{value}'
+    file: '&7Datei: &f{value}'
+    back: '&7Zur Editor-Startseite zurückkehren'
+    refresh: '&7Dateiliste neu laden'
+  section:
+    path:
+      name: '&eaktueller Pfad'
+      desc: '&f{value}'
+    reload:
+      line-1: '&7Änderungen sind bereits geschrieben zu Datenträger.'
+      line-2: '&7Verwenden dieser zu neu erstellen aktive Shop/menu Objekte.'
+    add-child:
+      name: '&eHinzufügen Unterelement'
+      numbered: '&7Neuen nummerierten Eintrag hinzufügen'
+      named: '&7Neuen benannten Abschnittseintrag erstellen'
+      generic: '&7Neuen untergeordneten Knoten in diesem Abschnitt hinzufügen'
+      value-mode: '&7Nach dem Schlüsselnamen den Wert direkt eingeben. Verwende &fsection &7oder &f{} &7für einen Abschnitt.'
+      thing-item: '&aLinksklick: hinzufügen Gegenstand Vorlage'
+      thing-economy: '&eRechtsklick: hinzufügen Wirtschaft Vorlage'
+  preset:
+    raw:
+      name: '&eRohdaten- Abschnitt'
+      desc: '&7öffnen Sie Rohdaten- Abschnitt Ausweich- Editor'
+    reload:
+      desc: '&7Anwenden Änderungen zu aktive Shop/menu Objekte'
+    add-limit-group:
+      name: '&eHinzufügen Limitgruppe'
+      desc: '&7Erstellen ein neu benannte Bedingungsgruppe für dieser Limit Abschnitt'
+  item:
+    title: 'Gegenstand Editor: {path}'
+    slot:
+      name: '&eItemFormat Slot'
+      line-1: '&7Legen Sie der Ziel- Gegenstand in Slot 13.'
+      line-2: '&7Dann klicken speichern zu DebuildItem in yaml.'
+    apply:
+      name: '&aAnwenden Gegenstand'
+      desc: '&7Serialisieren Slot 13 in der aktuell Abschnitt'
+    raw:
+      name: '&eRohdaten- Abschnitt'
+      desc: '&7Öffnen alle Schlüssel innerhalb dieser Gegenstand Abschnitt'
+    clear:
+      name: '&cLeeren Section'
+      desc: '&7dies löschen gesamten Gegenstand Abschnitt'
+    back:
+      desc: '&7zurück zu der übergeordneten Abschnitt'
+  economy:
+    title: 'Wirtschaft Editor: {path}'
+    current: '&7Aktuell: &f{value}'
+    provider:
+      name: '&eAnbieter'
+    currency:
+      name: '&eWährung Typ'
+    amount:
+      name: '&eMenge'
+    placeholder:
+      name: '&ePlatzhalter'
+    conditions:
+      name: '&eBedingungen'
+      desc: '&7öffnen Sie verschachtelte Bedingungen Abschnitt'
+    raw:
+      name: '&eRohdaten- Abschnitt'
+      desc: '&7Öffnen alle Schlüssel innerhalb dieser Wirtschaft Abschnitt'
+    delete:
+      name: '&cLöschen Abschnitt'
+      desc: '&7dies löschen Wirtschaftsformat Abschnitt'
+    back:
+      desc: '&7zurück zu der übergeordneten Abschnitt'
+  thing-item:
+    title: 'Objekt ItemFormat: {path}'
+    slot:
+      name: '&eEingebettet ItemFormat'
+      line-1: '&7Lege das Item in Slot 13.'
+      line-2: '&7Dies aktualisiert nur ItemFormat-Felder.'
+      line-3: '&7Gemeinsame Einzelobjekt-Optionen bleiben erhalten.'
+    apply:
+      name: '&aAnwenden ItemFormat'
+      desc: '&7Aktualisieren Gegenstand Daten innerhalb dieser einzelnes Objekt'
+    apply-conditions:
+      name: '&eAnwenden Bedingungen'
+      desc: '&7Öffnen anwenden-Bedingungen für dieser einzelnes Objekt'
+    require-conditions:
+      name: '&eErfordern Bedingungen'
+      desc: '&7Öffnen erfordern-Bedingungen für dieser einzelnes Objekt'
+    give-actions:
+      name: '&eGeben Aktionen'
+      desc: '&7Öffnen geben-Aktionen für dieser einzelnes Objekt'
+    take-actions:
+      name: '&eNehmen Aktionen'
+      desc: '&7Öffnen nehmen-Aktionen für dieser einzelnes Objekt'
+    preset:
+      name: '&eVorlage Editor'
+      desc: '&7zurück zu der einzelnes Objekt Vorlage Editor'
+    raw:
+      name: '&eRohdaten- Abschnitt'
+      desc: '&7Öffnen alle Schlüssel innerhalb dieser einzelnes Objekt'
+    clear:
+      name: '&cLeeren Item Fields'
+      desc: '&7Entfernen Material / Hook-Gegenstand / Gegenstand-Format Felder nur'
+    back:
+      desc: '&7zurück zu der Vorlage Editor'
+  thing-economy:
+    title: 'Objekt EconomyFormat: {path}'
+    provider:
+      name: '&eAnbieter'
+      desc: '&7Wechseln dieser einzelnes Objekt zu ein Vanilla oder angebundenen Wirtschaftsformat.'
+    currency:
+      name: '&eWährung Typ'
+      desc: '&7Währung ID verwendet von der ausgewählt Wirtschaft Anbieter.'
+    placeholder:
+      name: '&ePlatzhalter'
+      desc: '&7Anzeigetext verwendet für dieser einzelnes Objekt Preis oder Produkt.'
+    apply-conditions:
+      name: '&eAnwenden Bedingungen'
+      desc: '&7Öffnen anwenden-Bedingungen für dieser einzelnes Objekt'
+    require-conditions:
+      name: '&eErfordern Bedingungen'
+      desc: '&7Öffnen erfordern-Bedingungen für dieser einzelnes Objekt'
+    give-actions:
+      name: '&eGeben Aktionen'
+      desc: '&7Öffnen geben-Aktionen für dieser einzelnes Objekt'
+    take-actions:
+      name: '&eNehmen Aktionen'
+      desc: '&7Öffnen nehmen-Aktionen für dieser einzelnes Objekt'
+    preset:
+      name: '&eVorlage Editor'
+      desc: '&7zurück zu der einzelnes Objekt Vorlage Editor'
+    raw:
+      name: '&eRohdaten- Abschnitt'
+      desc: '&7Öffnen alle Schlüssel innerhalb dieser einzelnes Objekt'
+    apply:
+      name: '&aAnwenden EconomyFormat'
+      desc: '&7Umwandeln dieser einzelnes Objekt zu Wirtschaftsformat und behalten gemeinsam Steuerungs- Felder'
+    clear:
+      name: '&cLeeren Wirtschaft Felder'
+      desc: '&7Entfernen Wirtschaft-Plugin / Wirtschaft-Typ Felder nur'
+    back:
+      desc: '&7zurück zu der Vorlage Editor'
+  prompt:
+    description: '&f{value}'
+    cancel-keyword: 'abbrechen'
+    cancel-tip: '&7Gib &f{value} &7ein, um diese Bearbeitung abzubrechen.'
+    new-entry-id: 'Neue Eintrags-ID eingeben'
+    new-condition-id: 'Neue Bedingungsgruppen-ID eingeben'
+    string: 'Gib den neuen Text für &f{path} ein'
+    integer: 'Gib die neue Ganzzahl für &f{path} ein'
+    double: 'Gib die neue Zahl für &f{path} ein'
+    string-list: 'Gib die neue Liste für &f{path} ein &7(verwende &f;; &7als Trenner)'
+    string-list-entry: 'Gib den neuen Listeneintrag für &f{path} ein'
+    string-list-entry-edit: 'Gib den neuen Wert für Listeneintrag &f#{index} ein'
+    integer-list: 'Gib die neue Ganzzahlliste für &f{path} ein &7(verwende &f;; &7als Trenner)'
+    integer-list-entry: 'Gib den neuen Ganzzahllisteneintrag für &f{path} ein'
+    integer-list-entry-edit: 'Gib die neue Ganzzahl für Listeneintrag &f#{index} ein'
+    new-child: 'Schlüsselnamen für das neue Kind eingeben'
+    new-child-value: 'Geben Sie den Wert für &f{path} &7ein. Verwenden Sie &fsection &7oder &f{} &7für einen Abschnitt. Verwenden Sie &f;; &7für Listen.'
+  message:
+    target-not-found: '&cZieldatei nicht gefunden.'
+    saved: '&aGespeichert &f{value}'
+    save-failed: '&cDatei konnte nicht gespeichert werden: {value}'
+    empty-id: '&cEintrags-ID darf nicht leer sein.'
+    enable-confirm-required: '&cEditor is still experimental. Read and confirm every item in &f{file}&c before using it.'
+    enable-confirm-details: '&7Back up data, read the wiki, accept possible errors, then set every confirmation in &f{file} &7to true.'
+    unknown-type: '&cUnbekannt type. Use section/string/int/double/boolean/list/int-list.'
+    invalid-integer: '&cDas ist keine gültige Ganzzahl.'
+    invalid-number: '&cDas ist keine gültige Zahl.'
+    invalid-new-child-value: '&cUngültiger Wert. Verwenden Sie section/{}, Boolean, Zahl, Liste (;;), oder Klartext.'
+    invalid-integer-list: '&cEiner der Werte ist keine Ganzzahl.'
+    child-format: '&cFormat verwenden: Schlüssel Typ'
+    command-usage: '&cBenutze /shop editor [shop|menu] <id>'
+    target-missing: '&c{scope} konnte nicht gefunden werden: {id}'
+  list:
+    title: 'Liste Editor: {path}'
+    current: '&7Aktuell: &f{value}'
+    add:
+      name: '&eHinzufügen Zeile'
+      desc: '&7hinzufügen: neu Zeile zu dieser Liste'
+    clear:
+      name: '&cLeeren List'
+      desc: '&7alle entfernen Einträge von dieser Liste'
+    move-up: '&eUmschalt+Linksklick zum Nach-oben-Verschieben'
+    move-down: '&eUmschalt+Rechtsklick zum Nach-unten-Verschieben'
+  sub-button:
+    title: 'Unterbutton: {path}'
+    current: '&7Aktuell: &f{value}'
+    not-set: '<nicht gesetzt>'
+    same-shop:
+      name: '&eAktuell Shop Produkt'
+    cross-shop:
+      name: '&eZiel- Shop'
+    cross-product:
+      name: '&eZiel- Produkt'
+    preview:
+      name: '&eVorschau'
+    same-preview: '&7Gleicher Shop: &f{value}'
+    cross-preview: '&7Anderer Shop: &f{value}'
+    apply-same:
+      name: '&aVerwenden Aktuell Shop Ziel-'
+      desc: '&7Speichern als &fProductID'
+    apply-cross:
+      name: '&aVerwenden Anderer Shop Ziel-'
+      desc: '&7Speichern als &fShopID;;ProductID'
+    clear:
+      name: '&cLeeren'
+      desc: '&7Den Wert as-sub-button entfernen'
+  click-binding:
+    title: 'Klicken Typen: {path}'
+    state: '&7Ausgewählt: &f{value}'
+  reset-time:
+    title: 'Rücksetzzeit: {path}'
+    current: '&7Aktuell: &f{value}'
+    mode:
+      name: '&eaktueller Modus'
+      value: '&7Modus: &f{value}'
+      desc: '&7Dieser Editor Änderungen Verhalten basierend auf der ausgewählt Rücksetzmodus.'
+    add:
+      name: '&eHinzufügen Zeit'
+      desc: '&7hinzufügen: neu Rücksetzzeit Eintrag'
+    random:
+      name: '&eZufallsplatzhalter'
+    manual:
+      name: '&eBearbeiten Wert'
+    never:
+      name: '&eKein Rücksetzzeit Benötigt'
+      desc: '&7Dieser Rücksetzmodus nicht verwenden ein Zeit Wert.'
+    prompt-add: 'Eingabe der neu Rücksetzzeit für &f{path}'
+    prompt-edit: 'Eingabe der neu Rücksetzzeit für Eintrag &f#{index}'
+  presets:
+    root_shop:
+      title: 'Shop Vorlage'
+      fields:
+        settings:
+          menu:
+            name: 'Menü Datei'
+            desc: 'Verknüpfen dieser Shop zu ein Menü Datei ID.'
+          menu-settings:
+            name: 'Eingebettet Menü Einstellungen'
+            desc: 'Überschreiben Teil von der Menü Einstellungen nur für dieser Shop.'
+            buy-more:
+              name: 'Standard Mehr kaufen'
+              desc: 'Ob Produkte in dieser Shop öffnen Sie kaufen-mehr Menü durch Standard.'
+            shop-name:
+              name: 'Shop Anzeigename'
+              desc: 'Anzeigename verwendet von Platzhalter wie zum Beispiel {shop-name}.'
+            allow-favourite:
+              name: 'Erlauben Favorit'
+              desc: 'Erlauben Produkte von dieser Shop zu sein hinzugefügt zu Favorit Menüs.'
+          hide-message:
+            name: 'Ausblenden Erfolgsmeldung'
+            desc: 'ausblenden Standard Erfolgsmeldung für dieser Shop.'
+          secret-shop-items:
+            name: 'Geheime Shop Gegenstände'
+            desc: 'Ausblenden Produkte wenn deren Anzeige Regeln sind nicht erfüllt.'
+          custom-command:
+            name:
+              name: 'Befehl Name'
+              desc: 'Befehl Spieler kann verwenden zu öffnen dieser Shop.'
+            description:
+              name: 'Befehlsbeschreibung'
+              desc: 'Beschreibung für diesen Shop-Befehl.'
+        general-configs:
+          name: 'Allgemein Konfigurationen'
+          desc: 'Standard Werte gemeinsam durch alle Produkte in dieser Shop.'
+        items:
+          name: 'Produkte'
+          desc: 'Alle bearbeitbar Produkte innerhalb dieser Shop.'
+        buttons:
+          name: 'Schaltflächen'
+          desc: 'Zusätzliche Menü Schaltflächen angezeigt in dieser Shop-Menü.'
+    root_menu:
+      title: 'Menü Vorlage'
+      fields:
+        title:
+          name: 'Titel'
+          desc: 'Inventar Titel angezeigt für Spieler.'
+        size:
+          name: 'Größe'
+          desc: 'Inventar Größe, normalerweise ein Vielfaches von 9.'
+        dynamic-layout:
+          name: 'Dynamisch Layout'
+          desc: 'Neu erstellen der Layout jedes Zeit der Menü öffnet.'
+        bedrock:
+          name: 'Bedrock Einstellungen'
+          desc: 'Bedrock bestimmt Anzeige und Kompatibilität Einstellungen.'
+          enabled:
+            name: 'Aktiviert'
+            desc: 'ob dieses Menü soll verwenden Bedrock-bestimmt Unterstützung.'
+          content:
+            name: 'Inhalt'
+            desc: 'Bedrock-bestimmt Inhalt Wert für dieser Menü.'
+        layout:
+          name: 'Layout'
+          desc: 'Layout Text Liste verwendet zu platzieren Schaltflächen und Produkte.'
+        conditions:
+          name: 'Öffnen Bedingungen'
+          desc: 'Bedingungen, die muss erfüllt vor der Menü kann öffnen.'
+        open-actions:
+          name: 'Öffnen Aktionen'
+          desc: 'ausgeführte Aktionen wenn das Menü öffnet.'
+        close-actions:
+          name: 'Schließen Aktionen'
+          desc: 'ausgeführte Aktionen wenn das Menü schließt.'
+        buttons:
+          name: 'Schaltflächen'
+          desc: 'Alle Schaltflächen platziert in dieser Menü.'
+        custom-command:
+          name:
+            name: 'Befehl Name'
+            desc: 'Befehl Spieler kann verwenden zu öffnen dieser Menü.'
+          description:
+            name: 'Befehlsbeschreibung'
+            desc: 'Beschreibung angezeigt für dieser Menü Befehl.'
+    shop_item:
+      title: 'Produkt Vorlage'
+      fields:
+        display-name:
+          name: 'Anzeigename'
+          desc: 'Logisch Anzeigename von dieser Produkt.'
+        display-item:
+          name: 'Anzeige Gegenstand'
+          desc: 'Der GUI Gegenstand Spieler sehen in der Menü.'
+        add-lore:
+          name: 'Hinzufügen Lore'
+          desc: 'Zusätzliche Lore Zeilen angehängt zu der Anzeige Gegenstand.'
+        price-mode:
+          name: 'Preis Modus'
+          desc: 'Wie Vielfaches Preise sind kombiniert für Zahlung.'
+        product-mode:
+          name: 'Produkt Modus'
+          desc: 'Wie Vielfaches Produkte sind kombiniert für Belohnung Lieferung.'
+        products:
+          name: 'Produkte'
+          desc: 'einzelnes Objekt Einträge der Spieler erhält oder zahlt als Produkte.'
+        buy-prices:
+          name: 'Kaufen Preise'
+          desc: 'einzelnes Objekt Einträge verbraucht wenn Kaufen.'
+        sell-prices:
+          name: 'Verkaufen Preise'
+          desc: 'einzelnes Objekt Einträge gegeben wenn Verkaufen.'
+        conditions:
+          name: 'Gemeinsam Bedingungen'
+          desc: 'Veraltet gemeinsam Bedingungen für beide kaufen und verkaufen.'
+        buy-conditions:
+          name: 'Kaufen Bedingungen'
+          desc: 'geprüfte Bedingungen nur beim Kaufen.'
+        sell-conditions:
+          name: 'Verkaufen Bedingungen'
+          desc: 'geprüfte Bedingungen nur beim Verkaufen.'
+        display-conditions:
+          name: 'Anzeige Bedingungen'
+          desc: 'Bedingungen, die entscheiden ob dieses Produkt ist angezeigt.'
+        buy-actions:
+          name: 'Kaufen Aktionen'
+          desc: 'ausgeführte Aktionen nach ein erfolgreich kaufen.'
+        sell-actions:
+          name: 'Verkaufen Aktionen'
+          desc: 'ausgeführte Aktionen nach ein erfolgreich verkaufen.'
+        fail-actions:
+          name: 'Fehler Aktionen'
+          desc: 'ausgeführte Aktionen wenn ein handeln fehlschlägt.'
+        click-event:
+          name: 'Klicken Ereignis'
+          desc: 'Benutzerdefiniert klicken Regeln für dieser Produkt Schaltfläche.'
+        buy-more:
+          name: 'Mehr kaufen'
+          desc: 'ob dieses Produkt kann öffnen Sie Menge Auswahl GUI.'
+        buy-more-menu:
+          name: 'Mehr kaufen Menü'
+          desc: 'Eigenes kaufen-mehr Menü für dieser Produkt.'
+          menu:
+            name: 'Menü Datei'
+            desc: 'Menü Datei verwendet wenn dieser Produkt öffnet der kaufen-mehr GUI.'
+          max-amount:
+            name: 'Maximum Menge'
+            desc: 'Maximal Menge auswählbar in der kaufen-mehr Menü.'
+          hide-message:
+            name: 'Ausblenden Nachricht'
+            desc: 'dies ausblenden Produkt Erfolgsmeldung.'
+          sell-all:
+            name: 'Aktivieren Alles verkaufen'
+            desc: 'Erlauben dieser Produkt zu sein verarbeitet durch verkaufen-alle.'
+          allow-favourite:
+            name: 'Erlauben Favorit'
+            desc: 'Erlauben dieser Produkt zu sein hinzugefügt zu Favorit Menüs.'
+        as-sub-button:
+          name: 'Als Unter- Schaltfläche'
+          desc: 'Anzeigen dieser Produkt als ein Unter- Schaltfläche von anderes Produkt.'
+        bedrock:
+          name: 'Bedrock Einstellungen'
+          desc: 'Bedrock bestimmt Anzeige Einstellungen für dieser Produkt.'
+          hide:
+            name: 'Ausblenden'
+            desc: 'ob dieses Produkt soll sein ausgeblendet bei Bedrock.'
+          icon:
+            name: 'Symbol'
+            desc: 'Bedrock-Icon-Wert oder URL für dieses Produkt.'
+        limits:
+          name: 'Gemeinsam Limits'
+          desc: 'Gemeinsam Bestand und Nutzung Limits für kaufen und verkaufen.'
+        limits-conditions:
+          name: 'Gemeinsam Limit Gruppen'
+          desc: 'Benannte Bedingung Gruppen verwendet von der gemeinsam Limit Abschnitt.'
+        buy-limits:
+          name: 'Kaufen Limits'
+          desc: 'Bestand oder Zähler Limits angewendet zu Kaufen.'
+        buy-limits-conditions:
+          name: 'Kaufen Limit Gruppen'
+          desc: 'Benannte Bedingung Gruppen verwendet von der kaufen Limit Abschnitt.'
+        sell-limits:
+          name: 'Verkaufen Limits'
+          desc: 'Bestand oder Zähler Limits angewendet zu Verkaufen.'
+        sell-limits-conditions:
+          name: 'Verkaufen Limit Gruppen'
+          desc: 'Benannte Bedingung Gruppen verwendet von der verkaufen Limit Abschnitt.'
+        buy-times-reset-mode:
+          name: 'Kaufen Rücksetzmodus'
+          desc: 'Wie der Kaufzähler Zähler zurückgesetzt wird.'
+        buy-times-reset-time:
+          name: 'Kaufen Rücksetzzeit'
+          desc: 'wenn das Kaufzähler Zähler zurückgesetzt wird.'
+        buy-times-reset-time-format:
+          name: 'Kaufen Rücksetzzeit Format'
+          desc: 'Zeit Format verwendet zu Einlesen der kaufen Rücksetzzeit Wert.'
+        buy-times-reset-value:
+          name: 'Kaufen Zurücksetzen Wert'
+          desc: 'Wert angewendet wenn das Kaufzähler Zähler zurückgesetzt wird.'
+        buy-times-max-value:
+          name: 'Kaufen Maximum Wert'
+          desc: 'Maximal Kaufzähler Wert erlaubt vor zurücksetzen.'
+        shared-use-times:
+          name: 'gemeinsame Nutzungszähler Gruppe'
+          desc: 'Produkte mit der gleich Gruppe ID wird teilen kaufen/sell Zähler und Abklingzeit Daten.'
+        sell-times-reset-mode:
+          name: 'Verkaufen Rücksetzmodus'
+          desc: 'Wie der Verkaufszähler Zähler zurückgesetzt wird.'
+        sell-times-reset-time:
+          name: 'Verkaufen Rücksetzzeit'
+          desc: 'wenn das Verkaufszähler Zähler zurückgesetzt wird.'
+        sell-times-reset-time-format:
+          name: 'Verkaufen Rücksetzzeit Format'
+          desc: 'Zeit Format verwendet zu Einlesen der verkaufen Rücksetzzeit Wert.'
+        sell-times-reset-value:
+          name: 'Verkaufen Zurücksetzen Wert'
+          desc: 'Wert angewendet wenn das Verkaufszähler Zähler zurückgesetzt wird.'
+        sell-times-max-value:
+          name: 'Verkaufen Maximum Wert'
+          desc: 'Maximal Verkaufszähler Wert erlaubt vor zurücksetzen.'
+    button_entry:
+      title: 'Schaltfläche Vorlage'
+      fields:
+        display-item:
+          name: 'Anzeige Gegenstand'
+          desc: 'Der Anzeige Gegenstand verwendet für dieser Schaltfläche.'
+        actions:
+          name: 'Aktionen'
+          desc: 'ausgeführte Aktionen nach Klicken dieser Schaltfläche.'
+        fail-actions:
+          name: 'Fehler Aktionen'
+          desc: 'ausgeführte Aktionen wenn Schaltfläche Bedingungen sind nicht erfüllt.'
+        conditions:
+          name: 'Bedingungen'
+          desc: 'Bedingungen, die muss erfüllt vor dieser Schaltfläche kann sein verwendet.'
+        display-conditions:
+          name: 'Anzeige Bedingungen'
+          desc: 'Bedingungen, die entscheiden ob dieses Schaltfläche ist angezeigt.'
+    limits_section:
+      title: 'Limit Abschnitt Vorlage'
+      fields:
+        default:
+          name: 'Standard Limit'
+          desc: 'Limit verwendet wenn das Spieler nicht abgleichen beliebige benutzerdefiniert Limit Bedingungsgruppe.'
+        global:
+          name: 'Global Limit'
+          desc: 'Global gemeinsam Limit angewendet zu der gesamten Server für dieser Produkt.'
+    single_thing:
+      title: 'einzelnes Objekt Vorlage'
+      fields:
+        display:
+          name: 'Erkannt Objekt Typ'
+          desc: 'Der Plugin erkennt der einzelnes Objekt Typ von der Felder die derzeit vorhanden sein.'
+        inline-item:
+          name: 'ItemFormat'
+          desc: 'Ziehen Sie ein Gegenstand hier zu aktualisieren Gegenstand-Format Felder während unter Beibehaltung gemeinsam Steuerungs- Felder.'
+        inline-economy:
+          name: 'EconomyFormat'
+          desc: 'Wechseln dieser einzelnes Objekt zu Wirtschaftsformat während unter Beibehaltung Menge, Aktionen und Bedingung Felder.'
+        amount:
+          name: 'Menge'
+          desc: 'Menge Wert. Unterstützt fest Zahlen, Formeln oder Platzhalter abhängig bei Kontext.'
+        material:
+          name: 'Material'
+          desc: 'Basis Material für ein Vanilla Gegenstandsformat.'
+        hook-plugin:
+          name: 'Hook Gegenstand Plugin'
+          desc: 'Extern Gegenstand Plugin Name verwendet von dieser einzelnes Objekt.'
+        hook-item:
+          name: 'Hook Gegenstand ID'
+          desc: 'Extern Gegenstand ID von der angebundenen Plugin.'
+        match-item:
+          name: 'Abgleichen Gegenstand'
+          desc: 'Verwenden abgleichen Regeln anstelle von ein exakt Gegenstand Stapel.'
+        match-placeholder:
+          name: 'Abgleichen Platzhalter'
+          desc: 'Platzhalter verwendet zu lesen benutzerdefiniert Werte für Vergleich.'
+        economy-plugin:
+          name: 'Wirtschaft Plugin'
+          desc: 'Wirtschaft Anbieter Plugin verwendet von dieser Preis Eintrag.'
+        economy-type:
+          name: 'Wirtschaft Typ'
+          desc: 'Währung Typ, exp, Stufen, oder Mehrfach--Währung ID.'
+        placeholder:
+          name: 'Anzeige Platzhalter'
+          desc: 'Anzeigetext verwendet in Lore und Preis Platzhalter.'
+        min-amount:
+          name: 'Minimum Menge'
+          desc: 'Minimal Menge wenn das Menge ist dynamisch.'
+        max-amount:
+          name: 'Maximum Menge'
+          desc: 'Maximal Menge wenn das Menge ist dynamisch.'
+        start-apply:
+          name: 'Start Anwenden'
+          desc: 'Start Anwenden von dieser Transaktionsanzahl.'
+        end-apply:
+          name: 'Ende Anwenden'
+          desc: 'Beenden Anwenden nach dieser Transaktionsanzahl.'
+        apply:
+          name: 'Anwenden Liste'
+          desc: 'nur anwenden bei diese Transaktion Anzahlen.'
+        apply-conditions:
+          name: 'Anwenden Bedingungen'
+          desc: 'Bedingungen, die entscheiden ob dieses einzelnes Objekt beitritt der aktuell handeln.'
+        require-conditions:
+          name: 'Erfordern Bedingungen'
+          desc: 'Bedingungen, die must bestehen nach dieser einzelnes Objekt ist ausgewählt.'
+        give-actions:
+          name: 'Geben Aktionen'
+          desc: 'ausgeführte Aktionen wenn dieser einzelnes Objekt ist gegeben.'
+        take-actions:
+          name: 'Nehmen Aktionen'
+          desc: 'ausgeführte Aktionen wenn dieser einzelnes Objekt ist genommen.'
+        give-item:
+          name: 'Geben Gegenstand'
+          desc: 'Wenn deaktiviert, nur geben-Aktionen ausführen und der Gegenstand selbst ist nicht gegeben.'
+        take:
+          name: 'Nehmen'
+          desc: 'Wenn deaktiviert, nur prüfen Besitz anstelle von tatsächlich Entfernen es.'
+    action_entry:
+      title: 'Aktion Vorlage'
+      fields:
+        type:
+          name: 'Typ'
+          desc: 'Aktion Typ zu ausführen.'
+        start-apply:
+          name: 'Start Anwenden'
+          desc: 'Start Ausführen von dieser Transaktionsanzahl.'
+        end-apply:
+          name: 'Ende Anwenden'
+          desc: 'Beenden Ausführen nach dieser Transaktionsanzahl.'
+        apply:
+          name: 'Anwenden Liste'
+          desc: 'nur ausführen bei diese Transaktion Anzahlen.'
+        multi-once:
+          name: 'Mehrfach- Einmal'
+          desc: 'nur ausführen einmal während Mehrfach--kaufen oder Mehrfach--verkaufen.'
+        sell-all-once:
+          name: 'Alles verkaufen Einmal'
+          desc: 'nur ausführen einmal während verkaufen-alle.'
+        open-once:
+          name: 'Öffnen Einmal'
+          desc: 'nicht ausführen erneut wenn das Menü erneut geöffnet wird.'
+        click-type:
+          name: 'Klicktyp'
+          desc: 'Limit dieser Aktion zu ein bestimmt Klicktyp.'
+        bedrock-only:
+          name: 'Bedrock Nur'
+          desc: 'nur ausführen für Bedrock Spieler.'
+        java-only:
+          name: 'Java Nur'
+          desc: 'nur ausführen für Java Spieler.'
+        fail-type:
+          name: 'Fehler Typ'
+          desc: 'nur ausführen für der angegeben Fehlertyp.'
+        message:
+          name: 'Nachricht'
+          desc: 'Nachricht Text gesendet durch dieser Aktion.'
+        main-title:
+          name: 'Haupt- Titel'
+          desc: 'Haupt- Titel Text.'
+        sub-title:
+          name: 'Unter- Titel'
+          desc: 'Untertitel Text.'
+        fade-in:
+          name: 'Einblenden'
+          desc: 'Einblenden Zeit in Ticks.'
+        stay:
+          name: 'Anzeigedauer'
+          desc: 'Anzeigedauer Zeit in Ticks.'
+        fade-out:
+          name: 'Ausblenden'
+          desc: 'Ausblenden Zeit in Ticks.'
+        sound:
+          name: 'Ton'
+          desc: 'Ton ID zu abspielen.'
+        volume:
+          name: 'Lautstärke'
+          desc: 'Lautstärke Wert.'
+        particle:
+          name: 'Partikel'
+          desc: 'Partikel ID zu erzeugen.'
+        count:
+          name: 'Anzahl'
+          desc: 'Zahl von Partikel zu erzeugen.'
+        offset-x:
+          name: 'Versatz X'
+          desc: 'Partikel X Versatz.'
+        offset-y:
+          name: 'Versatz Y'
+          desc: 'Partikel Y Versatz.'
+        offset-z:
+          name: 'Versatz Z'
+          desc: 'Partikel Z Versatz.'
+        speed:
+          name: 'Geschwindigkeit'
+          desc: 'Partikel Geschwindigkeit.'
+        command:
+          name: 'Befehl'
+          desc: 'Befehl ausgeführt durch dieser Aktion.'
+        shop:
+          name: 'Shop'
+          desc: 'Ziel- Shop ID verwendet von dieser Aktion.'
+        menu:
+          name: 'Menü'
+          desc: 'Ziel- Menü ID verwendet von dieser Aktion.'
+        item:
+          name: 'Gegenstand'
+          desc: 'Ziel- Produkt oder Gegenstand ID verwendet von dieser Aktion.'
+        amount:
+          name: 'Menge'
+          desc: 'Menge oder Anzahl verwendet von dieser Aktion.'
+        sell-all:
+          name: 'Alles verkaufen'
+          desc: 'ob der Aktion soll verarbeiten alle passend Gegenstände.'
+        rate:
+          name: 'Chance'
+          desc: 'Erfolg Chance von 0 zu 100.'
+        actions:
+          name: 'Verschachtelte Aktionen'
+          desc: 'Verschachtelte ausgeführte Aktionen durch dieser Aktion.'
+        conditions:
+          name: 'Bedingungen'
+          desc: 'geprüfte Bedingungen durch dieser Aktion.'
+        server:
+          name: 'Server'
+          desc: 'Ziel- Server Name.'
+        potion:
+          name: 'Trank'
+          desc: 'Trank Effekt ID.'
+        duration:
+          name: 'Dauer'
+          desc: 'Dauer in Ticks.'
+        level:
+          name: 'Stufe'
+          desc: 'Stufe Wert verwendet von dieser Aktion.'
+        ambient:
+          name: 'Umgebung'
+          desc: 'ob der Effekt ist Umgebung.'
+        particles:
+          name: 'Partikel'
+          desc: 'ob der Effekt zeigt Partikel.'
+        icon:
+          name: 'Symbol'
+          desc: 'ob der Effekt zeigt ein Symbol.'
+        entity:
+          name: 'Entität'
+          desc: 'Entität oder MythicMob ID zu erzeugen.'
+        world:
+          name: 'Welt'
+          desc: 'Welt Name verwendet von dieser Aktion.'
+        x:
+          name: 'X'
+          desc: 'X Koordinate.'
+        y:
+          name: 'Y'
+          desc: 'Y Koordinate.'
+        z:
+          name: 'Z'
+          desc: 'Z Koordinate.'
+        yaw:
+          name: 'Yaw'
+          desc: 'Yaw Drehung.'
+        pitch:
+          name: 'Tonhöhe'
+          desc: 'Tonhöhe Drehung oder Ton Tonhöhe.'
+    condition_entry:
+      title: 'Bedingungsvorlage'
+      fields:
+        type:
+          name: 'Typ'
+          desc: 'Bedingung Typ zu prüfen.'
+        start-apply:
+          name: 'Start Anwenden'
+          desc: 'Start Prüfen von dieser Transaktionsanzahl.'
+        end-apply:
+          name: 'Ende Anwenden'
+          desc: 'Beenden Prüfen nach dieser Transaktionsanzahl.'
+        apply:
+          name: 'Anwenden Liste'
+          desc: 'nur prüfen bei diese Transaktion Anzahlen.'
+        click-type:
+          name: 'Klicktyp'
+          desc: 'Limit dieser Bedingung zu ein bestimmt Klicktyp.'
+        bedrock-only:
+          name: 'Bedrock Nur'
+          desc: 'nur prüfen für Bedrock Spieler.'
+        java-only:
+          name: 'Java Nur'
+          desc: 'nur prüfen für Java Spieler.'
+        meet-actions:
+          name: 'Erfüllen Aktionen'
+          desc: 'ausgeführte Aktionen wenn das Bedingung besteht.'
+        not-meet-actions:
+          name: 'Nicht Erfüllen Aktionen'
+          desc: 'ausgeführte Aktionen wenn das Bedingung fehlschlägt.'
+        permission:
+          name: 'Berechtigung'
+          desc: 'Berechtigung Knoten der Spieler muss besitzen.'
+        placeholder:
+          name: 'Platzhalter'
+          desc: 'Platzhalter verwendet von der Bedingung.'
+        rule:
+          name: 'Regel'
+          desc: 'Vergleich Regel wie zum Beispiel ==, >=, <=.'
+        value:
+          name: 'Wert'
+          desc: 'Ziel- Wert verwendet für Vergleich.'
+        biome:
+          name: 'Biom'
+          desc: 'Erforderlich Biom Name.'
+        world:
+          name: 'Welt'
+          desc: 'Erforderlich Welt Name.'
+        conditions:
+          name: 'Verschachtelte Bedingungen'
+          desc: 'Verschachtelte Bedingungsliste, die von dieser Bedingung verwendet wird.'
+
+
+        menu:
+          name: 'Menü'
+          desc: 'Erforderlich derzeit geöffnetes Menü ID.'
+        menu-type:
+          name: 'Menü Typ'
+          desc: 'Erforderlich derzeit geöffnetes Menü Typ wie zum Beispiel Favorit oder Suche.'
+set-custom-placeholder: "&#98FB98[UltimateShop] &fDer neue Wert des benutzerdefinierten Platzhalters {placeholder} wurde auf {value} gesetzt."
+dupe-removed: "&#98FB98[UltimateShop] &fEin unzulässiger Gegenstand wurde aus deinem Inventar entfernt!"
+favourite-added: "&#98FB98[UltimateShop] &fProdukt {item} wurde zum Favoritenmenü {menu} hinzugefügt."
+favourite-removed: "&#98FB98[UltimateShop] &fProdukt {item} wurde aus dem Favoritenmenü {menu} entfernt."

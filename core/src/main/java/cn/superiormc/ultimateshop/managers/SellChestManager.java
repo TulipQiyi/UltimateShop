@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SellChestManager {
+public class SellChestManager extends AbstractManager {
 
     public static final NamespacedKey KEY_IS_SELL_CHEST = new NamespacedKey(UltimateShop.instance, "sell_chest");
 

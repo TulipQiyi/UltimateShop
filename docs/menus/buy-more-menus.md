@@ -6,6 +6,8 @@ Buy more menu means select quantity you want, not means open a new menu that can
 
 ## Buy More Menus Config
 
+Buy more menu files are saved in the `/buy_more_menus/` folder.
+
 Buy more menus have those special options compare than common menu:
 
 ```yaml

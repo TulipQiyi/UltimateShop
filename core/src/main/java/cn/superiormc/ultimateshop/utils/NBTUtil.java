@@ -2,9 +2,11 @@ package cn.superiormc.ultimateshop.utils;
 
 import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.NBTType;
+import de.tr7zw.nbtapi.iface.ReadableNBT;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class NBTUtil {
@@ -98,5 +100,52 @@ public class NBTUtil {
         return nbtData;
     }
 
-}
+    public static Object getNBTValue(ItemStack item, String key, String requestedType) {
+        if (item == null || key == null || key.isEmpty() || !CommonUtil.checkPluginLoad("NBTAPI")) {
+            return null;
+        }
+        try {
+            ReadableNBT compound = new NBTItem(item);
+            String valueKey = key;
+            int separator = key.lastIndexOf('.');
+            if (separator > 0 && separator < key.length() - 1) {
+                compound = compound.resolveCompound(key.substring(0, separator));
+                valueKey = key.substring(separator + 1);
+            }
+            if (compound == null || !compound.hasTag(valueKey)) {
+                return null;
+            }
 
+            String type = requestedType == null ? "AUTO" : requestedType.toUpperCase(Locale.ROOT);
+            if (type.equals("AUTO")) {
+                NBTType nbtType = compound.getType(valueKey);
+                if (nbtType == null) {
+                    return null;
+                }
+                type = switch (nbtType) {
+                    case NBTTagByte -> "BYTE";
+                    case NBTTagShort -> "SHORT";
+                    case NBTTagInt -> "INT";
+                    case NBTTagLong -> "LONG";
+                    case NBTTagFloat -> "FLOAT";
+                    case NBTTagDouble -> "DOUBLE";
+                    case NBTTagString -> "STRING";
+                    default -> "UNSUPPORTED";
+                };
+            }
+            return switch (type) {
+                case "BYTE" -> compound.getByte(valueKey);
+                case "SHORT" -> compound.getShort(valueKey);
+                case "INT", "INTEGER" -> compound.getInteger(valueKey);
+                case "LONG" -> compound.getLong(valueKey);
+                case "FLOAT" -> compound.getFloat(valueKey);
+                case "DOUBLE" -> compound.getDouble(valueKey);
+                case "STRING" -> compound.getString(valueKey);
+                default -> null;
+            };
+        } catch (RuntimeException | LinkageError ignored) {
+            return null;
+        }
+    }
+
+}

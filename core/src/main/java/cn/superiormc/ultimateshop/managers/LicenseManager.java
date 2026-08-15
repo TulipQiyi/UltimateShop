@@ -16,7 +16,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipFile;
 
-public final class LicenseManager {
+public final class LicenseManager extends AbstractManager {
 
     public static LicenseManager licenseManager;
 

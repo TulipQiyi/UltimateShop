@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class HookManager {
+public class HookManager extends AbstractManager {
 
     public static HookManager hookManager;
 

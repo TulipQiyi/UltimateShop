@@ -1,6 +1,13 @@
 # 🔲General Menus
 
-All menu files are saved in `/menus/` folder.
+Menu files are separated by purpose:
+
+* `/menus/`: common menus
+* `/shop_menu_templates/`: shop menu templates
+* `/buy_more_menus/`: buy more menus
+* `/favourite_menus/`: favourite menus
+* `/search_menus/`: search menus
+* `/item_sell_menus/`: menus where players place and confirm the sale of items
 
 ## Create the menu
 

@@ -75,7 +75,11 @@ public class DialogSearchGUI extends DialogGUI {
             ObjectDisplayItemStack display = result.getDisplayItem(player, 1);
             ObjectItem item = matched.get(i);
             DialogAction action = display.parseToDialogButton("result_" + i,
-                    response -> new DialogInfoGUI(player, item).openGUI(true));
+                    response -> {
+                        if (!item.openPriceModifierMenu(player)) {
+                            new DialogInfoGUI(player, item).openGUI(true);
+                        }
+                    });
             if (action != null) builder.action(action);
         }
     }

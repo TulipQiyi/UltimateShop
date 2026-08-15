@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LocateManager {
+public class LocateManager extends AbstractManager {
 
     public static LocateManager locateManager;
 

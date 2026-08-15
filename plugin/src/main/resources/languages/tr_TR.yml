@@ -1,0 +1,1238 @@
+error:
+  product-not-found: "&#98FB98[UltimateShop] &cÜrün {product} bulunamadı!"
+  shop-not-found: "&#98FB98[UltimateShop] &cMarket {shop} bulunamadı!"
+  player-not-found: "&#98FB98[UltimateShop] &cOyuncu {player} bulunamadı!"
+  item-not-found: "&#98FB98[UltimateShop] &cEşya {item} satışı bulunamadı!"
+  save-item-not-found: "&#98FB98[UltimateShop] &cKaydetme eşyası {item} bulunamadı!"
+  args: "&#98FB98[UltimateShop] &cHatalı komut, yardım için /shop help!"
+  in-game: "&#98FB98[UltimateShop] &cBu komutu yalnızca oyun içinde kullanabilirsin!"
+  miss-permission: "&#98FB98[UltimateShop] &cBu komutu kullanmak için yetkin bulunmuyor!"
+  menu-not-found: "&#98FB98[UltimateShop] &cMenü {menu} bulunamadı!"
+  buy-more-menu-direct-open: "&#98FB98[UltimateShop] &cBu menü 'Daha Fazla Satın Al' menüsüdür ve direkt olarak açılamaz!"
+  shop-menu-not-found: "&#98FB98[UltimateShop] &cMarket {shop}'e ait olan menü {menu} bulunamadı!"
+  shop-does-not-have-menu: "&#98FB98[UltimateShop] &cMarket {shop} geçerli bir menüye sahip değil!"
+  random-placeholder-not-found: "&#98FB98[UltimateShop] &cRastgele yer tutucu '{placeholder}' bulunamadı!"
+
+  custom-placeholder-not-found: "&#98FB98[UltimateShop] &cÖzel yer tutucu {placeholder} bulunamadı!"
+  custom-placeholder-invalid-number: "&#98FB98[UltimateShop] &cÖzel yer tutucu değeri bir sayı olmalıdır: {value}!"
+  custom-placeholder-player-arg-required: "&#98FB98[UltimateShop] &cÖzel yer tutucu {placeholder} oyuncuya özel veri içerir; bir oyuncu belirtmelisiniz!"
+  random-placeholder-player-arg-required: "&#98FB98[UltimateShop] &cRastgele yer tutucu {placeholder} oyuncuya özel veri içerir; bir oyuncu belirtmelisiniz!"
+  result-empty: "&#98FB98[UltimateShop] &cBu eşya mağazada bulunmuyor gibi görünüyor!"
+  favourite-empty: "&#98FB98[UltimateShop] &cBu favoriler menüsünde henüz ürün yok!"
+  favourite-not-allowed: "&#98FB98[UltimateShop] &cÜrün {item} favorilere eklenemez."
+  favourite-limit-reached: "&#98FB98[UltimateShop] &cFavoriler menüsü {menu} dolu. Sınır: {limit}."
+plugin:
+  reloading: "&#98FB98[UltimateShop] &fEklenti yeniden başlatması deneniyor, eğer sunucuda çok fazla market ürünleri ve oyuncu bulunuyorsa TPS düşüşü veya crash yaşanabilir çünkü oyuncuların verileri senkronize şekilde kaydediliyor. Eklentiyi yeniden başlatmak yerine sunucuyu yeniden başlatmanız veriyi daha güvende tutmanız için önerilir."
+  reloaded: "&#98FB98[UltimateShop] &fEklenti yenilendi!"
+  reload-close-gui: "&#98FB98[UltimateShop] &fMenünüz bir yetkili tarafından eklenti yenilendiği için kapatıldı!"
+  saved: "&#98FB98[UltimateShop] &fEşya kaydedildi!"
+  generated: "&#98FB98[UltimateShop] &fElinizdeki eşyanın 'eşya formatı' eklentinin config dosyasında oluşturuldu, lütfen onu menü veya market dosyanıza yapıştırın."
+
+  search: |
+    &#98FB98&lUltimateShop &7Arama Sonuç
+    &fHedef Eşya: {item-name} içinde mağaza {shop} &7(/shop menü {shop})
+    &fSatın al Fiyat: {buy-price}
+    &fSat Fiyat: {sell-price}
+  search-gui-name-input: "&fAramak istediğiniz eşyanın adını sohbete yazın. Ad filtresini kaldırmak için {value} yazın."
+  search-gui-name-empty: "Yok"
+  item-sell-no-price: "&cSatılabilir eşya yok"
+  item-sell-nothing: "&#98FB98[UltimateShop] &cBu menüde satılabilir eşya yok."
+placeholderapi:
+  unknown-shop: "Bilinmeyen Market"
+  unknown-product: "Bilinmeyen Ürün"
+
+command-tab:
+  unknown-shop: "[Bilinmeyen Market]"
+  unknown-random-placeholder: "[Bilinmeyen Rastgele Yer Tutucu]"
+  type-item-id: "[İstediğiniz Ürünün Eşya ID'si]"
+
+# All messages also support multi lines, just do it like this!
+  unknown-custom-placeholder: "[Bilinmeyen özel yer tutucu]"
+help:
+  main: |
+    &#98FB98&lUltimateShop &7@PQguanfang tarafından yapıldı.
+    &f/shop help &7- Yardımı görüntüler.
+    &f/shop menu <menüAdı> &7- Belirlenen genel menüyü açar.
+    &f/shop menu <marketAdı> &7- Belirlenen market menüyü açar.
+    &f/shop sellall &7- Hepsini sat menüsünü açar.
+  main-admin: |
+    &#98FB98&lUltimateShop &7@PQguanfang tarafından yapıldı.
+    &f/shop help &7- Yardımı görüntüler.
+    &f/shop menu <menüAdı> &7- Belirlenen genel menüyü açar.
+    &f/shop menu <marketAdı> &7- Belirlenen market menüyü açar.
+    &f/shop quickbuy <marketAdı> <eşyaAdı> &7- Belirlenen eşyayı menüsüz şekilde hızlıca satın alır.
+    &f/shop quicksell <marketAdı> <eşyaAdı> &7- Belirlenen eşyayı menüsüz şekilde hızlıca satar.
+    &f/shop reload &7- Eklentiyi yeniler.
+    &f/shop sellall &7 - Hepsini sat menüsünü açar.
+    &f/shop setbuytimes <marketAdı> <eşyaAdı> <oyuncuAdı> [miktar] &7- Satın alma sayısını belirler.
+    &f/shop setselltimes <marketAdı> <eşyaAdı> <oyuncuAdı> [miktar] &7- Satma sayısını belirler.
+    &f/shop addbuytimes <marketAdı> <eşyaAdı> <oyuncuAdı> <miktar> &7- Satın alma sayısını artırır.
+    &f/shop addselltimes <marketAdı> <eşyaAdı> <oyuncuAdı> <miktar> &7- Satma sayısını artırır.
+    &f/shop resetrandomplaceholder <yerTutucuID> &7- Rastgele yer tutucu değerini sıfırlar. &c(Premium)
+    &f/shop setrandomplaceholder <yerTutucuID> [element] &7- Rastgele yer tutucu değerini belirler. &c(Premium)
+    &f/shop getplaceholdervalue <metin> &7- Girilen yer tutucu değerini gösterir. &c(Premium)
+    &f/shop saveitem <eşyaID> &7- Elinizdeki eşyayı kaydeder.
+    &f/shop generateitemformat &7- Elinizdeki eşyanın 'eşya formatı'nı oluşturur.
+    &f/shop givesellstick <eşyaID> <oyuncuID> [miktar] &7- Oyuncuya satış çubuğu verir. &c(Premium)
+  main-console: |
+    &#98FB98&lUltimateShop &7@PQguanfang tarafından yapıldı.
+    &f/shop help &7- Yardımı görüntüler.
+    &f/shop menu <menüAdı> &7- Belirlenen genel menüyü açar.
+    &f/shop menu <marketAdı> &7- Belirlenen market menüyü açar.
+    &f/shop reload &7- Eklentiyi yeniler.
+    &f/shop setbuytimes <marketAdı> <eşyaAdı> <oyuncuAdı> [miktar] &7- Satın alma sayısını belirler.
+    &f/shop setselltimes <marketAdı> <eşyaAdı> <oyuncuAdı> [miktar] &7- Satma sayısını belirler.
+    &f/shop addbuytimes <marketAdı> <eşyaAdı> <oyuncuAdı> <miktar> &7- Satın alma sayısını artırır.
+    &f/shop addselltimes <marketAdı> <eşyaAdı> <oyuncuAdı> <miktar> &7- Satma sayısını artırır.
+    &f/shop resetrandomplaceholder <yerTutucuID> &7- Rastgele yer tutucu değerini sıfırlar. &c(Premium)
+    &f/shop setrandomplaceholder <yerTutucuID> [element] &7- Rastgele yer tutucu değerini belirler. &c(Premium)
+    &f/shop getplaceholdervalue <metin> &7- Girilen yer tutucu değerini gösterir. &c(Premium)
+    &f/shop givesellstick <eşyaID> <oyuncuID> [miktar] &7- Satış çubuğu verir. &c(Premium)
+
+inventory-full: "&#98FB98[UltimateShop] &fİşlem sonrası envanteriniz dolacağı için bu işlem tamamlanamıyor!"
+start-sell-all: "&#98FB98[UltimateShop] &fTüm {amount}x satılabilir eşyalarınız satıldı, bu işlemden {reward} kazandınız!"
+start-sell-stick: "&#98FB98[UltimateShop] &fBu konteynerdeki tüm satılabilir eşyalar satıldı; {multiplier} çarpanıyla {reward} kazandınız!"
+give-sell-stick: "&#98FB98[UltimateShop] &f{player} adlı oyuncuya satış çubuğu {item} x{amount} verildi!"
+give-save-item: "&#98FB98[UltimateShop] &f{player} adlı oyuncuya kaydedilmiş eşya {item} x{amount} verildi!"
+add-times: "&#98FB98[UltimateShop] &f{player} adlı oyuncunun {item} eşyasına {times} kullanım eklendi!"
+set-times: "&#98FB98[UltimateShop] &f{player} adlı oyuncunun {item} eşyasının kullanımı {times} olarak belirlendi!"
+add-times-shop: "&#98FB98[UltimateShop] &f{player} adlı oyuncunun tüm {shop} ürünlerinin kullanımına {times} eklendi!"
+set-times-shop: "&#98FB98[UltimateShop] &f{player} adlı oyuncunun tüm {shop} ürünlerinin kullanımı {times} olarak belirlendi!"
+success-buy: "&#98FB98[UltimateShop] &f{item}x{amount} başarıyla satın alındı, tutar {price}!"
+success-sell: "&#98FB98[UltimateShop] &f{item}&fx{amount} başarıyla satıldı; &cx{multiplier} &fçarpanıyla {price} kazandınız!"
+menu-condition-not-meet: "&#98FB98[UltimateShop] &cBu menüyü açmak için gereksinimleri tamamlamıyorsun!"
+buy-condition-not-meet: "&#98FB98[UltimateShop] &cBu ürünü satın almak için gereksinimleri tamamlamıyorsun!"
+sell-condition-not-meet: "&#98FB98[UltimateShop] &cBu ürünü satmak için gereksinimleri tamamlamıyorsun!"
+limit-reached-buy-player: "&#98FB98[UltimateShop] &cArtık {item} satın alamıyorsun, bu eşyadan {times} kez satın aldın ve senin için bunun limiti {limit}. Sonraki yenileme zamanı: {refresh}."
+limit-reached-sell-player: "&#98FB98[UltimateShop] &cArtık {item} satamıyorsun, bu eşyayı {times} kez sattın ve senin için bunun limiti {limit}. Sonraki yenileme zamanı: {refresh}."
+limit-reached-buy-server: "&#98FB98[UltimateShop] &cArtık {item} satın alamıyorsun, tüm oyuncular bu eşyadan {times} kez satın aldı ve bunun limiti {limit}. Sonraki yenileme zamanı: {refresh}."
+limit-reached-sell-server: "&#98FB98[UltimateShop] &cArtık {item} satamıyorsun, tüm oyuncular bu eşyayı {times} kez sattı ve bunun limiti {limit}. Sonraki yenileme zamanı: {refresh}."
+buy-price-not-enough: "&#98FB98[UltimateShop] &c{item} satın almak için yeterli bakiyen yok. Gerekli bakiye: {price}."
+sell-products-not-enough: "&#98FB98[UltimateShop] &cSatabilecek yeterli {item} eşyasına sahip değilsin."
+parsed-value: "&#98FB98[UltimateShop] &fYer tutucu değeri: {text}"
+reset-random-placeholder: "&#98FB98[UltimateShop] &fRastgele yer tutucu '{placeholder}' değeri sıfırlandı ve yeni değeri {value}."
+set-random-placeholder: "&#98FB98[UltimateShop] &fRastgele yer tutucu '{placeholder}' yeni değeri {value}. Yenileme süresinin değişmediğini unutmayın!"
+gui-updated: "&#98FB98[UltimateShop] &f{player} oyuncusu için GUI güncellendi!"
+gui-not-opened: "&#98FB98[UltimateShop] &c{player} hiçbir GUI açmadı!"
+
+override-lang:
+  shop-title: 'Eşya mağazası'
+  buy-more-title: 'Miktar seç'
+  buy-more-add-1: '&71 tane daha eklemek için tıkla.'
+  buy-more-add-10: '&710 tane daha eklemek için tıkla.'
+  buy-more-add-32: '&732 tane daha eklemek için tıkla.'
+  buy-more-reduce-1: '&71 azaltmak için tıkla.'
+  buy-more-reduce-10: '&710 azaltmak için tıkla.'
+  buy-more-reduce-32: '&732 azaltmak için tıkla.'
+  buy-more-buy-button: '&a&lSATIN ALMAK İÇİN TIKLA'
+  buy-more-sell-button: '&c&lSATMAK İÇİN TIKLA'
+  buy-more-buy-button-lore-1: '&aOnaylayıp satın almak için tıkla'
+  buy-more-buy-button-lore-2: '&aseçtiğiniz miktar.'
+  buy-more-sell-button-lore-1: '&cOnaylayıp satmak için tıkla'
+  buy-more-sell-button-lore-2: '&cseçtiğiniz miktar.'
+  back-button: '&c« Geri dön'
+  close-button: '&cBu menüyü kapat'
+  next-page-button: '&cSonraki sayfa »'
+  previous-page-button: '&c« Önceki sayfa'
+  welcome-message: '&fMağazaya hoş geldiniz.'
+  farming-name: '&a&lÇİFTÇİLİK'
+  farming-lore-1: '&7Sat ve çeşitli eşyalar satın al'
+  farming-lore-2: '&7örneğin tohumlar.'
+  drops-name: '&b&lDROPLAR'
+  drops-lore-1: '&7Sat and buy related items'
+  drops-lore-2: '&7ip gibi yaratık düşüşleriyle ilgili.'
+  concretes-name: '&a&lBETONLAR'
+  concretes-lore-1: '&7Sat and buy blocks of concrete'
+  concretes-lore-2: '&7ve tüm renk varyantları.'
+  flowers-name: '&a&lÇİÇEKLER'
+  flowers-lore-1: '&7Sat and buy many types of'
+  flowers-lore-2: '&7bu bölümdeki çiçekler.'
+  logs-name: '&a&lKÜTÜKLER VE FİDANLAR'
+  logs-lore-1: '&7Sat and buy all variants of overworld'
+  logs-lore-2: '&7kütükler ve fidanları.'
+  minerals-name: '&a&lMİNERALLER'
+  minerals-lore-1: '&7Sat and buy different minerals'
+  minerals-lore-2: '&7örneğin elmas, demir ve daha fazlası.'
+  blocks-name: '&a&lBLOKLAR'
+  blocks-lore-1: '&7Sat and buy different types'
+  blocks-lore-2: '&7çeşitli blokların.'
+  terracotta-name: '&a&lTERAKOTA'
+  terracotta-lore-1: '&7Sat and buy blocks of terracotta'
+  terracotta-lore-2: '&7ve tüm renk varyantları.'
+  glass-name: '&7&lCAM'
+  glass-lore-1: '&7Sat and buy blocks of glass and panels'
+  glass-lore-2: '&7ve tüm renk varyantları.'
+  wool-name: '&a&lYÜN'
+  wool-lore-1: '&7Sat and buy blocks of wools'
+  wool-lore-2: '&7ve tüm renk varyantları.'
+  special-items-name: '&d&lÖZEL EŞYALAR'
+  special-items-lore-1: '&7Sat and buy some special'
+  special-items-lore-2: '&7veya nadir eşyalar.'
+  redstone-name: '&c&lREDSTONE'
+  redstone-lore-1: '&7Sat and buy everything related'
+  redstone-lore-2: '&7karşılaştırıcılar gibi redstone öğeleriyle ilgili.'
+  fish-name: '&9&lBALIK MAĞAZASI'
+  fish-lore-1: '&7Sat or buy different raw'
+  fish-lore-2: '&7veya pişmiş balık.'
+  transports-name: '&a&lULAŞIM'
+  transports-lore-1: '&7Şunlarla ilgili bazı şeyler'
+  transports-lore-2: '&7raylar gibi ulaşım öğeleri.'
+  blocks-shop-name: 'Blok mağazası'
+  concretes-shop-name: 'Beton mağazası'
+  drops-shop-name: 'Drop mağazası'
+  farming-shop-name: 'Çiftçilik mağazası'
+  fish-shop-name: 'Balık mağazası'
+  flowers-shop-name: 'Çiçek mağazası'
+  glass-shop-name: 'Cam mağazası'
+  logs-shop-name: 'Odun mağazası'
+  minerals-shop-name: 'Mineral mağazası'
+  redstone-shop-name: 'Redstone mağazası'
+  special-items-shop-name: 'Özel eşyalar mağazası'
+  terracotta-shop-name: 'Terracotta mağazası'
+  wools-shop-name: 'Yün mağazası'
+  daily-shop-name: 'Günlük mağaza (PREMIUM gerekir)'
+  transport-shop-name: 'Ulaşım mağazası'
+  menu:
+    sell-all:
+      title: '&ftümünü sat &7- Esc için onayla sat!'
+    bedrock:
+      price-extra-line:
+        default: '&6Satın al: {buy-price} &6| Sat: {sell-price}'
+        only-buy: '&6Satın al: {buy-price}'
+        only-sell: '&6Sat: {sell-price}'
+      buy-or-sell:
+        title: 'Seç Miktar: {item-name}'
+        buttons:
+          amount:
+            name: 'Miktar'
+            tip: 'Miktarı buraya yazın!'
+      info:
+        title: 'Ürün bilgisi: {item-name} x{amount}'
+        buttons:
+          buy: 'Satın al'
+          sell: 'Sat'
+          buy-more: 'Miktar seç'
+          sell-all: 'Hepsini sat'
+          back: '&cGeri'
+      favourite-edit:
+        title: 'Düzenle Favori: {item-name}'
+        content: '&7Seçin nasıl için düzenle favori girdi #{index}.'
+        buttons:
+          forward: '&eTaşı Ileri'
+          backward: '&eTaşı Geriye'
+          remove: '&cKaldır'
+          back: '&7Geri'
+    prompt:
+      cancel-keyword: 'iptal'
+    search-gui:
+      title: '&8Ürün Arama'
+      prompt:
+        clear-keyword: 'temizle'
+    favourite:
+      title: '&8Favori Liste'
+      content: '&7Kaydet bu ürünler siz ticaret yap en çok sık ve koru onları tek tık uzakta.'
+    dialog:
+      default-button: 'Tamam'
+      search:
+        input: 'Arama'
+        buttons:
+          search: 'Arama'
+      buy-more:
+        title: 'Seç Miktar: {item-name}'
+        input: 'Miktar'
+        buttons:
+          confirm: 'Onayla'
+      info:
+        title: 'Ürün Bilgi: {item-name} x{amount}'
+        buttons:
+          buy: 'Satın al'
+          sell: 'Sat'
+          buy-more: 'Seç Miktar'
+          sell-all: 'tümünü sat'
+          back: '&cGeri'
+      favourite-edit:
+        title: 'Düzenle Favori: {item-name}'
+        content: '&7Seçin nasıl için düzenle favori girdi #{index}.'
+        buttons:
+          forward: '&eTaşı Ileri'
+          backward: '&eTaşı Geriye'
+          remove: '&cKaldır'
+          back: '&7Geri'
+  placeholder:
+    compare:
+      up: '↑'
+      down: '↓'
+      same: '-'
+    cron:
+      format: "yyyy-MM-dd HH:mm:ss"
+    refresh:
+      format: "yyyy-MM-dd HH:mm:ss"
+      never: "Asla"
+    next:
+      with-day-format: "{d}d {h}h {m}m {s}s"
+      without-day-format: "{h}h {m}m {s}s"
+      never: "Sonraki yenileme bekleniyor"
+    price:
+      split-symbol-any: ', '
+      split-symbol-all: ', '
+      replace-new-line-symbol: ', '
+      unknown: "Bilinmiyor"
+      unknown-price-type: "Bilinmeyen fiyat türü"
+      empty: "Fiyat boş!"
+    click:
+      buy: '&#FFFACDSatın almak için sol tıkla!'
+      sell: '&#FFFACDSatmak için sağ tıkla!'
+      buy-with-no-sell: '&#FFFACDSatın almak için tıkla!'
+      sell-with-no-buy: '&#FFFACDSatmak için tıkla!'
+      buy-max-limit-player: '&#ff3300Daha fazla satın alamazsınız!'
+      buy-max-limit-server: '&#ff3300TÜKENDİ!'
+      sell-max-limit-player: '&#ff3300Daha fazla satılamaz!'
+      sell-max-limit-server: '&#ff3300BU EŞYA SATILAMAZ!'
+      buy-price-not-enough: '&#ff3300Satın almak için yeterli para yok!'
+      sell-price-not-enough: '&#ff3300Satmak için yeterli eşya yok!'
+      error: '&#ff3300Hata!'
+      buy-condition-not-meet: '&#ff3300Satın alma koşulu karşılanmadı!'
+      sell-condition-not-meet: '&#ff3300Satış koşulu karşılanmadı!'
+    sell-stick:
+      infinite: "&cSonsuz"
+  display-item:
+    add-lore:
+    - '@n@y '
+    - '@a&eSatın alma: {buy-price}'
+    - '@b(@z[rich])&eSat: {sell-price}'
+    - '@b@z[rich]&eSat: {sell-price} &8(Tax:&c -10%&8)'
+    - '@b@z[vip]&6VIP Bonus:&a +10%'
+    - '@c&#FF7777Oyuncu Satın al Stok: {buy-times-player}/{buy-limit-player}'
+    - '@d&#FF7777Sunucu Satın al Stok: {buy-times-server}/{buy-limit-server}'
+    - '@e&#FF7777Oyuncu Sat Sınır: {sell-times-player}/{sell-limit-player}'
+    - '@f&#FF7777Sunucu Sat Sınır: {sell-times-server}/{sell-limit-server}'
+    - '@g '
+    - '@g&#ff3300cCan değil daha fazla satın al!'
+    - '@g&8Yenile Zaman: {buy-refresh-player}'
+    - '@i '
+    - '@i&#ff3300Satıldı Dışarı!'
+    - '@i&8Yenile Zaman: {buy-refresh-server}'
+    - '@h '
+    - '@h&#ff3300yapılamaz sat daha fazla!'
+    - '@h&8Yenile Zaman: {sell-refresh-player}'
+    - '@j'
+    - '@j&#ff3300yapılamaz sat daha fazla için sunucu!'
+    - '@j&8Yenile Zaman: {sell-refresh-server}'
+    - '@n@y '
+    - '@a@u@y{buy-click}'
+    - '@b@v@y{sell-click}'
+    - '@k@q@y&#FFFACDSağ-Shift tıklayarak pick miktar!'
+    - '@l(@o)@y(@w)&#FFFACDSwap hand (F Key) için ekle favori!'
+    - '@m@v@y(@w)&#FFFACDDrop (Q key) için tümünü sat!'
+    - '(@n)&c&l:( yapılamaz yap bu'
+    - '(@a)@u@p&cBu eşya yapılamaz olmak satın alındı'
+    - '(@b)@v@p&cBu eşya yapılamaz olmak satıldı'
+
+  item-sell-title: 'Eşyaları sat'
+  item-sell-confirm-name: '&aSatışı onayla'
+  item-sell-confirm-price: '&7Fiyat: &f{price}'
+  item-sell-confirm-original-price: '&7Orijinal fiyat: &f{original-price}'
+  item-sell-confirm-multiplier: '&7Son çarpan: &fx{multiplier}'
+  item-sell-confirm-amount: '&7Satılabilir eşyalar: &f{item-amount}'
+  item-sell-confirm-unsellable: '&7Satılamayan eşyalar: &f{unsellable-amount}'
+  item-sell-confirm-click: '&aYukarıdaki eşyaları satmak için tıklayın.'
+  search-gui-guide-name: '&earama filtreleri'
+  search-gui-guide-line-1: '&7Yerleştir eşyalar içinde bu yuvalar aşağıda'
+  search-gui-guide-line-2: '&7veya tür bir ürün ad içinde sohbet.'
+  search-gui-guide-line-3: '&7Kullan bu menü için hızla bul'
+  search-gui-guide-line-4: '&7eşleşen ürünler genelinde sizin mağazalar.'
+  search-gui-clear-name: '&cSıfırla Arama'
+  search-gui-clear-line-1: '&7Geri dön tümü filtre eşyalar ve temizle bu ad arama.'
+  search-gui-empty-name: '&eBaşlangıç bir Arama'
+  search-gui-empty-line-1: '&7Yerleştir eşyalar içine bu filtre yuvalar aşağıda.'
+  search-gui-empty-line-2: '&7Veya kullan bu huni yukarıda için arama tarafından ad.'
+  search-gui-state-name: '&aArama Genel bakış'
+  search-gui-state-line-1: '&7Eşleşen ürünler: &f{result-amount}'
+  search-gui-state-line-2: '&7Gösteriliyor &f{showing-amount} &7sonuçlar itibaren &f{input-amount} &7filtreler.'
+  search-gui-state-line-3: '&7Ad filtre: &f{name-keyword}'
+  search-gui-no-result-name: '&ceşleşen ürün yok'
+  search-gui-no-result-line-1: '&7Hiçbir şey içinde bu varsayılan mağazalar eşleşir'
+  search-gui-no-result-line-2: '&7bu geçerli eşyalar veya ad filtre.'
+  search-gui-result-shop: '&8Mağaza: &f{shop}'
+  search-gui-result-product: '&8Ürün: &f{product}'
+  search-gui-result-click: '&7tıklayarak ticaret yap bu ürün.'
+  favourite-empty-name: '&7boş favori yuvası'
+  favourite-empty-line-1: '&7Kaydet ürünler buraya itibaren herhangi mağaza menüsü.'
+  favourite-empty-line-2: '&7Kullan düzenleme modu için sırala veya kaldır girdiler.'
+  favourite-result-shop: '&8Mağaza: &f{shop}'
+  favourite-result-product: '&8Ürün: &f{product}'
+  favourite-result-click: '&7tıklayarak ticaret yap bu ürün.'
+  favourite-result-enter-edit: '&7Kullan bu düğme aşağıda için girin düzenleme modu.'
+  favourite-result-edit-forward: '&7Sol-tıkla: taşı bu girdi ileri.'
+  favourite-result-edit-backward: '&7Sağ-tıkla: taşı bu girdi geriye.'
+  favourite-result-edit-remove: '&7Basın Q: bunu kaldır girdi.'
+  edit-mode-enable-name: '&eEtkinleştir düzenleme modu'
+  edit-mode-enable-line-1: '&7Yeniden sırala veya kaldır kaydedilen ürünler.'
+  edit-mode-disable-name: '&adüzenleme modundan çık'
+  edit-mode-disable-line-1: '&7normal tıklamalara dönüp yeniden ticaret yapın.'
+  add-favourite-action: 'Ekle Favori'
+  search-menu-button-name: '&bÜrün Arama'
+  search-menu-button-line-1: '&7Arama tarafından eşya veya tarafından ad.'
+  search-menu-button-line-2: '&7Yararlı olduğunda sizin mağaza büyür büyüdüğünde.'
+  favourite-menu-button-name: '&dFavori Liste'
+  favourite-menu-button-line-1: '&7Koru sizin en çok-kullanılan ürünler'
+  favourite-menu-button-line-2: '&7içinde bir hızlı erişim menüsü.'
+  sell-all-menu-button-name: '&6tümünü sat'
+  sell-all-menu-button-line-1: '&7aç toplu sat menü için'
+  sell-all-menu-button-line-2: '&7sizin geçerli envanter içerik.'
+  sell:
+    sell-chest:
+      price-empty: 'Yok sat geçmiş'
+editor:
+  scope:
+    shop: 'Mağaza'
+    menu: 'Menü'
+    shop_menu_template: 'mağaza menüsü şablonu'
+    buy_more_menu: 'daha fazla satın al Menü'
+    favourite_menu: 'favoriler menüsü'
+    search_menu: 'arama menüsü'
+    item_sell_menu: 'eşya satış menüsü'
+  common:
+    root: 'kök'
+    back:
+      name: '&eGeri'
+      desc: '&7geri dön bu önceki ekran'
+    refresh:
+      name: '&eYenile'
+    reload:
+      name: '&aeklentiyi yeniden yükle'
+    clear:
+      name: '&cTemizle'
+      desc: '&7bunu kaldır değer'
+    enabled: 'etkin'
+    disabled: 'devre dışı'
+    previous-page:
+      name: '&eönceki sayfa'
+      desc: '&7git bu önceki sayfa'
+    next-page:
+      name: '&esonraki sayfa'
+      desc: '&7git bu sonraki sayfa'
+  action:
+    open: '&aAçmak için sol tıkla'
+    edit: '&aDüzenlemek için sol tıkla'
+    delete: '&cSilmek için sağ tıkla'
+    toggle: '&aAçıp kapatmak için sol tıkla'
+    cycle: '&aDeğiştirmek için sol tıkla'
+    cycle-back: '&aGeri değiştirmek için Shift+sol tıkla'
+    cycle-action: '&aEylem türünü değiştirmek için sol tıkla'
+    cycle-condition: '&aKoşul türünü değiştirmek için sol tıkla'
+    increase-ten: '&asol tıklama için ekle 10'
+    decrease-ten: '&csağ tıklama için çıkar 10'
+    increase-one: '&aShift + sol tıklama için ekle 1'
+    decrease-one: '&cShift + sağ tıklama için çıkar 1'
+    middle-clear: '&eorta tıklama için temizle'
+    read-only: '&7Salt okunur özet'
+  summary:
+    type: '&7Geçerli Tür: &f{value}'
+    section: 'Bölüm'
+    list: 'Liste'
+    keys: '&7Alt anahtarlar: &f{value}'
+    size: '&7Geçerli boyut: &f{value}'
+    value: '&7Geçerli değer: &f{value}'
+  lore:
+    path: '&7Yol: &f{value}'
+    kind: '&7Tür: &f{value}'
+    description: '&7Açıklama: &f{value}'
+    not-set: '&7geçerli değer: &f<değil ayarla>'
+  value-kind:
+    item_section: 'Eşya bölümü'
+    economy_section: 'Ekonomi bölümü'
+    action_collection: 'Eylem koleksiyonu'
+    condition_collection: 'Koşul koleksiyonu'
+    action_type: 'Eylem türü'
+    condition_type: 'Koşul türü'
+    boolean: 'Mantıksal'
+    integer: 'Tam sayı'
+    double: 'Sayı'
+    string: 'Metin'
+    string_list: 'Metin listesi'
+    integer_list: 'Tam sayı listesi'
+    section: 'Bölüm'
+    unknown: 'Bilinmiyor'
+  root:
+    title: 'UltimateShop Düzenleyici'
+    shops:
+      name: '&emağazaları düzenle'
+      desc: '&7Aç mağaza yml dosyalar altında &f/shops'
+    menus:
+      name: '&emenüleri düzenle'
+      desc: '&7Aç menü yml dosyalar altında &f/menus'
+    close:
+      name: '&cKapat'
+      desc: '&7kapat düzenleyici'
+    shop-menu-templates:
+      name: '&emağaza menüsü şablonlarını düzenle'
+      desc: '&7Aç menü yml dosyalar altında &f/shop_menu_templates'
+    buy-more-menus:
+      name: '&eçoklu satın alma menülerini düzenle'
+      desc: '&7Aç menü yml dosyalar altında &f/buy_more_menus'
+    favourite-menus:
+      name: '&efavori menülerini düzenle'
+      desc: '&7Aç menü yml dosyalar altında &f/favourite_menus'
+    search-menus:
+      name: '&earama menülerini düzenle'
+      desc: '&7Aç menü yml dosyalar altında &f/search_menus'
+    item-sell-menus:
+      name: '&eeşya satış menülerini düzenle'
+      desc: '&7Aç menü yml dosyalar altında &f/item_sell_menus'
+  file-list:
+    title: 'Düzenleyici {scope}s'
+    type: '&7Tür: &f{value}'
+    file: '&7Dosya: &f{value}'
+    back: '&7Düzenleyici ana sayfasına dön'
+    refresh: '&7Dosya listesini yeniden yükle'
+  section:
+    path:
+      name: '&egeçerli yol'
+      desc: '&f{value}'
+    reload:
+      line-1: '&7Değişiklikler dır zaten yazıldı için disk.'
+      line-2: '&7Kullan bu için yeniden oluştur canlı mağaza/menu nesneler.'
+    add-child:
+      name: '&eEkle Alt öğe'
+      numbered: '&7Yeni numaralı giriş ekle'
+      named: '&7Yeni adlandırılmış bölüm girişi oluştur'
+      generic: '&7Bu bölümün altına yeni alt düğüm ekle'
+      value-mode: '&7Anahtardan sonra değeri doğrudan girin. Bir bölüm oluşturmak için &fsection &7veya &f{} &7kullanın.'
+      thing-item: '&asol tıklama: ekle eşya şablon'
+      thing-economy: '&esağ tıklama: ekle ekonomi şablon'
+  preset:
+    raw:
+      name: '&eHam Bölüm'
+      desc: '&7aç ham bölüm yedek düzenleyici'
+    reload:
+      desc: '&7Uygula değişiklikler için canlı mağaza/menu nesneler'
+    add-limit-group:
+      name: '&eEkle sınır grubu'
+      desc: '&7Oluştur bir yeni adlandırılmış koşul grubu için bu sınır bölüm'
+  item:
+    title: 'Eşya Düzenleyici: {path}'
+    slot:
+      name: '&eItemFormat Yuva'
+      line-1: '&7Koyun bu hedef eşya içine yuva 13.'
+      line-2: '&7Ardından tıkla kaydet için DebuildItem içine yaml.'
+    apply:
+      name: '&aUygula Eşya'
+      desc: '&7Serileştir yuva 13 içine bu geçerli bölüm'
+    raw:
+      name: '&eHam Bölüm'
+      desc: '&7Aç tümü anahtarlar içinde bu eşya bölüm'
+    clear:
+      name: '&cTemizle Section'
+      desc: '&7bunu sil tüm eşya bölüm'
+    back:
+      desc: '&7geri dön bu üst bölüm'
+  economy:
+    title: 'Ekonomi Düzenleyici: {path}'
+    current: '&7Geçerli: &f{value}'
+    provider:
+      name: '&eSağlayıcı'
+    currency:
+      name: '&ePara birimi Tür'
+    amount:
+      name: '&eMiktar'
+    placeholder:
+      name: '&eYer tutucu'
+    conditions:
+      name: '&eKoşullar'
+      desc: '&7aç iç içe koşullar bölüm'
+    raw:
+      name: '&eHam Bölüm'
+      desc: '&7Aç tümü anahtarlar içinde bu ekonomi bölüm'
+    delete:
+      name: '&cSil Bölüm'
+      desc: '&7bunu sil ekonomi biçimi bölüm'
+    back:
+      desc: '&7geri dön bu üst bölüm'
+  thing-item:
+    title: 'Öğe ItemFormat: {path}'
+    slot:
+      name: '&eSatır içi ItemFormat'
+      line-1: '&7Eşyayı 13. slota koyun.'
+      line-2: '&7Bu yalnızca eşya biçimi alanlarını yeniler.'
+      line-3: '&7Ortak tek öğe seçenekleri korunur.'
+    apply:
+      name: '&aUygula ItemFormat'
+      desc: '&7Güncelle eşya veri içinde bu tek öğe'
+    apply-conditions:
+      name: '&eUygula Koşullar'
+      desc: '&7Aç uygula-koşullar için bu tek öğe'
+    require-conditions:
+      name: '&eGerektir Koşullar'
+      desc: '&7Aç gerektir-koşullar için bu tek öğe'
+    give-actions:
+      name: '&eVer Eylemler'
+      desc: '&7Aç ver-eylemler için bu tek öğe'
+    take-actions:
+      name: '&eAl Eylemler'
+      desc: '&7Aç al-eylemler için bu tek öğe'
+    preset:
+      name: '&eÖn ayar Düzenleyici'
+      desc: '&7geri dön bu tek öğe ön ayar düzenleyici'
+    raw:
+      name: '&eHam Bölüm'
+      desc: '&7Aç tümü anahtarlar içinde bu tek öğe'
+    clear:
+      name: '&cTemizle Item Fields'
+      desc: '&7Kaldır malzeme / bağlantılı-eşya / eşya-biçim alanlar yalnızca'
+    back:
+      desc: '&7geri dön bu ön ayar düzenleyici'
+  thing-economy:
+    title: 'Öğe EconomyFormat: {path}'
+    provider:
+      name: '&eSağlayıcı'
+      desc: '&7Değiştir bu tek öğe için bir vanilla veya bağlı ekonomi biçimi.'
+    currency:
+      name: '&ePara birimi Tür'
+      desc: '&7Para birimi kimliği tarafından kullanılan bu seçili ekonomi sağlayıcı.'
+    placeholder:
+      name: '&eYer tutucu'
+      desc: '&7görünen metin için kullanılan bu tek öğe fiyat veya ürün.'
+    apply-conditions:
+      name: '&eUygula Koşullar'
+      desc: '&7Aç uygula-koşullar için bu tek öğe'
+    require-conditions:
+      name: '&eGerektir Koşullar'
+      desc: '&7Aç gerektir-koşullar için bu tek öğe'
+    give-actions:
+      name: '&eVer Eylemler'
+      desc: '&7Aç ver-eylemler için bu tek öğe'
+    take-actions:
+      name: '&eAl Eylemler'
+      desc: '&7Aç al-eylemler için bu tek öğe'
+    preset:
+      name: '&eÖn ayar Düzenleyici'
+      desc: '&7geri dön bu tek öğe ön ayar düzenleyici'
+    raw:
+      name: '&eHam Bölüm'
+      desc: '&7Aç tümü anahtarlar içinde bu tek öğe'
+    apply:
+      name: '&aUygula EconomyFormat'
+      desc: '&7Dönüştür bu tek öğe için ekonomi biçimi ve koru ortak kontrol alanlar'
+    clear:
+      name: '&cTemizle Ekonomi Alanlar'
+      desc: '&7Kaldır ekonomi-eklenti / ekonomi-tür alanlar yalnızca'
+    back:
+      desc: '&7geri dön bu ön ayar düzenleyici'
+  prompt:
+    description: '&f{value}'
+    cancel-keyword: 'iptal'
+    cancel-tip: '&7Bu düzenlemeyi iptal etmek için &f{value} &7yazın.'
+    new-entry-id: 'Yeni giriş kimliğini girin'
+    new-condition-id: 'Yeni koşul grubu kimliğini girin'
+    string: '&f{path} için yeni metni girin'
+    integer: '&f{path} için yeni tam sayıyı girin'
+    double: '&f{path} için yeni sayıyı girin'
+    string-list: '&f{path} için yeni listeyi girin &7(ayraç olarak &f;; &7kullanın)'
+    string-list-entry: '&f{path} için yeni liste girdisini girin'
+    string-list-entry-edit: 'Liste girdisi &f#{index} için yeni değeri girin'
+    integer-list: '&f{path} için yeni tam sayı listesini girin &7(ayraç olarak &f;; &7kullanın)'
+    integer-list-entry: '&f{path} için yeni tam sayı listesi girdisini girin'
+    integer-list-entry-edit: 'Liste girdisi &f#{index} için yeni tam sayıyı girin'
+    new-child: 'Yeni alt öğe için anahtar adını girin'
+    new-child-value: '&f{path}&7 için değeri girin. Bölüm oluşturmak için &fsection &7veya &f{} &7kullanın. Listeler için &f;; &7kullanın.'
+  message:
+    target-not-found: '&cHedef dosya bulunamadı.'
+    saved: '&aKaydedildi &f{value}'
+    save-failed: '&cDosya kaydedilemedi: {value}'
+    empty-id: '&cGiriş kimliği boş olamaz.'
+    enable-confirm-required: '&cEditor is still experimental. Read and confirm every item in &f{file}&c before using it.'
+    enable-confirm-details: '&7Back up data, read the wiki, accept possible errors, then set every confirmation in &f{file} &7to true.'
+    unknown-type: '&cBilinmiyor type. Use section/string/int/double/boolean/list/int-list.'
+    invalid-integer: '&cBu geçerli bir tam sayı değil.'
+    invalid-number: '&cBu geçerli bir sayı değil.'
+    invalid-new-child-value: '&cGeçersiz değer. section/{}, boolean, sayı, liste (;;), veya düz metin kullanın.'
+    invalid-integer-list: '&cDeğerlerden biri tam sayı değil.'
+    child-format: '&cŞu biçimi kullanın: anahtar tür'
+    command-usage: '&c/Shop editor [shop|menu] <id> kullanın'
+    target-missing: '&c{scope} bulunamadı: {id}'
+  list:
+    title: 'Liste Düzenleyici: {path}'
+    current: '&7Geçerli: &f{value}'
+    add:
+      name: '&eEkle Satır'
+      desc: '&7ekle yeni satır için bu liste'
+    clear:
+      name: '&cTemizle List'
+      desc: '&7tümünü kaldır girdiler itibaren bu liste'
+    move-up: '&eYukarı taşımak için Shift+sol tıkla'
+    move-down: '&eAşağı taşımak için Shift+sağ tıkla'
+  sub-button:
+    title: 'Alt düğme: {path}'
+    current: '&7Geçerli: &f{value}'
+    not-set: '<ayarlanmadı>'
+    same-shop:
+      name: '&eGeçerli Mağaza Ürün'
+    cross-shop:
+      name: '&eHedef Mağaza'
+    cross-product:
+      name: '&eHedef Ürün'
+    preview:
+      name: '&eÖnizleme'
+    same-preview: '&7Aynı mağaza: &f{value}'
+    cross-preview: '&7Diğer mağaza: &f{value}'
+    apply-same:
+      name: '&aKullan Geçerli Mağaza Hedef'
+      desc: '&7Kaydet olarak &fProductID'
+    apply-cross:
+      name: '&aKullan Çapraz Mağaza Hedef'
+      desc: '&7Kaydet olarak &fShopID;;ProductID'
+    clear:
+      name: '&cTemizle'
+      desc: '&7as-sub-button değerini kaldır'
+  click-binding:
+    title: 'Tıkla Türler: {path}'
+    state: '&7Seçili: &f{value}'
+  reset-time:
+    title: 'sıfırlama zamanı: {path}'
+    current: '&7Geçerli: &f{value}'
+    mode:
+      name: '&egeçerli mod'
+      value: '&7Mod: &f{value}'
+      desc: '&7Bu düzenleyici değişiklikler davranış temelinde bu seçili sıfırlama modu.'
+    add:
+      name: '&eEkle Zaman'
+      desc: '&7ekle yeni sıfırlama zamanı girdi'
+    random:
+      name: '&erastgele yer tutucu'
+    manual:
+      name: '&eDüzenle Değer'
+    never:
+      name: '&eYok sıfırlama zamanı Gerekli'
+      desc: '&7Bu sıfırlama modu değil kullan bir zaman değer.'
+    prompt-add: 'Girdi bu yeni sıfırlama zamanı için &f{path}'
+    prompt-edit: 'Girdi bu yeni sıfırlama zamanı için girdi &f#{index}'
+  presets:
+    root_shop:
+      title: 'Mağaza Ön ayar'
+      fields:
+        settings:
+          menu:
+            name: 'Menü Dosya'
+            desc: 'Bağla bu mağaza için bir menü dosya kimliği.'
+          menu-settings:
+            name: 'Satır içi Menü Ayarlar'
+            desc: 'Geçersiz kıl bölüm nin bu menü ayarlar yalnızca bu mağaza.'
+            buy-more:
+              name: 'Varsayılan daha fazla satın al'
+              desc: 'Olup olmadığı ürünler içinde bu mağaza aç satın al-daha fazla menü tarafından varsayılan.'
+            shop-name:
+              name: 'Mağaza görünen ad'
+              desc: 'görünen ad tarafından kullanılan yer tutucular örneğin {shop-name}.'
+            allow-favourite:
+              name: 'Izin ver Favori'
+              desc: 'Izin ver ürünler itibaren bu mağaza için olmak eklenen favori menüler.'
+          hide-message:
+            name: 'Gizle başarı iletisini'
+            desc: 'gizle varsayılan başarı iletisini için bu mağaza.'
+          secret-shop-items:
+            name: 'Gizli Mağaza Eşyalar'
+            desc: 'Gizle ürünler olduğunda onların gösterim kurallar değildir karşılandı.'
+          custom-command:
+            name:
+              name: 'Komut Ad'
+              desc: 'Komut oyuncular yapabilir kullan için aç bu mağaza.'
+            description:
+              name: 'Komut açıklaması'
+              desc: 'Bu mağaza komutu için gösterilen açıklama.'
+        general-configs:
+          name: 'Genel Yapılandırmalar'
+          desc: 'Varsayılan değerler paylaşılan tarafından tümü ürünler içinde bu mağaza.'
+        items:
+          name: 'Ürünler'
+          desc: 'Tümü düzenlenebilir ürünler içinde bu mağaza.'
+        buttons:
+          name: 'Düğmeler'
+          desc: 'Ek menü düğmeler gösterilen içinde bu mağaza menüsü.'
+    root_menu:
+      title: 'Menü Ön ayar'
+      fields:
+        title:
+          name: 'Başlık'
+          desc: 'Envanter başlık gösterilen oyuncular.'
+        size:
+          name: 'Boyut'
+          desc: 'Envanter boyut, genellikle bir katı nin 9.'
+        dynamic-layout:
+          name: 'Dinamik Düzen'
+          desc: 'Yeniden oluştur bu düzen her zaman bu menü açar.'
+        bedrock:
+          name: 'Bedrock Ayarlar'
+          desc: 'Bedrock belirli gösterim ve uyumluluk ayarlar.'
+          enabled:
+            name: 'Etkin'
+            desc: 'bu öğenin menü gerekir kullan Bedrock-belirli desteği.'
+          content:
+            name: 'Içerik'
+            desc: 'Bedrock-belirli içerik değer için bu menü.'
+        layout:
+          name: 'Düzen'
+          desc: 'Düzen metin liste kullanılan için yerleştir düğmeler ve ürünler.'
+        conditions:
+          name: 'Aç Koşullar'
+          desc: 'koşullar olmalıdır karşılandı önce bu menü yapabilir aç.'
+        open-actions:
+          name: 'Aç Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda menü açar.'
+        close-actions:
+          name: 'Kapat Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda menü kapanır.'
+        buttons:
+          name: 'Düğmeler'
+          desc: 'Tümü düğmeler yerleştirilen içinde bu menü.'
+        custom-command:
+          name:
+            name: 'Komut Ad'
+            desc: 'Komut oyuncular yapabilir kullan için aç bu menü.'
+          description:
+            name: 'Komut açıklaması'
+            desc: 'Açıklama gösterilen için bu menü komut.'
+    shop_item:
+      title: 'Ürün Ön ayar'
+      fields:
+        display-name:
+          name: 'görünen ad'
+          desc: 'Mantıksal görünen ad nin bu ürün.'
+        display-item:
+          name: 'Gösterim Eşya'
+          desc: 'Bu GUI eşya oyuncular gör içinde bu menü.'
+        add-lore:
+          name: 'Ekle Açıklama'
+          desc: 'Ek açıklama satırlar eklendi için bu gösterim eşya.'
+        price-mode:
+          name: 'Fiyat Mod'
+          desc: 'Nasıl katı fiyatlar dır birleşik için ödeme.'
+        product-mode:
+          name: 'Ürün Mod'
+          desc: 'Nasıl katı ürünler dır birleşik için ödül teslim.'
+        products:
+          name: 'Ürünler'
+          desc: 'tek öğe girdiler bu oyuncu alır veya öder olarak ürünler.'
+        buy-prices:
+          name: 'Satın al Fiyatlar'
+          desc: 'tek öğe girdiler tüketildi olduğunda satın alma.'
+        sell-prices:
+          name: 'Sat Fiyatlar'
+          desc: 'tek öğe girdiler verildi olduğunda satış.'
+        conditions:
+          name: 'Paylaşılan Koşullar'
+          desc: 'Eski paylaşılan koşullar için her ikisi satın al ve sat.'
+        buy-conditions:
+          name: 'Satın al Koşullar'
+          desc: 'denetlenen koşullar yalnızca satın alma.'
+        sell-conditions:
+          name: 'Sat Koşullar'
+          desc: 'denetlenen koşullar yalnızca satış.'
+        display-conditions:
+          name: 'Gösterim Koşullar'
+          desc: 'koşullar belirler bu öğenin ürün dır gösterilen.'
+        buy-actions:
+          name: 'Satın al Eylemler'
+          desc: 'çalıştırılan eylemler sonra bir başarılı satın al.'
+        sell-actions:
+          name: 'Sat Eylemler'
+          desc: 'çalıştırılan eylemler sonra bir başarılı sat.'
+        fail-actions:
+          name: 'Başarısız Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda bir ticaret yap başarısız olur.'
+        click-event:
+          name: 'Tıkla Olay'
+          desc: 'Özel tıkla kurallar için bu ürün düğme.'
+        buy-more:
+          name: 'daha fazla satın al'
+          desc: 'bu öğenin ürün yapabilir aç miktar seçim GUI.'
+        buy-more-menu:
+          name: 'daha fazla satın al Menü'
+          desc: 'Özel satın al-daha fazla menü için bu ürün.'
+          menu:
+            name: 'Menü Dosya'
+            desc: 'Menü dosya kullanılan olduğunda bu ürün açar bu satın al-daha fazla GUI.'
+          max-amount:
+            name: 'En fazla Miktar'
+            desc: 'Max miktar seçilebilir içinde bu satın al-daha fazla menü.'
+          hide-message:
+            name: 'Gizle Ileti'
+            desc: 'bunu gizle ürün başarı iletisini.'
+          sell-all:
+            name: 'Etkinleştir tümünü sat'
+            desc: 'Izin ver bu ürün için olmak işlenen tarafından sat-tümü.'
+          allow-favourite:
+            name: 'Izin ver Favori'
+            desc: 'Izin ver bu ürün için olmak eklenen favori menüler.'
+        as-sub-button:
+          name: 'Olarak Alt Düğme'
+          desc: 'Göster bu ürün olarak bir alt düğme nin başka ürün.'
+        bedrock:
+          name: 'Bedrock Ayarlar'
+          desc: 'Bedrock belirli gösterim ayarlar için bu ürün.'
+          hide:
+            name: 'Gizle'
+            desc: 'bu öğenin ürün gerekir olmak gizli üzerinde Bedrock.'
+          icon:
+            name: 'Simge'
+            desc: 'Bu ürün için Bedrock simge değeri veya URL’si.'
+        limits:
+          name: 'Paylaşılan Sınırlar'
+          desc: 'Paylaşılan stok ve kullanım sınırlar için satın al ve sat.'
+        limits-conditions:
+          name: 'Paylaşılan Sınır Gruplar'
+          desc: 'Adlandırılmış koşul gruplar tarafından kullanılan bu paylaşılan sınır bölüm.'
+        buy-limits:
+          name: 'Satın al Sınırlar'
+          desc: 'Stok veya sayıları sınırlar uygulandı için satın alma.'
+        buy-limits-conditions:
+          name: 'Satın al Sınır Gruplar'
+          desc: 'Adlandırılmış koşul gruplar tarafından kullanılan bu satın al sınır bölüm.'
+        sell-limits:
+          name: 'Sat Sınırlar'
+          desc: 'Stok veya sayıları sınırlar uygulandı için satış.'
+        sell-limits-conditions:
+          name: 'Sat Sınır Gruplar'
+          desc: 'Adlandırılmış koşul gruplar tarafından kullanılan bu sat sınır bölüm.'
+        buy-times-reset-mode:
+          name: 'Satın al sıfırlama modu'
+          desc: 'Nasıl bu satın alma sayacı sayaç sıfırlanır.'
+        buy-times-reset-time:
+          name: 'Satın al sıfırlama zamanı'
+          desc: 'olduğunda satın alma sayacı sayaç sıfırlanır.'
+        buy-times-reset-time-format:
+          name: 'Satın al sıfırlama zamanı Biçim'
+          desc: 'Zaman biçim kullanılan için ayrıştırmak bu satın al sıfırlama zamanı değer.'
+        buy-times-reset-value:
+          name: 'Satın al Sıfırla Değer'
+          desc: 'Değer uygulandı olduğunda satın alma sayacı sayaç sıfırlanır.'
+        buy-times-max-value:
+          name: 'Satın al En fazla Değer'
+          desc: 'Max satın alma sayacı değer izin verildi önce sıfırla.'
+        shared-use-times:
+          name: 'paylaşılan kullanım sayaçları Grup'
+          desc: 'Ürünler ile bu aynı grup kimliği olacak paylaş satın al/sell sayıları ve bekleme süresi veri.'
+        sell-times-reset-mode:
+          name: 'Sat sıfırlama modu'
+          desc: 'Nasıl bu satış sayacı sayaç sıfırlanır.'
+        sell-times-reset-time:
+          name: 'Sat sıfırlama zamanı'
+          desc: 'olduğunda satış sayacı sayaç sıfırlanır.'
+        sell-times-reset-time-format:
+          name: 'Sat sıfırlama zamanı Biçim'
+          desc: 'Zaman biçim kullanılan için ayrıştırmak bu sat sıfırlama zamanı değer.'
+        sell-times-reset-value:
+          name: 'Sat Sıfırla Değer'
+          desc: 'Değer uygulandı olduğunda satış sayacı sayaç sıfırlanır.'
+        sell-times-max-value:
+          name: 'Sat En fazla Değer'
+          desc: 'Max satış sayacı değer izin verildi önce sıfırla.'
+    button_entry:
+      title: 'Düğme Ön ayar'
+      fields:
+        display-item:
+          name: 'Gösterim Eşya'
+          desc: 'Bu gösterim eşya için kullanılan bu düğme.'
+        actions:
+          name: 'Eylemler'
+          desc: 'çalıştırılan eylemler sonra tıklama bu düğme.'
+        fail-actions:
+          name: 'Başarısız Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda düğme koşullar değildir karşılandı.'
+        conditions:
+          name: 'Koşullar'
+          desc: 'koşullar olmalıdır karşılandı önce bu düğme yapabilir olmak kullanılan.'
+        display-conditions:
+          name: 'Gösterim Koşullar'
+          desc: 'koşullar belirler bu öğenin düğme dır gösterilen.'
+    limits_section:
+      title: 'Sınır Bölüm Ön ayar'
+      fields:
+        default:
+          name: 'Varsayılan Sınır'
+          desc: 'Sınır kullanılan olduğunda oyuncu değil eşleştir herhangi özel sınır koşul grubu.'
+        global:
+          name: 'Genel Sınır'
+          desc: 'Genel paylaşılan sınır uygulandı için bu tüm sunucu için bu ürün.'
+    single_thing:
+      title: 'tek öğe Ön ayar'
+      fields:
+        display:
+          name: 'Algılanan Öğe Tür'
+          desc: 'Bu eklenti algılar bu tek öğe tür itibaren bu alanlar şu şu anda mevcut olmak.'
+        inline-item:
+          name: 'ItemFormat'
+          desc: 'Sürükleyin bir eşya buraya için yenile eşya-biçim alanlar sırasında koruyarak ortak kontrol alanlar.'
+        inline-economy:
+          name: 'EconomyFormat'
+          desc: 'Değiştir bu tek öğe için ekonomi biçimi sırasında koruyarak miktar, eylemler ve koşul alanlar.'
+        amount:
+          name: 'Miktar'
+          desc: 'Miktar değer. Destekler sabit sayılar, formüller veya yer tutucular bağlı üzerinde bağlama.'
+        material:
+          name: 'Malzeme'
+          desc: 'Temel malzeme için bir vanilla eşya biçimi.'
+        hook-plugin:
+          name: 'Bağlantılı Eşya Eklenti'
+          desc: 'Harici eşya eklenti ad tarafından kullanılan bu tek öğe.'
+        hook-item:
+          name: 'Bağlantılı Eşya Kimliği'
+          desc: 'Harici eşya kimliği itibaren bu bağlı eklenti.'
+        match-item:
+          name: 'Eşleştir Eşya'
+          desc: 'Kullan eşleştir kurallar yerine bir tam eşya yığın.'
+        match-placeholder:
+          name: 'Eşleştir Yer tutucu'
+          desc: 'Yer tutucu kullanılan için oku özel değerler için karşılaştırma.'
+        economy-plugin:
+          name: 'Ekonomi Eklenti'
+          desc: 'Ekonomi sağlayıcı eklenti tarafından kullanılan bu fiyat girdi.'
+        economy-type:
+          name: 'Ekonomi Tür'
+          desc: 'Para birimi tür, exp, seviyeler, veya çoklu-para birimi kimliği.'
+        placeholder:
+          name: 'Gösterim Yer tutucu'
+          desc: 'görünen metin kullanılan içinde açıklama ve fiyat yer tutucular.'
+        min-amount:
+          name: 'En az Miktar'
+          desc: 'Min miktar olduğunda miktar dır dinamik.'
+        max-amount:
+          name: 'En fazla Miktar'
+          desc: 'Max miktar olduğunda miktar dır dinamik.'
+        start-apply:
+          name: 'Başlangıç Uygula'
+          desc: 'Başlangıç uygulama itibaren bu işlem sayısı.'
+        end-apply:
+          name: 'Bitiş Uygula'
+          desc: 'Durdur uygulama sonra bu işlem sayısı.'
+        apply:
+          name: 'Uygula Liste'
+          desc: 'yalnızca uygula üzerinde bu işlem sayılar.'
+        apply-conditions:
+          name: 'Uygula Koşullar'
+          desc: 'koşullar belirler bu öğenin tek öğe katılır bu geçerli ticaret yap.'
+        require-conditions:
+          name: 'Gerektir Koşullar'
+          desc: 'koşullar must geçmek sonra bu tek öğe dır seçili.'
+        give-actions:
+          name: 'Ver Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda bu tek öğe dır verildi.'
+        take-actions:
+          name: 'Al Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda bu tek öğe dır alındı.'
+        give-item:
+          name: 'Ver Eşya'
+          desc: 'Eğer devre dışı, yalnızca ver-eylemler çalıştır ve bu eşya kendisi değildir verildi.'
+        take:
+          name: 'Al'
+          desc: 'Eğer devre dışı, yalnızca denetle sahiplik yerine gerçekten alma onu.'
+    action_entry:
+      title: 'Eylem Ön ayar'
+      fields:
+        type:
+          name: 'Tür'
+          desc: 'Eylem tür için çalıştır.'
+        start-apply:
+          name: 'Başlangıç Uygula'
+          desc: 'Başlangıç çalıştırma itibaren bu işlem sayısı.'
+        end-apply:
+          name: 'Bitiş Uygula'
+          desc: 'Durdur çalıştırma sonra bu işlem sayısı.'
+        apply:
+          name: 'Uygula Liste'
+          desc: 'yalnızca çalıştır üzerinde bu işlem sayılar.'
+        multi-once:
+          name: 'Çoklu Bir kez'
+          desc: 'yalnızca çalıştır bir kez sırasında çoklu-satın al veya çoklu-sat.'
+        sell-all-once:
+          name: 'tümünü sat Bir kez'
+          desc: 'yalnızca çalıştır bir kez sırasında sat-tümü.'
+        open-once:
+          name: 'Aç Bir kez'
+          desc: 'yapmayın çalıştır yeniden olduğunda menü yeniden açılır.'
+        click-type:
+          name: 'tıklama türü'
+          desc: 'Sınır bu eylem için bir belirli tıklama türü.'
+        bedrock-only:
+          name: 'Bedrock Yalnızca'
+          desc: 'yalnızca çalıştır için Bedrock oyuncular.'
+        java-only:
+          name: 'Java Yalnızca'
+          desc: 'yalnızca çalıştır için Java oyuncular.'
+        fail-type:
+          name: 'Başarısız Tür'
+          desc: 'yalnızca çalıştır için bu belirtilen başarısızlık türü.'
+        message:
+          name: 'Ileti'
+          desc: 'Ileti metin gönderilen tarafından bu eylem.'
+        main-title:
+          name: 'Ana Başlık'
+          desc: 'Ana başlık metin.'
+        sub-title:
+          name: 'Alt Başlık'
+          desc: 'Alt başlık metin.'
+        fade-in:
+          name: 'belirme'
+          desc: 'belirme zaman içinde tick.'
+        stay:
+          name: 'Kalma'
+          desc: 'Kalma zaman içinde tick.'
+        fade-out:
+          name: 'solma'
+          desc: 'solma zaman içinde tick.'
+        sound:
+          name: 'Ses'
+          desc: 'Ses kimliği için çal.'
+        volume:
+          name: 'Ses düzeyi'
+          desc: 'Ses düzeyi değer.'
+        particle:
+          name: 'Parçacık'
+          desc: 'Parçacık kimliği için oluştur.'
+        count:
+          name: 'Sayı'
+          desc: 'Sayı nin parçacıklar için oluştur.'
+        offset-x:
+          name: 'Ofset X'
+          desc: 'Parçacık X ofset.'
+        offset-y:
+          name: 'Ofset Y'
+          desc: 'Parçacık Y ofset.'
+        offset-z:
+          name: 'Ofset Z'
+          desc: 'Parçacık Z ofset.'
+        speed:
+          name: 'Hız'
+          desc: 'Parçacık hız.'
+        command:
+          name: 'Komut'
+          desc: 'Komut çalıştırılan tarafından bu eylem.'
+        shop:
+          name: 'Mağaza'
+          desc: 'Hedef mağaza kimliği tarafından kullanılan bu eylem.'
+        menu:
+          name: 'Menü'
+          desc: 'Hedef menü kimliği tarafından kullanılan bu eylem.'
+        item:
+          name: 'Eşya'
+          desc: 'Hedef ürün veya eşya kimliği tarafından kullanılan bu eylem.'
+        amount:
+          name: 'Miktar'
+          desc: 'Miktar veya sayı tarafından kullanılan bu eylem.'
+        sell-all:
+          name: 'tümünü sat'
+          desc: 'olup olmadığını eylem gerekir işle tümü eşleşen eşyalar.'
+        rate:
+          name: 'Olasılık'
+          desc: 'Başarı olasılık itibaren 0 için 100.'
+        actions:
+          name: 'Iç içe Eylemler'
+          desc: 'Iç içe çalıştırılan eylemler tarafından bu eylem.'
+        conditions:
+          name: 'Koşullar'
+          desc: 'denetlenen koşullar tarafından bu eylem.'
+        server:
+          name: 'Sunucu'
+          desc: 'Hedef sunucu ad.'
+        potion:
+          name: 'Iksir'
+          desc: 'Iksir efekt kimliği.'
+        duration:
+          name: 'Süre'
+          desc: 'Süre içinde tick.'
+        level:
+          name: 'Seviye'
+          desc: 'Seviye değer tarafından kullanılan bu eylem.'
+        ambient:
+          name: 'Ortam'
+          desc: 'olup olmadığını efekt dır ortam.'
+        particles:
+          name: 'Parçacıklar'
+          desc: 'olup olmadığını efekt gösterir parçacıklar.'
+        icon:
+          name: 'Simge'
+          desc: 'olup olmadığını efekt gösterir bir simge.'
+        entity:
+          name: 'Varlık'
+          desc: 'Varlık veya MythicMob kimliği için oluştur.'
+        world:
+          name: 'Dünya'
+          desc: 'Dünya ad tarafından kullanılan bu eylem.'
+        x:
+          name: 'X'
+          desc: 'X koordinatı.'
+        y:
+          name: 'Y'
+          desc: 'Y koordinatı.'
+        z:
+          name: 'Z'
+          desc: 'Z koordinatı.'
+        yaw:
+          name: 'Yaw'
+          desc: 'Yaw dönüş.'
+        pitch:
+          name: 'Perde'
+          desc: 'Perde dönüş veya ses perde.'
+    condition_entry:
+      title: 'Koşul ön ayarı'
+      fields:
+        type:
+          name: 'Tür'
+          desc: 'Koşul tür için denetle.'
+        start-apply:
+          name: 'Başlangıç Uygula'
+          desc: 'Başlangıç denetleme itibaren bu işlem sayısı.'
+        end-apply:
+          name: 'Bitiş Uygula'
+          desc: 'Durdur denetleme sonra bu işlem sayısı.'
+        apply:
+          name: 'Uygula Liste'
+          desc: 'yalnızca denetle üzerinde bu işlem sayılar.'
+        click-type:
+          name: 'tıklama türü'
+          desc: 'Sınır bu koşul için bir belirli tıklama türü.'
+        bedrock-only:
+          name: 'Bedrock Yalnızca'
+          desc: 'yalnızca denetle için Bedrock oyuncular.'
+        java-only:
+          name: 'Java Yalnızca'
+          desc: 'yalnızca denetle için Java oyuncular.'
+        meet-actions:
+          name: 'Karşılanan Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda koşul geçer.'
+        not-meet-actions:
+          name: 'Değil Karşılanan Eylemler'
+          desc: 'çalıştırılan eylemler olduğunda koşul başarısız olur.'
+        permission:
+          name: 'Izin'
+          desc: 'Izin düğüm bu oyuncu sahip olmalıdır.'
+        placeholder:
+          name: 'Yer tutucu'
+          desc: 'Yer tutucu tarafından kullanılan bu koşul.'
+        rule:
+          name: 'Kural'
+          desc: 'Karşılaştırma kural örneğin ==, >=, <=.'
+        value:
+          name: 'Değer'
+          desc: 'Hedef değer için kullanılan karşılaştırma.'
+        biome:
+          name: 'Biyom'
+          desc: 'Gerekli biyom ad.'
+        world:
+          name: 'Dünya'
+          desc: 'Gerekli dünya ad.'
+        conditions:
+          name: 'İç içe koşullar'
+          desc: 'Bu koşul tarafından kullanılan iç içe koşul listesi.'
+
+
+        menu:
+          name: 'Menü'
+          desc: 'Gerekli şu anda açık menü kimliği.'
+        menu-type:
+          name: 'Menü Tür'
+          desc: 'Gerekli şu anda açık menü tür örneğin Favori veya Arama.'
+set-custom-placeholder: "&#98FB98[UltimateShop] &fÖzel yer tutucu {placeholder} için yeni değer {value} olarak ayarlandı."
+dupe-removed: "&#98FB98[UltimateShop] &fGeçersiz bir eşya envanterinizden kaldırıldı!"
+favourite-added: "&#98FB98[UltimateShop] &fÜrün {item}, {menu} favoriler menüsüne eklendi."
+favourite-removed: "&#98FB98[UltimateShop] &fÜrün {item}, {menu} favoriler menüsünden çıkarıldı."

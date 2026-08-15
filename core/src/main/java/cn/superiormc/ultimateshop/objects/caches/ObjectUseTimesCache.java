@@ -1,6 +1,7 @@
 package cn.superiormc.ultimateshop.objects.caches;
 
 import cn.superiormc.ultimateshop.UltimateShop;
+import cn.superiormc.ultimateshop.database.PlayerDataSnapshot.UseTimesSnapshot;
 import cn.superiormc.ultimateshop.managers.BungeeCordManager;
 import cn.superiormc.ultimateshop.managers.ConfigManager;
 import cn.superiormc.ultimateshop.managers.ErrorManager;
@@ -544,6 +545,21 @@ public class ObjectUseTimesCache {
 
     public synchronized boolean isEmpty() {
         return buy.isEmpty() && sell.isEmpty();
+    }
+
+    public synchronized UseTimesSnapshot snapshot() {
+        return new UseTimesSnapshot(
+                buy.useTimes,
+                UltimateShop.freeVersion ? 0 : buy.totalUseTimes,
+                sell.useTimes,
+                UltimateShop.freeVersion ? 0 : sell.totalUseTimes,
+                formatTime(buy.lastTime),
+                formatTime(sell.lastTime),
+                formatTime(buy.lastResetTime),
+                formatTime(sell.lastResetTime),
+                formatTime(buy.cooldownTime),
+                formatTime(sell.cooldownTime)
+        );
     }
 
     private UseTimesState state(Direction direction) {

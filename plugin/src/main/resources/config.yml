@@ -108,6 +108,69 @@ sell:
         1:
           type: permission
           permission: 'group.vip'
+  # Item-aware modifiers are a separate global sell feature.
+  # Modifiers are applied in configuration order and merged into the final multiplier.
+  price-modifier:
+    item-sell-menu:
+      # Products with `price-modifier: true` open this item sell menu when clicked.
+      enabled: true
+      menu: item-sell
+    durability:
+      type: durability
+      enabled: true
+      # 1 means losing 1% durability deducts 1% from the price.
+      deduction-coefficient: 1
+      minimum-multiplier: 0.1
+      # You can use minimum-price instead of, or together with, minimum-multiplier.
+      # minimum-price: 1
+    lore:
+      type: lore
+      enabled: false
+      # SET uses the captured number as the price; MULTIPLY multiplies the current price by it.
+      # Invalid operations are reported and the modifier is ignored.
+      operation: SET
+      # The default pattern matches lore such as: Item Value: 500
+      pattern: 'Item Value[：:]\s*([+-]?(?:\d+(?:\.\d+)?|\.\d+))'
+      value-group: 1
+      strip-color: true
+      case-sensitive: true
+      # Values outside this inclusive range, or longer than maximum-number-length, are ignored.
+      minimum-value: 0
+      maximum-value: 1000000
+      maximum-number-length: 64
+    nbt:
+      type: nbt
+      enabled: false
+      # Requires the NBTAPI plugin. Nested keys can use dot notation.
+      key: item_value
+      # AUTO, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE or STRING.
+      value-type: AUTO
+      # SET uses the NBT value as the price; MULTIPLY multiplies the current price by it.
+      # Invalid operations are reported and the modifier is ignored.
+      operation: SET
+      # Values outside this inclusive range, or longer than maximum-number-length, are ignored.
+      minimum-value: 0
+      maximum-value: 1000000
+      maximum-number-length: 64
+    mythic-changer:
+      type: match_item
+      enabled: false
+      # MAX, MIN or STACK. STACK applies matching rules in configuration order.
+      mode: STACK
+      rules:
+        named-item:
+          # ADD or MULTIPLY. Invalid operations are reported and this rule is ignored.
+          operation: MULTIPLY
+          value: 1.2
+          match-item:
+            has-name: true
+        special-lore:
+          operation: ADD
+          # ADD adds this value to the price multiplier: 1 + 0.1 = 1.1.
+          value: 0.1
+          match-item:
+            contains-lore:
+              - 'Special'
 
 give-item:
   # Support value: BUKKIT, SMART

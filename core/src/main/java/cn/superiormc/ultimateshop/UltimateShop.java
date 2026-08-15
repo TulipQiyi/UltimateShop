@@ -72,6 +72,7 @@ public final class UltimateShop extends JavaPlugin {
         new InitManager();
         new ActionManager();
         new ConditionManager();
+        new DynamicCommandManager();
         new ConfigManager();
         new HookManager();
         new ItemManager();
@@ -101,6 +102,7 @@ public final class UltimateShop extends JavaPlugin {
             TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §fDynamic title enabled. Hooking into packetevents...");
         }
         new LicenseManager();
+        AbstractManager.initializeManagers();
         metrics = new Metrics(UltimateShop.instance, 20783);
         TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §fYour server version is: " + yearVersion + "." + majorVersion + "." + minorVersion + "!");
         TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §fPlugin is loaded. Author: PQguanfang.");
@@ -108,8 +110,8 @@ public final class UltimateShop extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        ListenerManager.listenerManager.unregisterAllListener();
-        TaskManager.taskManager.cancelTask();
+        AbstractManager.disableManagers();
+        DatabaseExecutor.quiesce();
         TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §fWaiting for all pending database task finished, this may freeze your server if your database is lost connection.");
         DatabaseExecutor.await();
         if (CacheManager.cacheManager.serverCache != null) {

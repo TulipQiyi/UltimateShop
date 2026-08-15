@@ -11,15 +11,20 @@ import cn.superiormc.ultimateshop.objects.buttons.ObjectItem;
 import cn.superiormc.ultimateshop.objects.buttons.subobjects.ObjectDisplayItemStack;
 import cn.superiormc.ultimateshop.objects.caches.ObjectCache;
 import cn.superiormc.ultimateshop.objects.caches.ObjectUseTimesCache;
+import cn.superiormc.ultimateshop.objects.items.AbstractSingleThing;
+import cn.superiormc.ultimateshop.objects.items.GiveResult;
 import cn.superiormc.ultimateshop.objects.items.ThingMode;
 import cn.superiormc.ultimateshop.objects.items.prices.ObjectPrices;
 import cn.superiormc.ultimateshop.objects.menus.MenuType;
 import cn.superiormc.ultimateshop.utils.CommonUtil;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +67,8 @@ public class ModifyDisplayItem {
                     "amount", String.valueOf(multi),
                     "item-name", item.getDisplayName(player)));
         }
-        addLore.addAll(getModifiedLore(player, multi, item, buyMore, bedrock, clickType));
+        addLore.addAll(getModifiedLore(player, multi, item, buyMore, bedrock, clickType,
+                addLoreDisplayItem.getItemStack()));
         if (!addLore.isEmpty()) {
             UltimateShop.methodUtil.setItemLore(tempVal2, addLore, player);
         }
@@ -77,6 +83,18 @@ public class ModifyDisplayItem {
             boolean buyMore,
             boolean bedrock,
             String clickType
+    ) {
+        return getModifiedLore(player, multi, item, buyMore, bedrock, clickType, item.getDisplayItem(player));
+    }
+
+    private static List<String> getModifiedLore(
+            Player player,
+            int multi,
+            ObjectItem item,
+            boolean buyMore,
+            boolean bedrock,
+            String clickType,
+            ItemStack displayedItem
     ) {
 
         List<String> resultLore = new ArrayList<>();
@@ -94,9 +112,19 @@ public class ModifyDisplayItem {
                 item.getBuyPrice().take(player.getInventory(), player,
                         playerCache.getBuyUseTimes(), multi, true).getResultMap(),
                 item.getBuyPrice().getMode(), false);
+        ObjectPrices displaySellPrice = item.getDisplaySellPrice();
+        GiveResult sellResult = displaySellPrice.give(player, playerCache.getSellUseTimes(), multi);
+        Map<AbstractSingleThing, BigDecimal> sellResultMap;
+        if (item.isPriceModifierEnabled()) {
+            sellResultMap = new LinkedHashMap<>(sellResult.getResultMap());
+            BigDecimal basePrice = sellResultMap.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal multiplier = ShopHelper.getSellMultiplier(player, item, displayedItem, basePrice, multi);
+            sellResultMap.replaceAll((thing, value) -> value.multiply(multiplier));
+        } else {
+            sellResultMap = sellResult.getResultMapForSellMultiplierDisplay(player);
+        }
         List<String> sellPrice = ObjectPrices.getDisplayName(player, multi,
-                item.getSellPrice().give(player, playerCache.getBuyUseTimes(), multi).getResultMapForSellMultiplierDisplay(player),
-                item.getSellPrice().getMode(), false);
+                sellResultMap, displaySellPrice.getMode(), false);
 
         for (String rawLine : item.getAddLore(player)) {
 
@@ -129,7 +157,7 @@ public class ModifyDisplayItem {
                             resultLore.addAll(buyPrice);
                         }
                     }
-                } else if (pureText.endsWith("{sell-price}") && parseEnableNewLineForPrice(item.getSellPrice().getMode())) {
+                } else if (pureText.endsWith("{sell-price}") && parseEnableNewLineForPrice(item.getDisplaySellPrice().getMode())) {
                     if (!sellPrice.isEmpty()) {
                         String prefix = pureText.replace("{sell-price}", "");
                         if (!prefix.isEmpty()) {
@@ -151,7 +179,7 @@ public class ModifyDisplayItem {
         if (!resultLore.isEmpty()) {
             resultLore = CommonUtil.modifyList(player, resultLore,
                     "buy-price", ObjectPrices.getDisplayNameInLine(player, buyPrice, item.getBuyPrice().getMode()),
-                    "sell-price", ObjectPrices.getDisplayNameInLine(player, sellPrice, item.getSellPrice().getMode()),
+                    "sell-price", ObjectPrices.getDisplayNameInLine(player, sellPrice, item.getDisplaySellPrice().getMode()),
                     "buy-limit-player", String.valueOf(item.getPlayerBuyLimit(player)),
                     "sell-limit-player", String.valueOf(item.getPlayerSellLimit(player)),
                     "buy-limit-server", String.valueOf(item.getServerBuyLimit(player)),
@@ -351,7 +379,7 @@ public class ModifyDisplayItem {
         Map<Character, ConditionResolver> map = new HashMap<>();
 
         map.put('a', ignored -> !item.getBuyPrice().empty);
-        map.put('b', ignored -> !item.getSellPrice().empty);
+        map.put('b', ignored -> !item.getDisplaySellPrice().empty);
         map.put('c', ignored -> item.getPlayerBuyLimit(player) != -1);
         map.put('d', ignored -> item.getServerBuyLimit(player) != -1);
         map.put('e', ignored -> item.getPlayerSellLimit(player) != -1);
@@ -365,9 +393,9 @@ public class ModifyDisplayItem {
 
         map.put('k', ignored -> item.getBuyMore());
         map.put('l', ignored -> item.isAllowFavourite());
-        map.put('m', ignored -> !item.getSellPrice().empty && item.isEnableSellAll());
+        map.put('m', ignored -> !item.getDisplaySellPrice().empty && item.isEnableSellAll());
         map.put('n', ignored -> (!item.getBuyPrice().empty && parseClickType(item, clickType, true)) ||
-                (!item.getSellPrice().empty && parseClickType(item, clickType, false)));
+                (!item.getDisplaySellPrice().empty && parseClickType(item, clickType, false)));
         map.put('o', ignored -> ShopHelper.getOpeningMenu(player) != null && ShopHelper.getOpeningMenu(player).getType() == MenuType.Favourite);
 
         map.put('p', ignored -> buyMore);
@@ -386,7 +414,7 @@ public class ModifyDisplayItem {
 
     private static String getBuyClickPlaceholder(Player player, int multi, ObjectItem item, String clickType) {
         if (!ConfigManager.configManager.getBoolean("placeholder.click.enabled")) {
-            if (item.getSellPrice().empty || clickType.equals("buy")) {
+            if (item.getDisplaySellPrice().empty || clickType.equals("buy")) {
                 return ConfigManager.configManager.getStringWithLang(player, "placeholder.click.buy-with-no-sell", "", "amount", String.valueOf(multi));
             } else {
                 return ConfigManager.configManager.getStringWithLang(player, "placeholder.click.buy", "", "amount", String.valueOf(multi));
@@ -411,7 +439,7 @@ public class ModifyDisplayItem {
                 s = ConfigManager.configManager.getStringWithLang(player, "placeholder.click.buy-price-not-enough", "", "amount", String.valueOf(multi));
                 break;
             case DONE :
-                if (item.getSellPrice().empty || clickType.equals("buy")) {
+                if (item.getDisplaySellPrice().empty || clickType.equals("buy")) {
                     s = ConfigManager.configManager.getStringWithLang(player, "placeholder.click.buy-with-no-sell", "", "amount", String.valueOf(multi));
                 } else {
                     s = ConfigManager.configManager.getStringWithLang(player, "placeholder.click.buy", "", "amount", String.valueOf(multi));
@@ -473,7 +501,7 @@ public class ModifyDisplayItem {
             case "sell-all" :
                 return !buyOrSell && item.isEnableSellAll();
             case "buy-or-sell" :
-                if (item.getBuyPrice().empty && !item.getSellPrice().empty) {
+                if (item.getBuyPrice().empty && !item.getDisplaySellPrice().empty) {
                     return !buyOrSell;
                 } else {
                     return buyOrSell;

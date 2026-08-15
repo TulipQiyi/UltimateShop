@@ -9,7 +9,7 @@ import cn.superiormc.ultimateshop.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 
-public class ListenerManager {
+public class ListenerManager extends AbstractManager {
 
     public static ListenerManager listenerManager;
 
@@ -45,5 +45,10 @@ public class ListenerManager {
         if (UltimateShop.usePacketEvents && PacketInventoryUtil.packetInventoryUtil != null) {
             PacketInventoryUtil.packetInventoryUtil.shutdown();
         }
+    }
+
+    @Override
+    public void onPluginDisable() {
+        unregisterAllListener();
     }
 }

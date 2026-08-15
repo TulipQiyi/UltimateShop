@@ -18,6 +18,8 @@ public class GiveResult {
 
     private double multiplier;
 
+    private BigDecimal originalTotal;
+
     public GiveResult(Map<AbstractSingleThing, BigDecimal> resultMap) {
         this.resultMap = resultMap;
         this.empty = resultMap.isEmpty();
@@ -52,6 +54,9 @@ public class GiveResult {
     }
 
     public void setMultiplier(double multiplier) {
+        if (originalTotal == null) {
+            originalTotal = resultMap.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
         this.multiplier = this.multiplier * multiplier;
         for (AbstractSingleThing singleThing : resultMap.keySet()) {
             BigDecimal newValue = resultMap.get(singleThing).multiply(BigDecimal.valueOf(multiplier));
@@ -61,6 +66,13 @@ public class GiveResult {
 
     public double getMultiplier() {
         return multiplier;
+    }
+
+    public BigDecimal getOriginalTotal() {
+        if (originalTotal != null) {
+            return originalTotal;
+        }
+        return resultMap.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public AbstractThings getThings() {

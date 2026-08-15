@@ -3,6 +3,7 @@ package cn.superiormc.ultimateshop.objects.buttons;
 import cn.superiormc.ultimateshop.UltimateShop;
 import cn.superiormc.ultimateshop.gui.form.FormInfoGUI;
 import cn.superiormc.ultimateshop.gui.inv.BuyMoreGUI;
+import cn.superiormc.ultimateshop.gui.inv.CommonGUI;
 import cn.superiormc.ultimateshop.managers.ConfigManager;
 import cn.superiormc.ultimateshop.managers.ItemMaterialManager;
 import cn.superiormc.ultimateshop.methods.Product.BuyProductMethod;
@@ -80,12 +81,17 @@ public class ObjectItem extends AbstractButton {
 
     private final boolean enableSellAll;
 
+    private final boolean priceModifierEnabled;
+
+    private final ObjectPrices unavailableSellPrice = new ObjectPrices();
+
     public ObjectItem(ObjectShop shop, ConfigurationSection originalConfig) {
         super(originalConfig);
         this.shop = shop;
         this.type = ButtonType.SHOP;
         this.itemConfig = new ObjectItemConfig(this, originalConfig);
         this.enableSellAll = itemConfig.getBoolean("sell-all", true);
+        this.priceModifierEnabled = itemConfig.getBoolean("price-modifier", false);
         initSharedUseTimes();
         initReward();
         initBuyPrice();
@@ -274,6 +280,24 @@ public class ObjectItem extends AbstractButton {
         return enableSellAll;
     }
 
+    public boolean isPriceModifierEnabled() {
+        return priceModifierEnabled;
+    }
+
+    public boolean openPriceModifierMenu(Player player) {
+        if (!priceModifierEnabled || !ConfigManager.configManager.getBoolean(
+                "sell.price-modifier.item-sell-menu.enabled")) {
+            return false;
+        }
+        String itemSellMenu = ConfigManager.configManager.getString(
+                "sell.price-modifier.item-sell-menu.menu", "");
+        if (itemSellMenu.isEmpty()) {
+            return false;
+        }
+        CommonGUI.openGUI(player, itemSellMenu, false, true);
+        return true;
+    }
+
     public String getDisplayName(Player player) {
         if (itemConfig.getString("display-name") == null) {
             if (ItemMaterialManager.enableThis() && ConfigManager.configManager.getBoolean("display-item.auto-use-sprite-item-name") && !CommonUtil.isBedrockPlayer(player)) {
@@ -295,10 +319,21 @@ public class ObjectItem extends AbstractButton {
     }
 
     public ObjectPrices getSellPrice() {
+        if (priceModifierEnabled) {
+            return unavailableSellPrice;
+        }
+        return getRawSellPrice();
+    }
+
+    public ObjectPrices getRawSellPrice() {
         if (sellPrice == null) {
             return new ObjectPrices();
         }
         return sellPrice;
+    }
+
+    public ObjectPrices getDisplaySellPrice() {
+        return getRawSellPrice();
     }
 
     public ObjectProducts getReward() {
@@ -409,6 +444,9 @@ public class ObjectItem extends AbstractButton {
     @Override
     public void clickEvent(ClickType type, Player player) {
         if (empty) {
+            return;
+        }
+        if (openPriceModifierMenu(player)) {
             return;
         }
         boolean b = ConfigManager.configManager.getBoolean("placeholder.click.enabled");

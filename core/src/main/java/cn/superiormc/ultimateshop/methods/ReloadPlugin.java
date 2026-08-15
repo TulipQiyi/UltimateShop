@@ -14,25 +14,31 @@ public class ReloadPlugin {
     public static void reload(CommandSender sender) {
         LanguageManager.languageManager.sendStringText(sender, "plugin.reloading");
         UltimateShop.instance.reloadConfig();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            MenuStatusManager.menuStatusManager.removeGUIStatus(player);
-            if (!UltimateShop.freeVersion) {
-                SellStickListener.playerList.remove(player);
+        AbstractManager.reloadManagers();
+        DatabaseExecutor.quiesce();
+        try {
+            DatabaseExecutor.await();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (!UltimateShop.freeVersion) {
+                    SellStickListener.playerList.remove(player);
+                }
+                CacheManager.cacheManager.saveObjectCacheOnDisable(player, false);
             }
-            CacheManager.cacheManager.saveObjectCacheOnDisable(player, false);
+            if (CacheManager.cacheManager.serverCache != null) {
+                CacheManager.cacheManager.serverCache.shutCacheOnDisable(false);
+            }
+            CacheManager.cacheManager.shutdown();
+            ObjectMenu.commonMenus.clear();
+            ObjectMenu.notCommonMenuNames.clear();
+            new ConfigManager();
+            new ItemManager();
+            new LanguageManager();
+        } finally {
+            DatabaseExecutor.resume();
         }
-        if (CacheManager.cacheManager.serverCache != null) {
-            CacheManager.cacheManager.serverCache.shutCacheOnDisable(false);
-        }
-        CacheManager.cacheManager.shutdown();
-        TaskManager.taskManager.cancelTask();
-        ObjectMenu.commonMenus.clear();
-        ObjectMenu.notCommonMenuNames.clear();
-        new ConfigManager();
-        new ItemManager();
-        new LanguageManager();
         new CacheManager();
         new TaskManager();
+        AbstractManager.initializeManagers();
         LanguageManager.languageManager.sendStringText(sender, "plugin.reloaded");
     }
 }

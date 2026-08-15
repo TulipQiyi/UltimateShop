@@ -11,7 +11,12 @@ import java.util.List;
 public enum EditorScope {
 
     SHOP("shops", "Shop"),
-    MENU("menus", "Menu");
+    MENU("menus", "Menu"),
+    SHOP_MENU_TEMPLATE("shop_menu_templates", "Shop Menu Template"),
+    BUY_MORE_MENU("buy_more_menus", "Buy More Menu"),
+    FAVOURITE_MENU("favourite_menus", "Favourite Menu"),
+    SEARCH_MENU("search_menus", "Search Menu"),
+    ITEM_SELL_MENU("item_sell_menus", "Item Sell Menu");
 
     private final String folderName;
 
@@ -69,6 +74,21 @@ public enum EditorScope {
         }
         if (normalized.equals("menu") || normalized.equals("menus")) {
             return MENU;
+        }
+        if (normalized.equals("shop_menu_template") || normalized.equals("shop_menu_templates")) {
+            return SHOP_MENU_TEMPLATE;
+        }
+        if (normalized.equals("buy_more_menu") || normalized.equals("buy_more_menus")) {
+            return BUY_MORE_MENU;
+        }
+        if (normalized.equals("favourite_menu") || normalized.equals("favourite_menus")) {
+            return FAVOURITE_MENU;
+        }
+        if (normalized.equals("search_menu") || normalized.equals("search_menus")) {
+            return SEARCH_MENU;
+        }
+        if (normalized.equals("item_sell_menu") || normalized.equals("item_sell_menus")) {
+            return ITEM_SELL_MENU;
         }
         return null;
     }

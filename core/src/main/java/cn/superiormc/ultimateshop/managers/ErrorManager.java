@@ -4,7 +4,7 @@ import cn.superiormc.ultimateshop.UltimateShop;
 import cn.superiormc.ultimateshop.utils.SchedulerUtil;
 import cn.superiormc.ultimateshop.utils.TextUtil;
 
-public class ErrorManager {
+public class ErrorManager extends AbstractManager {
 
     public static ErrorManager errorManager;
 

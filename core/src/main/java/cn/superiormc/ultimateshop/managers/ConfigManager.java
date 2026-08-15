@@ -9,9 +9,13 @@ import cn.superiormc.ultimateshop.objects.buttons.AbstractButton;
 import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectConditionalPlaceholder;
 import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectCustomPlaceholder;
 import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectRandomPlaceholder;
+import cn.superiormc.ultimateshop.objects.items.pricemodifiers.PriceModifierChain;
+import cn.superiormc.ultimateshop.objects.items.pricemodifiers.PriceModifierRegistry;
 import cn.superiormc.ultimateshop.objects.menus.ObjectFavouriteMenu;
+import cn.superiormc.ultimateshop.objects.menus.ObjectItemSellMenu;
 import cn.superiormc.ultimateshop.objects.menus.ObjectMenu;
 import cn.superiormc.ultimateshop.objects.menus.ObjectSearchMenu;
+import cn.superiormc.ultimateshop.objects.menus.MenuType;
 import cn.superiormc.ultimateshop.utils.CommonUtil;
 import cn.superiormc.ultimateshop.utils.MathUtil;
 import cn.superiormc.ultimateshop.utils.TextUtil;
@@ -29,8 +33,12 @@ import java.util.*;
 
 import static cn.superiormc.ultimateshop.managers.SellChestManager.SELL_CHEST_ID;
 import static cn.superiormc.ultimateshop.objects.ObjectSellStick.SELL_STICK_ID;
+import static cn.superiormc.ultimateshop.objects.menus.ObjectMenu.COMMON_MENU_FOLDER;
+import static cn.superiormc.ultimateshop.objects.menus.ObjectMenu.FAVOURITE_MENU_FOLDER;
+import static cn.superiormc.ultimateshop.objects.menus.ObjectMenu.ITEM_SELL_MENU_FOLDER;
+import static cn.superiormc.ultimateshop.objects.menus.ObjectMenu.SEARCH_MENU_FOLDER;
 
-public class ConfigManager {
+public class ConfigManager extends AbstractManager {
 
     public static ConfigManager configManager;
 
@@ -54,10 +62,14 @@ public class ConfigManager {
 
     public Map<String, ObjectSellChest> sellChestMap = new HashMap<>();
 
+    private final PriceModifierChain sellPriceModifiers;
+
     public ConfigManager() {
         configManager = this;
         UltimateShop.instance.saveDefaultConfig();
         this.config = UltimateShop.instance.getConfig();
+        this.sellPriceModifiers = PriceModifierRegistry.createChain(
+                config.getConfigurationSection("sell.price-modifier"));
         loadEditorEnableConfirmConfig();
         if (!UltimateShop.freeVersion) {
             initSharedUseTimesConfigs();
@@ -75,6 +87,10 @@ public class ConfigManager {
             }
         }
         MathUtil.init();
+    }
+
+    public PriceModifierChain getSellPriceModifiers() {
+        return sellPriceModifiers;
     }
 
     private void initShopConfigs() {
@@ -116,7 +132,11 @@ public class ConfigManager {
     }
 
     private void initMenuConfigs() {
-        File dir = new File(UltimateShop.instance.getDataFolder(), "menus");
+        initTypedMenuConfigs(SEARCH_MENU_FOLDER, MenuType.Search);
+        initTypedMenuConfigs(FAVOURITE_MENU_FOLDER, MenuType.Favourite);
+        initTypedMenuConfigs(ITEM_SELL_MENU_FOLDER, MenuType.ItemSell);
+
+        File dir = new File(UltimateShop.instance.getDataFolder(), COMMON_MENU_FOLDER);
         if (!dir.exists()) {
             dir.mkdir();
         }
@@ -142,9 +162,38 @@ public class ConfigManager {
                     if (!UltimateShop.freeVersion) {
                         new ObjectFavouriteMenu(substring, menuConfig);
                     }
+                } else if (menuType.equalsIgnoreCase("item-sell") || menuType.equalsIgnoreCase("item_sell")) {
+                    new ObjectItemSellMenu(substring, menuConfig);
                 } else {
                     new ObjectMenu(substring, menuConfig);
                 }
+            }
+        }
+    }
+
+    private void initTypedMenuConfigs(String folderName, MenuType menuType) {
+        File dir = new File(UltimateShop.instance.getDataFolder(), folderName);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        if (UltimateShop.freeVersion && menuType != MenuType.ItemSell) {
+            return;
+        }
+        for (File file : CommonUtil.getYamlFiles(dir)) {
+            String fileName = file.getName();
+            if (!fileName.endsWith(".yml")) {
+                continue;
+            }
+            String id = fileName.substring(0, fileName.length() - 4);
+            if (ObjectMenu.commonMenus.containsKey(id)) {
+                continue;
+            }
+            YamlConfiguration menuConfig = YamlConfiguration.loadConfiguration(file);
+            switch (menuType) {
+                case Search -> new ObjectSearchMenu(id, menuConfig);
+                case Favourite -> new ObjectFavouriteMenu(id, menuConfig);
+                case ItemSell -> new ObjectItemSellMenu(id, menuConfig);
+                default -> new ObjectMenu(id, menuConfig);
             }
         }
     }

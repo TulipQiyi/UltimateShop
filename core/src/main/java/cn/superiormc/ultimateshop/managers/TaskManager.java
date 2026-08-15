@@ -9,7 +9,7 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public class TaskManager {
+public class TaskManager extends AbstractManager {
 
     public static TaskManager taskManager;
 
@@ -66,5 +66,15 @@ public class TaskManager {
         if (sellChestTask != null) {
             sellChestTask.cancel();
         }
+    }
+
+    @Override
+    public void onPluginReload() {
+        cancelTask();
+    }
+
+    @Override
+    public void onPluginDisable() {
+        cancelTask();
     }
 }

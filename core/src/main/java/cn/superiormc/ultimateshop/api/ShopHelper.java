@@ -280,25 +280,113 @@ public class ShopHelper {
     }
 
     public static double getSellMultiplier(Player player, @Nullable ObjectItem item) {
-        if (player == null || UltimateShop.freeVersion) {
+        ConfigurationSection multiplierSection = getSellMultiplierSection(player, item);
+        if (multiplierSection == null) {
             return 1D;
+        }
+
+        return getConditionalSellMultiplier(player, multiplierSection);
+    }
+
+    public static BigDecimal getSellMultiplier(Player player,
+                                               @Nullable ObjectItem item,
+                                               ItemStack itemStack,
+                                               BigDecimal basePrice) {
+        return getSellMultiplier(player, item, itemStack, basePrice, 1);
+    }
+
+    public static BigDecimal getSellMultiplier(Player player,
+                                               @Nullable ObjectItem item,
+                                               ItemStack itemStack,
+                                               BigDecimal basePrice,
+                                               int tradeAmount) {
+        BigDecimal conditionalMultiplier = BigDecimal.valueOf(getSellMultiplier(player, item));
+        if (item == null || !item.isPriceModifierEnabled()
+                || itemStack == null || itemStack.getType().isAir()) {
+            return conditionalMultiplier;
+        }
+        BigDecimal modifierMultiplier = ConfigManager.configManager.getSellPriceModifiers().getMultiplier(
+                player, itemStack, basePrice.max(BigDecimal.ZERO).multiply(conditionalMultiplier), tradeAmount);
+        return conditionalMultiplier.multiply(modifierMultiplier).max(BigDecimal.ZERO);
+    }
+
+    public static double getSellMultiplier(Player player,
+                                           ObjectItem item,
+                                           ItemStorage storage,
+                                           int playerUseTimes,
+                                           int tradeAmount,
+                                           BigDecimal basePrice) {
+        BigDecimal conditionalMultiplier = BigDecimal.valueOf(getSellMultiplier(player, item));
+        if (!item.isPriceModifierEnabled()
+                || storage == null || tradeAmount <= 0 || basePrice.compareTo(BigDecimal.ZERO) <= 0
+                || ConfigManager.configManager.getSellPriceModifiers().getModifiers().isEmpty()) {
+            return conditionalMultiplier.doubleValue();
+        }
+
+        int remaining = tradeAmount;
+        int processed = 0;
+        BigDecimal processedBasePrice = BigDecimal.ZERO;
+        BigDecimal modifiedBasePrice = BigDecimal.ZERO;
+        for (ItemStack itemStack : storage.getStorageContents()) {
+            if (remaining <= 0) {
+                break;
+            }
+            if (itemStack == null || itemStack.getType().isAir()) {
+                continue;
+            }
+
+            ItemStorage stackStorage = ItemStorage.of(new ItemStack[]{itemStack});
+            MaxSellResult stackResult = item.getReward().getMaxAbleSellAmount(
+                    stackStorage, player, playerUseTimes + processed, remaining);
+            int stackTradeAmount = Math.min(remaining, stackResult.getMaxAmount());
+            if (stackTradeAmount <= 0) {
+                continue;
+            }
+
+            GiveResult stackPrice = item.getRawSellPrice().give(
+                    player, playerUseTimes + processed, stackTradeAmount);
+            BigDecimal stackBasePrice = sumPrices(stackPrice.getResultMap());
+            BigDecimal modifierMultiplier = ConfigManager.configManager.getSellPriceModifiers().getMultiplier(
+                    player, itemStack, stackBasePrice.multiply(conditionalMultiplier), stackTradeAmount);
+            processedBasePrice = processedBasePrice.add(stackBasePrice);
+            modifiedBasePrice = modifiedBasePrice.add(stackBasePrice.multiply(modifierMultiplier));
+            processed += stackTradeAmount;
+            remaining -= stackTradeAmount;
+        }
+
+        BigDecimal unprocessedBasePrice = basePrice.subtract(processedBasePrice).max(BigDecimal.ZERO);
+        BigDecimal adjustedBasePrice = modifiedBasePrice.add(unprocessedBasePrice);
+        return conditionalMultiplier.multiply(adjustedBasePrice)
+                .divide(basePrice, 12, java.math.RoundingMode.HALF_UP)
+                .max(BigDecimal.ZERO)
+                .doubleValue();
+    }
+
+    @Nullable
+    private static ConfigurationSection getSellMultiplierSection(Player player, @Nullable ObjectItem item) {
+        if (player == null || UltimateShop.freeVersion) {
+            return null;
         }
 
         ConfigurationSection multiplierSection = ConfigManager.configManager.getSection("sell.multiplier");
         if (multiplierSection == null || !multiplierSection.getBoolean("enabled")) {
-            return 1D;
+            return null;
         }
 
         if (item != null) {
             if (multiplierSection.getStringList("black-shops").contains(item.getShop())) {
-                return 1D;
+                return null;
             }
             if (multiplierSection.getBoolean("black-dynamic-price", true)
-                    && item.getSellPrice().singlePrices.stream().anyMatch(price -> !price.isStatic())) {
-                return 1D;
+                    && item.getRawSellPrice().singlePrices.stream().anyMatch(price -> !price.isStatic())) {
+                return null;
             }
         }
 
+        return multiplierSection;
+    }
+
+    private static double getConditionalSellMultiplier(Player player, ConfigurationSection multiplierSection) {
         ConfigurationSection valueSection = multiplierSection.getConfigurationSection("value");
         if (valueSection == null) {
             return 1D;
@@ -324,6 +412,13 @@ public class ShopHelper {
             result = Math.max(result, value);
         }
         return result;
+    }
+
+    private static BigDecimal sumPrices(Map<AbstractSingleThing, BigDecimal> prices) {
+        if (prices == null) {
+            return BigDecimal.ZERO;
+        }
+        return prices.values().stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public static boolean isSellMultiplierActive(Player player, String key) {

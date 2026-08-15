@@ -80,7 +80,9 @@ public class DialogShopGUI extends DialogGUI {
         ObjectDisplayItemStack display = button.getDisplayItem(player, 1);
         DialogAction action = display.parseToDialogButton("slot_" + slot, response -> {
             if (button instanceof ObjectItem item) {
-                new DialogInfoGUI(player, item).openGUI(true);
+                if (!item.openPriceModifierMenu(player)) {
+                    new DialogInfoGUI(player, item).openGUI(true);
+                }
             } else {
                 button.clickEvent(ClickType.LEFT, player);
             }

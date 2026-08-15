@@ -1,0 +1,1237 @@
+error:
+  product-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť produkt {product}!"
+  shop-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť obchod {shop}!"
+  player-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť hráča {player}!"
+  item-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť predajný lístok {item}!"
+  save-item-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť uloženú položku s názvom {item}!"
+  args: "&#98FB98[UltimateShop] &cNesprávne použitie príkazu, ak potrebujete pomoc, použite /shop help!"
+  in-game: "&#98FB98[UltimateShop] &cTento príkaz musíte použiť v hre!"
+  miss-permission: "&#98FB98[UltimateShop] &cNemáte oprávnenie použiť tento príkaz!"
+  menu-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť menu: {menu}!"
+  buy-more-menu-direct-open: "&#98FB98[UltimateShop] &cToto menu je menu pre nákup viac položiek a nemôže sa otvoriť priamo!"
+  shop-menu-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť menu obchodu {shop}: {menu}!"
+  shop-does-not-have-menu: "&#98FB98[UltimateShop] &cObchod {shop} nemá platné menu!"
+  random-placeholder-not-found: "&#98FB98[UltimateShop] &cNemôžeme nájsť náhodnú premennú: {placeholder}!"
+
+  custom-placeholder-not-found: "&#98FB98[UltimateShop] &cVlastný zástupný symbol {placeholder} sa nenašiel!"
+  custom-placeholder-invalid-number: "&#98FB98[UltimateShop] &cHodnota vlastného zástupného symbolu musí byť číslo: {value}!"
+  custom-placeholder-player-arg-required: "&#98FB98[UltimateShop] &cVlastný zástupný symbol {placeholder} obsahuje údaje jednotlivých hráčov; musíte zadať hráča!"
+  random-placeholder-player-arg-required: "&#98FB98[UltimateShop] &cNáhodný zástupný symbol {placeholder} obsahuje údaje jednotlivých hráčov; musíte zadať hráča!"
+  result-empty: "&#98FB98[UltimateShop] &cZdá sa, že tento predmet v obchode neexistuje!"
+  favourite-empty: "&#98FB98[UltimateShop] &cTáto ponuka obľúbených zatiaľ neobsahuje žiadne produkty!"
+  favourite-not-allowed: "&#98FB98[UltimateShop] &cProdukt {item} nemožno pridať medzi obľúbené."
+  favourite-limit-reached: "&#98FB98[UltimateShop] &cPonuka obľúbených {menu} je plná. Limit: {limit}."
+plugin:
+  reloading: "&#98FB98[UltimateShop] &fPokúšame sa znova načítať plugin, server môže mať pokles TPS alebo dokonca zlyhať, ak máte veľa obchodných produktov a online hráčov, pretože sa snažíme uložiť ich údaje na hlavné vlákno servera. Odporúčame reštartovať server namiesto opätovného načítania pluginu, aby sa údaje bezpečne uložili."
+  reloaded: "&#98FB98[UltimateShop] &fPlugin bol znova načítaný!"
+  reload-close-gui: "&#98FB98[UltimateShop] &fVaše GUI bolo zatvorené, pretože správca servera sa pokúša znova načítať plugin!"
+  saved: "&#98FB98[UltimateShop] &fPoložka bola uložená!"
+  generated: "&#98FB98[UltimateShop] &fGenerovaný formát položky držiacej v konfigurácii pluginu, skopírujte ho do svojho menu alebo konfigurácií obchodu!"
+
+  search: |
+    &#98FB98&lUltimateShop &7Vyhľadávanie Výsledok
+    &fCieľový Predmet: {item-name} v obchod {shop} &7(/shop ponuka {shop})
+    &fKúpiť Cena: {buy-price}
+    &fPredať Cena: {sell-price}
+  search-gui-name-input: "&fDo chatu napíšte názov predmetu, ktorý chcete vyhľadať. Zadaním {value} filter názvu odstránite."
+  search-gui-name-empty: "Žiadny"
+  item-sell-no-price: "&cNič na predaj"
+  item-sell-nothing: "&#98FB98[UltimateShop] &cV tejto ponuke nie sú žiadne predajné predmety."
+placeholderapi:
+  unknown-shop: "Neznámy Obchod"
+  unknown-product: "Neznámy Produkt"
+
+command-tab:
+  unknown-shop: "[Neznámy Obchod]"
+  unknown-random-placeholder: "[Neznáma Náhodná Premenná]"
+  type-item-id: "[Zadajte ID položky, ktorú chcete]"
+
+  unknown-custom-placeholder: "[Neznámy vlastný zástupný symbol]"
+help:
+  main: |
+    &#98FB98&lUltimateShop &7Vytvorené @PQguanfang &8‖ &7Slovenský preklad by Loding (@lodxng)
+    &f/shop help &7- Zobraziť pomoc.
+    &f/shop menu <menuName> &7- Otvoriť zadané bežné menu.
+    &f/shop menu <shopName> &7- Otvoriť menu zadaného obchodu.
+    &f/shop sellall &7- Otvoriť menu predať všetko.
+  main-admin: |
+    &#98FB98&lUltimateShop &7Vytvorené @PQguanfang &8‖ &7Slovenský preklad by Loding (@lodxng)
+    &f/shop help &7- Zobraziť pomoc.
+    &f/shop menu <menuName> &7- Otvoriť zadané bežné menu.
+    &f/shop menu <shopName> &7- Otvoriť menu zadaného obchodu.
+    &f/shop quickbuy <shopName> <itemName> &7- Rýchly nákup zadaného produktu bez otvorenia menu.
+    &f/shop quicksell <shopName> <itemName> &7- Rýchly predaj zadaného produktu bez otvorenia menu.
+    &f/shop reload &7- Znovu načítať plugin.
+    &f/shop sellall &7 - Otvoriť menu predať všetko.
+    &f/shop setbuytimes <shopName> <itemName> <playerName> [amount] &7- Nastaviť počet nákupov.
+    &f/shop setselltimes <shopName> <itemName> <playerName> [amount] &7- Nastaviť počet predajov.
+    &f/shop addbuytimes <shopName> <itemName> <playerName> <amount> &7- Pridať počet nákupov.
+    &f/shop addselltimes <shopName> <itemName> <playerName> <amount> &7- Pridať počet predajov.
+    &f/shop resetrandomplaceholder <placeholderID> &7- Resetovať hodnotu náhodnej premennej. &c(Premium)
+    &f/shop setrandomplaceholder <placeholderID> [element] &7- Nastaviť hodnotu náhodnej premennej. &c(Premium)
+    &f/shop getplaceholdervalue <text> &7- Spracovať vstupný text. &c(Premium)
+    &f/shop saveitem <itemID> &7- Uložiť držiacu položku.
+    &f/shop generateitemformat &7- Spracovať držiacu položku na ItemFormat.
+    &f/shop givesellstick <itemID> <playerID> [amount] &7- Dať predajný lístok. &c(Premium)
+  main-console: |
+    &#98FB98&lUltimateShop &7Vytvorené @PQguanfang &8‖ &7Slovenský preklad by Loding (@lodxng)
+    &f/shop help &7- Zobraziť pomoc.
+    &f/shop menu <menuName> <playerName> &7- Nasilu otvoriť zadané bežné menu.
+    &f/shop menu <shopName> <playerName> &7- Nasilu otvoriť menu zadaného obchodu.
+    &f/shop reload &7- Znovu načítať plugin.
+    &f/shop setbuytimes <shopName> <itemName> <playerName> [amount] &7- Nastaviť počet nákupov.
+    &f/shop setselltimes <shopName> <itemName> <playerName> [amount] &7- Nastaviť počet predajov.
+    &f/shop addbuytimes <shopName> <itemName> <playerName> <amount> &7- Pridať počet nákupov.
+    &f/shop addselltimes <shopName> <itemName> <playerName> <amount> &7- Pridať počet predajov.
+    &f/shop resetrandomplaceholder <placeholderID> &7- Resetovať hodnotu náhodnej premennej. &c(Premium)
+    &f/shop setrandomplaceholder <placeholderID> [element] &7- Nastaviť hodnotu náhodnej premennej. &c(Premium)
+    &f/shop getplaceholdervalue <text> &7- Spracovať vstupný text. &c(Premium)
+    &f/shop givesellstick <itemID> <playerID> [amount] &7- Dať predajný lístok. &c(Premium)
+
+inventory-full: "&#98FB98[UltimateShop] &fNemôžete dokončiť tento preklad, pretože váš inventár bude plný po preklade!"
+start-sell-all: "&#98FB98[UltimateShop] &fVšetky vaše {amount}x predajné položky boli predané, získali ste {reward} za to!"
+start-sell-stick: "&#98FB98[UltimateShop] &fVšetky predajné predmety v tomto kontajneri boli predané; získali ste {reward} s násobiteľom {multiplier}!"
+give-sell-stick: "&#98FB98[UltimateShop] &fDajte {player} predajný lístok {item} x{amount}!"
+give-save-item: "&#98FB98[UltimateShop] &fDajte {player} uloženú položku {item} x{amount}!"
+add-times: "&#98FB98[UltimateShop] &fPridané {times} do počtu použitia {item} hráča {player}!"
+set-times: "&#98FB98[UltimateShop] &fNastavený počet použitia {item} hráča {player} na {times}!"
+add-times-shop: "&#98FB98[UltimateShop] &fPridané {times} do počtu použitia všetkých produktov obchodu {shop} hráča {player}!"
+set-times-shop: "&#98FB98[UltimateShop] &fNastavený počet použitia všetkých produktov obchodu {shop} hráča {player} na {times}!"
+success-buy: "&#98FB98[UltimateShop] &fÚspešne zakúpené {item}x{amount}, cena {price}!"
+success-sell: "&#98FB98[UltimateShop] &fÚspešne ste predali {item}&fx{amount}, získali ste {price} &fs násobiteľom &cx{multiplier}!"
+menu-condition-not-meet: "&#98FB98[UltimateShop] &cNesplnili ste podmienku na otvorenie tohto menu!"
+buy-condition-not-meet: "&#98FB98[UltimateShop] &cNesplnili ste podmienku na nákup tohto produktu!"
+sell-condition-not-meet: "&#98FB98[UltimateShop] &cNesplnili ste podmienku na predaj tohto produktu!"
+limit-reached-buy-player: "&#98FB98[UltimateShop] &cNemôžete už viac zakúpiť položku {item}, dnes ste ju zakúpili {times} krát, a jej denný limit je {limit} pre vás, ďalší čas obnovenia: {refresh}."
+limit-reached-sell-player: "&#98FB98[UltimateShop] &cNemôžete už viac predať položku {item}, dnes ste ju predali {times} krát, a jej denný limit je {limit} pre vás, ďalší čas obnovenia: {refresh}."
+limit-reached-buy-server: "&#98FB98[UltimateShop] &cNemôžete už viac zakúpiť položku {item}, všetci hráči ju dnes kúpili {times} krát, a jej denný limit je {limit}, ďalší čas obnovenia: {refresh}."
+limit-reached-sell-server: "&#98FB98[UltimateShop] &cNemôžete už viac predať položku {item}, všetci hráči ju dnes predali {times} krát, a jej denný limit je {limit}, ďalší čas obnovenia: {refresh}."
+buy-price-not-enough: "&#98FB98[UltimateShop] &cNemáte dostatok peňazí na nákup {item}. Požadovaná cena: {price}."
+sell-products-not-enough: "&#98FB98[UltimateShop] &cNemáte dostatok {item} na predaj."
+parsed-value: "&#98FB98[UltimateShop] &fSpracovaná hodnota: {text}"
+reset-random-placeholder: "&#98FB98[UltimateShop] &fÚspešne resetovaná náhodná premenná {placeholder} a jej nová hodnota je {value}."
+set-random-placeholder: "&#98FB98[UltimateShop] &fÚspešne nastavená nová hodnota náhodnej premennej {placeholder} na: {value}. Upozorňujeme, že čas obnovenia sa nezmení!"
+gui-updated: "&#98FB98[UltimateShop] &fGUI bolo aktualizované pre hráča {player}!"
+gui-not-opened: "&#98FB98[UltimateShop] &c{player} neotvoril žiadne GUI!"
+
+override-lang:
+  shop-title: 'Obchod s predmetmi'
+  buy-more-title: 'Vybrať množstvo'
+  buy-more-add-1: '&7Kliknite pre pridanie 1 navyše.'
+  buy-more-add-10: '&7Kliknite pre pridanie 10 navyše.'
+  buy-more-add-32: '&7Kliknite pre pridanie 32 navyše.'
+  buy-more-reduce-1: '&7Kliknite pre odobratie 1.'
+  buy-more-reduce-10: '&7Kliknite pre odobratie 10.'
+  buy-more-reduce-32: '&7Kliknite pre odobratie 32.'
+  buy-more-buy-button: '&a&lKLIKNITE PRE KÚPU'
+  buy-more-sell-button: '&c&lKLIKNITE PRE PREDAJ'
+  buy-more-buy-button-lore-1: '&aKliknite na potvrdenie a kúpu'
+  buy-more-buy-button-lore-2: '&avybrané množstvo.'
+  buy-more-sell-button-lore-1: '&cKliknite na potvrdenie a predaj'
+  buy-more-sell-button-lore-2: '&cvybrané množstvo.'
+  back-button: '&c« Späť'
+  close-button: '&cZavrieť toto menu'
+  next-page-button: '&cĎalšia stránka »'
+  previous-page-button: '&c« Predchádzajúca stránka'
+  welcome-message: '&fVitajte v obchode.'
+  farming-name: '&a&lFARMARENIE'
+  farming-lore-1: '&7Predávajte a kupujte rôzne predmety'
+  farming-lore-2: '&7napríklad semená.'
+  drops-name: '&b&lDROPY'
+  drops-lore-1: '&7Predávajte a kupujte súvisiace predmety'
+  drops-lore-2: '&7na dropy mobov, ako sú povrázky.'
+  concretes-name: '&a&lBETÓNY'
+  concretes-lore-1: '&7Predávajte a kupujte betónové bloky'
+  concretes-lore-2: '&7a všetky ich farebné varianty.'
+  flowers-name: '&a&lKVETY'
+  flowers-lore-1: '&7Predávajte a kupujte mnoho druhov'
+  flowers-lore-2: '&7kvety v tejto sekcii.'
+  logs-name: '&a&lKLÁTY A SADENICE'
+  logs-lore-1: '&7Predávajte a kupujte všetky varianty z nadsveta'
+  logs-lore-2: '&7kláty a ich sadenice.'
+  minerals-name: '&a&lMINERÁLY'
+  minerals-lore-1: '&7Predávajte a kupujte rôzne minerály'
+  minerals-lore-2: '&7napríklad diamant, železo a ďalšie.'
+  blocks-name: '&a&lBLOKY'
+  blocks-lore-1: '&7Predávajte a kupujte rôzne typy'
+  blocks-lore-2: '&7rôznych blokov.'
+  terracotta-name: '&a&lTERAKOTA'
+  terracotta-lore-1: '&7Predať and buy blocks of terracotta'
+  terracotta-lore-2: '&7a všetky ich farebné varianty.'
+  glass-name: '&7&lSKLO'
+  glass-lore-1: '&7Predávajte a kupujte sklenené bloky a tabule'
+  glass-lore-2: '&7a všetky ich farebné varianty.'
+  wool-name: '&a&lVLNA'
+  wool-lore-1: '&7Predávajte a kupujte vlnené bloky'
+  wool-lore-2: '&7a všetky ich farebné varianty.'
+  special-items-name: '&d&lŠPECIÁLNE PREDMETY'
+  special-items-lore-1: '&7Predávajte a kupujte niektoré špeciálne'
+  special-items-lore-2: '&7alebo vzácne predmety.'
+  redstone-name: '&c&lREDSTONE'
+  redstone-lore-1: '&7Predávajte a kupujte všetko súvisiace'
+  redstone-lore-2: '&7súvisiace s redstone, ako komparátory.'
+  fish-name: '&9&lRYBÍ OBCHOD'
+  fish-lore-1: '&7Predávajte alebo kupujte rôzne surové ryby'
+  fish-lore-2: '&7alebo uvarené ryby.'
+  transports-name: '&a&lDOPRAVA'
+  transports-lore-1: '&7Niektoré veci súvisiace s'
+  transports-lore-2: '&7doprava, ako koľaje.'
+  blocks-shop-name: 'Obchod s blokmi'
+  concretes-shop-name: 'Obchod s betónom'
+  drops-shop-name: 'Obchod s dropmi'
+  farming-shop-name: 'Farmársky obchod'
+  fish-shop-name: 'Rybí obchod'
+  flowers-shop-name: 'Obchod s kvetmi'
+  glass-shop-name: 'Obchod so sklom'
+  logs-shop-name: 'Obchod s klátmi'
+  minerals-shop-name: 'Obchod s minerálmi'
+  redstone-shop-name: 'Redstone obchod'
+  special-items-shop-name: 'Obchod so špeciálnymi predmetmi'
+  terracotta-shop-name: 'Terakotový obchod'
+  wools-shop-name: 'Obchod s vlnou'
+  daily-shop-name: 'Denný obchod (vyžaduje PREMIUM)'
+  transport-shop-name: 'Dopravný obchod'
+  menu:
+    sell-all:
+      title: '&fpredať všetko &7- Esc do potvrdiť predať!'
+    bedrock:
+      price-extra-line:
+        default: '&6Kúpiť: {buy-price} &6| Predať: {sell-price}'
+        only-buy: '&6Kúpiť: {buy-price}'
+        only-sell: '&6Predať: {sell-price}'
+      buy-or-sell:
+        title: 'Vybrať Množstvo: {item-name}'
+        buttons:
+          amount:
+            name: 'Množstvo'
+            tip: 'Sem zadajte množstvo!'
+      info:
+        title: 'Informácie o produkte: {item-name} x{amount}'
+        buttons:
+          buy: 'Kúpiť'
+          sell: 'Predať'
+          buy-more: 'Vybrať množstvo'
+          sell-all: 'Predať všetko'
+          back: '&cSpäť'
+      favourite-edit:
+        title: 'Upraviť Obľúbené: {item-name}'
+        content: '&7Vyberte ako do upraviť obľúbené položka #{index}.'
+        buttons:
+          forward: '&ePresunúť Dopredu'
+          backward: '&ePresunúť Dozadu'
+          remove: '&cOdstrániť'
+          back: '&7Späť'
+    prompt:
+      cancel-keyword: 'zrušiť'
+    search-gui:
+      title: '&8Produkt Vyhľadávanie'
+      prompt:
+        clear-keyword: 'vymazať'
+    favourite:
+      title: '&8Obľúbené Zoznam'
+      content: '&7Uložiť daný produkty vy obchodovať najčastejšie často a zachovať ich na jedno kliknutie.'
+    dialog:
+      default-button: 'OK'
+      search:
+        input: 'Vyhľadávanie'
+        buttons:
+          search: 'Vyhľadávanie'
+      buy-more:
+        title: 'Vybrať Množstvo: {item-name}'
+        input: 'Množstvo'
+        buttons:
+          confirm: 'Potvrdiť'
+      info:
+        title: 'Produkt Informácie: {item-name} x{amount}'
+        buttons:
+          buy: 'Kúpiť'
+          sell: 'Predať'
+          buy-more: 'Vybrať Množstvo'
+          sell-all: 'predať všetko'
+          back: '&cSpäť'
+      favourite-edit:
+        title: 'Upraviť Obľúbené: {item-name}'
+        content: '&7Vyberte ako do upraviť obľúbené položka #{index}.'
+        buttons:
+          forward: '&ePresunúť Dopredu'
+          backward: '&ePresunúť Dozadu'
+          remove: '&cOdstrániť'
+          back: '&7Späť'
+  placeholder:
+    compare:
+      up: '↑'
+      down: '↓'
+      same: '-'
+    cron:
+      format: "yyyy-MM-dd HH:mm:ss"
+    refresh:
+      format: "yyyy-MM-dd HH:mm:ss"
+      never: "Nikdy"
+    next:
+      with-day-format: "{d}d {h}h {m}m {s}s"
+      without-day-format: "{h}h {m}m {s}s"
+      never: "Čaká sa na ďalšie obnovenie"
+    price:
+      split-symbol-any: ', '
+      split-symbol-all: ', '
+      replace-new-line-symbol: ', '
+      unknown: "Neznáme"
+      unknown-price-type: "Neznámy typ ceny"
+      empty: "Cena je prázdna!"
+    click:
+      buy: '&#FFFACDKliknite ľavým na nákup!'
+      sell: '&#FFFACDKliknite pravým na predaj!'
+      buy-with-no-sell: '&#FFFACDKliknite na nákup!'
+      sell-with-no-buy: '&#FFFACDKliknite na predaj!'
+      buy-max-limit-player: '&#ff3300Nemôžete kúpiť viac!'
+      buy-max-limit-server: '&#ff3300VYPREDANÉ!'
+      sell-max-limit-player: '&#ff3300Nie je možné predať viac!'
+      sell-max-limit-server: '&#ff3300TENTO PREDMET NIE JE MOŽNÉ PREDAŤ!'
+      buy-price-not-enough: '&#ff3300Nemáte dosť peňazí na nákup!'
+      sell-price-not-enough: '&#ff3300Nemáte dosť predmetov na predaj!'
+      error: '&#ff3300Chyba!'
+      buy-condition-not-meet: '&#ff3300Nespĺňa podmienku nákupu!'
+      sell-condition-not-meet: '&#ff3300Nespĺňa podmienku predaja!'
+    sell-stick:
+      infinite: "&cNekonečno"
+  display-item:
+    add-lore:
+    - '@n@y '
+    - '@a&eNákup: {buy-price}'
+    - '@b(@z[rich])&ePredať: {sell-price}'
+    - '@b@z[rich]&ePredať: {sell-price} &8(Tax:&c -10%&8)'
+    - '@b@z[vip]&6VIP Bonus:&a +10%'
+    - '@c&#FF7777Hráč Kúpiť Zásoba: {buy-times-player}/{buy-limit-player}'
+    - '@d&#FF7777Server Kúpiť Zásoba: {buy-times-server}/{buy-limit-server}'
+    - '@e&#FF7777Hráč Predať Obmedzenie: {sell-times-player}/{sell-limit-player}'
+    - '@f&#FF7777Server Predať Obmedzenie: {sell-times-server}/{sell-limit-server}'
+    - '@g '
+    - '@g&#ff3300cCan ne kúpiť viac!'
+    - '@g&8Obnoviť Čas: {buy-refresh-player}'
+    - '@i '
+    - '@i&#ff3300Predaný Preč!'
+    - '@i&8Obnoviť Čas: {buy-refresh-server}'
+    - '@h '
+    - '@h&#ff3300nemožno predať viac!'
+    - '@h&8Obnoviť Čas: {sell-refresh-player}'
+    - '@j'
+    - '@j&#ff3300nemožno predať viac pre server!'
+    - '@j&8Obnoviť Čas: {sell-refresh-server}'
+    - '@n@y '
+    - '@a@u@y{buy-click}'
+    - '@b@v@y{sell-click}'
+    - '@k@q@y&#FFFACDPravé-Shift kliknutím pick množstvo!'
+    - '@l(@o)@y(@w)&#FFFACDSwap hand (F Key) do pridať obľúbené!'
+    - '@m@v@y(@w)&#FFFACDDrop (Q key) do predať všetko!'
+    - '(@n)&c&l:( nemožno vykonať tento'
+    - '(@a)@u@p&cTento predmet nemožno byť zakúpený'
+    - '(@b)@v@p&cTento predmet nemožno byť predaný'
+
+  item-sell-title: 'Predať predmety'
+  item-sell-confirm-name: '&aPotvrdiť predaj'
+  item-sell-confirm-price: '&7Cena: &f{price}'
+  item-sell-confirm-original-price: '&7Pôvodná cena: &f{original-price}'
+  item-sell-confirm-multiplier: '&7Konečný násobiteľ: &fx{multiplier}'
+  item-sell-confirm-amount: '&7Predajné predmety: &f{item-amount}'
+  item-sell-confirm-unsellable: '&7Nepredajné predmety: &f{unsellable-amount}'
+  item-sell-confirm-click: '&aKliknutím predáte vyššie uvedené predmety.'
+  search-gui-guide-name: '&efiltre vyhľadávania'
+  search-gui-guide-line-1: '&7Umiestniť predmety v daný pozície nižšie'
+  search-gui-guide-line-2: '&7alebo typ jeden produkt názov v chate.'
+  search-gui-guide-line-3: '&7Použiť tento ponuka do rýchlo nájsť'
+  search-gui-guide-line-4: '&7zodpovedajúce produkty naprieč vaše obchody.'
+  search-gui-clear-name: '&cObnoviť Vyhľadávanie'
+  search-gui-clear-line-1: '&7Vrátiť všetko filter predmety a vymazať daný názov vyhľadávanie.'
+  search-gui-empty-name: '&eZačať jeden Vyhľadávanie'
+  search-gui-empty-line-1: '&7Umiestniť predmety do daný filter pozície nižšie.'
+  search-gui-empty-line-2: '&7Alebo použiť daný násypku vyššie do vyhľadávanie podľa názov.'
+  search-gui-state-name: '&aVyhľadávanie Prehľad'
+  search-gui-state-line-1: '&7Nájdené produkty: &f{result-amount}'
+  search-gui-state-line-2: '&7Zobrazené &f{showing-amount} &7výsledky z &f{input-amount} &7filtre.'
+  search-gui-state-line-3: '&7Názov filter: &f{name-keyword}'
+  search-gui-no-result-name: '&cžiadne zodpovedajúce produkty'
+  search-gui-no-result-line-1: '&7Nič v daný predvolené obchody zodpovedá'
+  search-gui-no-result-line-2: '&7daný aktuálny predmety alebo názov filter.'
+  search-gui-result-shop: '&8Obchod: &f{shop}'
+  search-gui-result-product: '&8Produkt: &f{product}'
+  search-gui-result-click: '&7kliknutím obchodovať tento produkt.'
+  favourite-empty-name: '&7prázdna pozícia obľúbených'
+  favourite-empty-line-1: '&7Uložiť produkty sem z akékoľvek ponuka obchodu.'
+  favourite-empty-line-2: '&7Použiť režim úprav do zoradiť alebo odstrániť položky.'
+  favourite-result-shop: '&8Obchod: &f{shop}'
+  favourite-result-product: '&8Produkt: &f{product}'
+  favourite-result-click: '&7kliknutím obchodovať tento produkt.'
+  favourite-result-enter-edit: '&7Použiť daný tlačidlo nižšie do zadajte režim úprav.'
+  favourite-result-edit-forward: '&7Ľavé-kliknúť: presunúť tento položka dopredu.'
+  favourite-result-edit-backward: '&7Pravé-kliknúť: presunúť tento položka dozadu.'
+  favourite-result-edit-remove: '&7Stlačte Q: odstrániť túto položka.'
+  edit-mode-enable-name: '&ePovoliť režim úprav'
+  edit-mode-enable-line-1: '&7Zmeniť poradie alebo odstrániť uložené produkty.'
+  edit-mode-disable-name: '&aopustiť režim úprav'
+  edit-mode-disable-line-1: '&7vrátiť sa k bežnému klikaniu a znova obchodovať.'
+  add-favourite-action: 'Pridať Obľúbené'
+  search-menu-button-name: '&bProdukt Vyhľadávanie'
+  search-menu-button-line-1: '&7Vyhľadávanie podľa predmet alebo podľa názov.'
+  search-menu-button-line-2: '&7Užitočné keď vaše obchod rastie veľký.'
+  favourite-menu-button-name: '&dObľúbené Zoznam'
+  favourite-menu-button-line-1: '&7Zachovať vaše najčastejšie-použitá produkty'
+  favourite-menu-button-line-2: '&7v jedna ponuke rýchleho prístupu.'
+  sell-all-menu-button-name: '&6predať všetko'
+  sell-all-menu-button-line-1: '&7otvoriť hromadný predať ponuka pre'
+  sell-all-menu-button-line-2: '&7vaše aktuálny inventár obsah.'
+  sell:
+    sell-chest:
+      price-empty: 'Žiadny predať história'
+editor:
+  scope:
+    shop: 'Obchod'
+    menu: 'Ponuka'
+    shop_menu_template: 'šablóna ponuky obchodu'
+    buy_more_menu: 'kúpiť viac Ponuka'
+    favourite_menu: 'ponuka obľúbených'
+    search_menu: 'ponuka vyhľadávania'
+    item_sell_menu: 'ponuka predaja predmetov'
+  common:
+    root: 'koreň'
+    back:
+      name: '&eSpäť'
+      desc: '&7vrátiť sa na daný predchádzajúci obrazovku'
+    refresh:
+      name: '&eObnoviť'
+    reload:
+      name: '&aznova načítať plugin'
+    clear:
+      name: '&cVymazať'
+      desc: '&7odstrániť túto hodnota'
+    enabled: 'povolené'
+    disabled: 'vypnuté'
+    previous-page:
+      name: '&epredchádzajúca stránka'
+      desc: '&7prejsť na daný predchádzajúca stránka'
+    next-page:
+      name: '&eďalšia stránka'
+      desc: '&7prejsť na daný ďalšia stránka'
+  action:
+    open: '&aĽavé kliknutie na otvorenie'
+    edit: '&aĽavé kliknutie na úpravu'
+    delete: '&cPravé kliknutie na odstránenie'
+    toggle: '&aĽavé kliknutie na prepnutie'
+    cycle: '&aĽavé kliknutie na prepínanie'
+    cycle-back: '&aShift+ľavé kliknutie na prepínanie dozadu'
+    cycle-action: '&aĽavé kliknutie na zmenu typu akcie'
+    cycle-condition: '&aĽavé kliknutie na zmenu typu podmienky'
+    increase-ten: '&akliknutie ľavým do pridať 10'
+    decrease-ten: '&ckliknutie pravým do odobrať 10'
+    increase-one: '&aShift + ľavé tlačidlo do pridať 1'
+    decrease-one: '&cShift + pravé tlačidlo do odobrať 1'
+    middle-clear: '&ekliknutie stredným do vymazať'
+    read-only: '&7Súhrn len na čítanie'
+  summary:
+    type: '&7Aktuálny Typ: &f{value}'
+    section: 'Sekcia'
+    list: 'Zoznam'
+    keys: '&7Podriadené kľúče: &f{value}'
+    size: '&7Aktuálna veľkosť: &f{value}'
+    value: '&7Aktuálna hodnota: &f{value}'
+  lore:
+    path: '&7Cesta: &f{value}'
+    kind: '&7Druh: &f{value}'
+    description: '&7Popis: &f{value}'
+    not-set: '&7aktuálna hodnota: &f<ne nastaviť>'
+  value-kind:
+    item_section: 'Sekcia predmetu'
+    economy_section: 'Sekcia ekonomiky'
+    action_collection: 'Kolekcia akcií'
+    condition_collection: 'Kolekcia podmienok'
+    action_type: 'Typ akcie'
+    condition_type: 'Typ podmienky'
+    boolean: 'Boolean'
+    integer: 'Celé číslo'
+    double: 'Číslo'
+    string: 'Text'
+    string_list: 'Zoznam reťazcov'
+    integer_list: 'Zoznam celých čísel'
+    section: 'Sekcia'
+    unknown: 'Neznáme'
+  root:
+    title: 'UltimateShop Editor'
+    shops:
+      name: '&eupraviť obchody'
+      desc: '&7Otvoriť obchod yml súbory v adresári &f/shops'
+    menus:
+      name: '&eupraviť ponuky'
+      desc: '&7Otvoriť ponuka yml súbory v adresári &f/menus'
+    close:
+      name: '&cZatvoriť'
+      desc: '&7zatvoriť editor'
+    shop-menu-templates:
+      name: '&eupraviť šablóny ponúk obchodov'
+      desc: '&7Otvoriť ponuka yml súbory v adresári &f/shop_menu_templates'
+    buy-more-menus:
+      name: '&eupraviť ponuky kúpiť viac'
+      desc: '&7Otvoriť ponuka yml súbory v adresári &f/buy_more_menus'
+    favourite-menus:
+      name: '&eupraviť ponuky obľúbených'
+      desc: '&7Otvoriť ponuka yml súbory v adresári &f/favourite_menus'
+    search-menus:
+      name: '&eupraviť ponuky vyhľadávania'
+      desc: '&7Otvoriť ponuka yml súbory v adresári &f/search_menus'
+    item-sell-menus:
+      name: '&eupraviť ponuky predaja predmetov'
+      desc: '&7Otvoriť ponuka yml súbory v adresári &f/item_sell_menus'
+  file-list:
+    title: 'Editor {scope}s'
+    type: '&7Typ: &f{value}'
+    file: '&7Súbor: &f{value}'
+    back: '&7Návrat na domovskú stránku editora'
+    refresh: '&7Obnoviť zoznam súborov'
+  section:
+    path:
+      name: '&eaktuálna cesta'
+      desc: '&f{value}'
+    reload:
+      line-1: '&7Zmeny sú už zapísané do disk.'
+      line-2: '&7Použiť tento do znova zostaviť živé obchod/menu objekty.'
+    add-child:
+      name: '&ePridať Potomok'
+      numbered: '&7Pridať novú číslovanú položku'
+      named: '&7Vytvoriť novú pomenovanú položku sekcie'
+      generic: '&7Pridať nový podriadený uzol do tejto sekcie'
+      value-mode: '&7Po zadaní kľúča zadajte hodnotu priamo. Na vytvorenie sekcie použite &fsection &7alebo &f{}&7.'
+      thing-item: '&akliknutie ľavým: pridať predmet šablóna'
+      thing-economy: '&ekliknutie pravým: pridať ekonomika šablóna'
+  preset:
+    raw:
+      name: '&eNespracovaná Sekcia'
+      desc: '&7otvoriť nespracovaná sekcia záložný editor'
+    reload:
+      desc: '&7Použiť zmeny do živé obchod/menu objekty'
+    add-limit-group:
+      name: '&ePridať skupina obmedzení'
+      desc: '&7Vytvoriť jeden nový pomenované skupina podmienok pre tento obmedzenie sekcia'
+  item:
+    title: 'Predmet Editor: {path}'
+    slot:
+      name: '&eItemFormat Pozícia'
+      line-1: '&7Vložte daný cieľový predmet do pozícia 13.'
+      line-2: '&7Potom kliknúť uložiť do DebuildItem do yaml.'
+    apply:
+      name: '&aPoužiť Predmet'
+      desc: '&7Zapísať pozícia 13 do daný aktuálny sekcia'
+    raw:
+      name: '&eNespracovaná Sekcia'
+      desc: '&7Otvoriť všetko kľúče vnútri tento predmet sekcia'
+    clear:
+      name: '&cVyčistiť Section'
+      desc: '&7odstrániť túto celú predmet sekcia'
+    back:
+      desc: '&7vrátiť sa na daný nadradenú sekcia'
+  economy:
+    title: 'Ekonomika Editor: {path}'
+    current: '&7Aktuálne: &f{value}'
+    provider:
+      name: '&ePoskytovateľ'
+    currency:
+      name: '&eMena Typ'
+    amount:
+      name: '&eMnožstvo'
+    placeholder:
+      name: '&eZástupný symbol'
+    conditions:
+      name: '&ePodmienky'
+      desc: '&7otvoriť vnorené podmienky sekcia'
+    raw:
+      name: '&eNespracovaná Sekcia'
+      desc: '&7Otvoriť všetko kľúče vnútri tento ekonomika sekcia'
+    delete:
+      name: '&cOdstrániť Sekcia'
+      desc: '&7odstrániť túto formát ekonomiky sekcia'
+    back:
+      desc: '&7vrátiť sa na daný nadradenú sekcia'
+  thing-item:
+    title: 'Položka ItemFormat: {path}'
+    slot:
+      name: '&eVložené ItemFormat'
+      line-1: '&7Vložte predmet do slotu 13.'
+      line-2: '&7Toto obnoví iba polia formátu predmetu.'
+      line-3: '&7Bežné možnosti jednej položky zostanú zachované.'
+    apply:
+      name: '&aPoužiť ItemFormat'
+      desc: '&7Aktualizovať predmet údaje vnútri tento jednu položku'
+    apply-conditions:
+      name: '&ePoužiť Podmienky'
+      desc: '&7Otvoriť použiť-podmienky pre tento jednu položku'
+    require-conditions:
+      name: '&eVyžadovať Podmienky'
+      desc: '&7Otvoriť vyžadovať-podmienky pre tento jednu položku'
+    give-actions:
+      name: '&eOdovzdať Akcie'
+      desc: '&7Otvoriť odovzdať-akcie pre tento jednu položku'
+    take-actions:
+      name: '&eOdobrať Akcie'
+      desc: '&7Otvoriť odobrať-akcie pre tento jednu položku'
+    preset:
+      name: '&ePredvoľba Editor'
+      desc: '&7vrátiť sa na daný jednu položku predvoľba editor'
+    raw:
+      name: '&eNespracovaná Sekcia'
+      desc: '&7Otvoriť všetko kľúče vnútri tento jednu položku'
+    clear:
+      name: '&cVyčistiť Item Fields'
+      desc: '&7Odstrániť materiál / prepojený-predmet / predmet-formát polia iba'
+    back:
+      desc: '&7vrátiť sa na daný predvoľba editor'
+  thing-economy:
+    title: 'Položka EconomyFormat: {path}'
+    provider:
+      name: '&ePoskytovateľ'
+      desc: '&7Prepnúť tento jednu položku do jeden vanilla alebo prepojeného formát ekonomiky.'
+    currency:
+      name: '&eMena Typ'
+      desc: '&7Mena ID použité pre daný vybrané ekonomika poskytovateľ.'
+    placeholder:
+      name: '&eZástupný symbol'
+      desc: '&7zobrazovaný text použité pre tento jednu položku cena alebo produkt.'
+    apply-conditions:
+      name: '&ePoužiť Podmienky'
+      desc: '&7Otvoriť použiť-podmienky pre tento jednu položku'
+    require-conditions:
+      name: '&eVyžadovať Podmienky'
+      desc: '&7Otvoriť vyžadovať-podmienky pre tento jednu položku'
+    give-actions:
+      name: '&eOdovzdať Akcie'
+      desc: '&7Otvoriť odovzdať-akcie pre tento jednu položku'
+    take-actions:
+      name: '&eOdobrať Akcie'
+      desc: '&7Otvoriť odobrať-akcie pre tento jednu položku'
+    preset:
+      name: '&ePredvoľba Editor'
+      desc: '&7vrátiť sa na daný jednu položku predvoľba editor'
+    raw:
+      name: '&eNespracovaná Sekcia'
+      desc: '&7Otvoriť všetko kľúče vnútri tento jednu položku'
+    apply:
+      name: '&aPoužiť EconomyFormat'
+      desc: '&7Previesť tento jednu položku do formát ekonomiky a zachovať spoločné riadiace polia'
+    clear:
+      name: '&cVymazať Ekonomika Polia'
+      desc: '&7Odstrániť ekonomika-plugin / ekonomika-typ polia iba'
+    back:
+      desc: '&7vrátiť sa na daný predvoľba editor'
+  prompt:
+    description: '&f{value}'
+    cancel-keyword: 'zrušiť'
+    cancel-tip: '&7Ak chcete zrušiť túto úpravu, napíšte &f{value}&7.'
+    new-entry-id: 'Zadajte id novej položky'
+    new-condition-id: 'Zadajte id novej skupiny podmienok'
+    string: 'Zadajte nový reťazec pre &f{path}'
+    integer: 'Zadajte nové celé číslo pre &f{path}'
+    double: 'Zadajte nové číslo pre &f{path}'
+    string-list: 'Zadajte nový zoznam pre &f{path} &7(použite &f;; &7ako oddeľovač)'
+    string-list-entry: 'Zadajte novú položku zoznamu pre &f{path}'
+    string-list-entry-edit: 'Zadajte novú hodnotu pre položku zoznamu &f#{index}'
+    integer-list: 'Zadajte nový zoznam celých čísel pre &f{path} &7(použite &f;; &7ako oddeľovač)'
+    integer-list-entry: 'Zadajte novú položku zoznamu celých čísel pre &f{path}'
+    integer-list-entry-edit: 'Zadajte nové celé číslo pre položku zoznamu &f#{index}'
+    new-child: 'Zadajte názov kľúča nového potomka'
+    new-child-value: 'Zadajte hodnotu pre &f{path}&7. Na vytvorenie sekcie použite &fsection &7alebo &f{}&7. Pre zoznamy použite &f;;&7.'
+  message:
+    target-not-found: '&cCieľový súbor sa nenašiel.'
+    saved: '&aUložené &f{value}'
+    save-failed: '&cNepodarilo sa uložiť súbor: {value}'
+    empty-id: '&cID položky nemôže byť prázdne.'
+    enable-confirm-required: '&cEditor is still experimental. Read and confirm every item in &f{file}&c before using it.'
+    enable-confirm-details: '&7Back up data, read the wiki, accept possible errors, then set every confirmation in &f{file} &7to true.'
+    unknown-type: '&cNeznáme type. Use section/string/int/double/boolean/list/int-list.'
+    invalid-integer: '&cTo nie je platné celé číslo.'
+    invalid-number: '&cTo nie je platné číslo.'
+    invalid-new-child-value: '&cNeplatná hodnota. Použite section/{}, boolean, číslo, zoznam (;;), alebo čistý text.'
+    invalid-integer-list: '&cJedna z hodnôt nie je celé číslo.'
+    child-format: '&cPoužite formát: kľúč typ'
+    command-usage: '&cPoužite /shop editor [shop|menu] <id>'
+    target-missing: '&cNepodarilo sa nájsť {scope}: {id}'
+  list:
+    title: 'Zoznam Editor: {path}'
+    current: '&7Aktuálne: &f{value}'
+    add:
+      name: '&ePridať Riadok'
+      desc: '&7pridať nový riadok do tento zoznam'
+    clear:
+      name: '&cVyčistiť List'
+      desc: '&7odstrániť všetky položky z tento zoznam'
+    move-up: '&eShift+ľavé kliknutie pre presun nahor'
+    move-down: '&eShift+pravé kliknutie pre presun nadol'
+  sub-button:
+    title: 'Podtlačidlo: {path}'
+    current: '&7Aktuálne: &f{value}'
+    not-set: '<nenastavené>'
+    same-shop:
+      name: '&eAktuálny Obchod Produkt'
+    cross-shop:
+      name: '&eCieľový Obchod'
+    cross-product:
+      name: '&eCieľový Produkt'
+    preview:
+      name: '&eNáhľad'
+    same-preview: '&7Rovnaký obchod: &f{value}'
+    cross-preview: '&7Iný obchod: &f{value}'
+    apply-same:
+      name: '&aPoužiť Aktuálny Obchod Cieľový'
+      desc: '&7Uložiť ako &fProductID'
+    apply-cross:
+      name: '&aPoužiť Iný Obchod Cieľový'
+      desc: '&7Uložiť ako &fShopID;;ProductID'
+    clear:
+      name: '&cVyčistiť'
+      desc: '&7Odstrániť hodnotu as-sub-button'
+  click-binding:
+    title: 'Kliknúť Typy: {path}'
+    state: '&7Vybrané: &f{value}'
+  reset-time:
+    title: 'čas obnovenia: {path}'
+    current: '&7Aktuálny: &f{value}'
+    mode:
+      name: '&eaktuálny režim'
+      value: '&7Režim: &f{value}'
+      desc: '&7Tento editor zmeny správanie podľa daný vybrané režim obnovenia.'
+    add:
+      name: '&ePridať Čas'
+      desc: '&7pridať nový čas obnovenia položka'
+    random:
+      name: '&enáhodný zástupný symbol'
+    manual:
+      name: '&eUpraviť Hodnota'
+    never:
+      name: '&eŽiadny čas obnovenia Potrebný'
+      desc: '&7Tento režim obnovenia ne použiť jeden čas hodnota.'
+    prompt-add: 'Vstup daný nový čas obnovenia pre &f{path}'
+    prompt-edit: 'Vstup daný nový čas obnovenia pre položka &f#{index}'
+  presets:
+    root_shop:
+      title: 'Obchod Predvoľba'
+      fields:
+        settings:
+          menu:
+            name: 'Ponuka Súbor'
+            desc: 'Prepojiť tento obchod do jeden ponuka súbor ID.'
+          menu-settings:
+            name: 'Vložené Ponuka Nastavenia'
+            desc: 'Prepísať časť z daný ponuka nastavenia iba pre tento obchod.'
+            buy-more:
+              name: 'Predvolené kúpiť viac'
+              desc: 'Či produkty v tento obchod otvoriť kúpiť-viac ponuka podľa predvolené.'
+            shop-name:
+              name: 'Obchod zobrazovaný názov'
+              desc: 'zobrazovaný názov použité pre zástupné symboly napríklad {shop-name}.'
+            allow-favourite:
+              name: 'Povoliť Obľúbené'
+              desc: 'Povoliť produkty z tento obchod do byť pridaný do obľúbené ponuky.'
+          hide-message:
+            name: 'Skryť správu o úspechu'
+            desc: 'skryť predvolené správu o úspechu pre tento obchod.'
+          secret-shop-items:
+            name: 'Tajné Obchod Predmety'
+            desc: 'Skryť produkty keď ich zobrazenie pravidlá nie sú splnené.'
+          custom-command:
+            name:
+              name: 'Príkaz Názov'
+              desc: 'Príkaz hráči môže použiť do otvoriť tento obchod.'
+            description:
+              name: 'Popis príkazu'
+              desc: 'Popis zobrazený pre tento príkaz obchodu.'
+        general-configs:
+          name: 'Všeobecné Nastavenia'
+          desc: 'Predvolené hodnoty zdieľané podľa všetko produkty v tento obchod.'
+        items:
+          name: 'Produkty'
+          desc: 'Všetko upraviteľné produkty vnútri tento obchod.'
+        buttons:
+          name: 'Tlačidlá'
+          desc: 'Ďalšie ponuka tlačidlá zobrazený v tento ponuka obchodu.'
+    root_menu:
+      title: 'Ponuka Predvoľba'
+      fields:
+        title:
+          name: 'Názov'
+          desc: 'Inventár názov zobrazený hráči.'
+        size:
+          name: 'Veľkosť'
+          desc: 'Inventár veľkosť, zvyčajne jeden násobok z 9.'
+        dynamic-layout:
+          name: 'Dynamické Rozloženie'
+          desc: 'Znova zostaviť daný rozloženie pri každom čas daný ponuka otvorí.'
+        bedrock:
+          name: 'Bedrock Nastavenia'
+          desc: 'Bedrock konkrétny zobrazenie a kompatibilita nastavenia.'
+          enabled:
+            name: 'Povolené'
+            desc: 'či tento ponuka má použiť Bedrock-konkrétny podporu.'
+          content:
+            name: 'Obsah'
+            desc: 'Bedrock-konkrétny obsah hodnota pre tento ponuka.'
+        layout:
+          name: 'Rozloženie'
+          desc: 'Rozloženie text zoznam použitá do umiestniť tlačidlá a produkty.'
+        conditions:
+          name: 'Otvoriť Podmienky'
+          desc: 'podmienky, ktoré musí byť splnené pred daný ponuka môže otvoriť.'
+        open-actions:
+          name: 'Otvoriť Akcie'
+          desc: 'vykonané akcie keď sa ponuka otvorí.'
+        close-actions:
+          name: 'Zatvoriť Akcie'
+          desc: 'vykonané akcie keď sa ponuka zatvorí.'
+        buttons:
+          name: 'Tlačidlá'
+          desc: 'Všetko tlačidlá umiestnené v tento ponuka.'
+        custom-command:
+          name:
+            name: 'Príkaz Názov'
+            desc: 'Príkaz hráči môže použiť do otvoriť tento ponuka.'
+          description:
+            name: 'Popis príkazu'
+            desc: 'Popis zobrazený pre tento ponuka príkaz.'
+    shop_item:
+      title: 'Produkt Predvoľba'
+      fields:
+        display-name:
+          name: 'zobrazovaný názov'
+          desc: 'Logický zobrazovaný názov z tento produkt.'
+        display-item:
+          name: 'Zobrazenie Predmet'
+          desc: 'Daný GUI predmet hráči zobraziť v daný ponuka.'
+        add-lore:
+          name: 'Pridať Popis'
+          desc: 'Ďalšie popis riadky pripojené do daný zobrazenie predmet.'
+        price-mode:
+          name: 'Cena Režim'
+          desc: 'Ako násobok ceny sú spojené pre platba.'
+        product-mode:
+          name: 'Produkt Režim'
+          desc: 'Ako násobok produkty sú spojené pre odmena odovzdanie.'
+        products:
+          name: 'Produkty'
+          desc: 'jednu položku položky daný hráč dostane alebo platí ako produkty.'
+        buy-prices:
+          name: 'Kúpiť Ceny'
+          desc: 'jednu položku položky spotrebované keď nákupu.'
+        sell-prices:
+          name: 'Predať Ceny'
+          desc: 'jednu položku položky odovzdaná keď predaja.'
+        conditions:
+          name: 'Zdieľané Podmienky'
+          desc: 'Staršie zdieľané podmienky pre obe kúpiť a predať.'
+        buy-conditions:
+          name: 'Kúpiť Podmienky'
+          desc: 'kontrolované podmienky iba pri nákupu.'
+        sell-conditions:
+          name: 'Predať Podmienky'
+          desc: 'kontrolované podmienky iba pri predaja.'
+        display-conditions:
+          name: 'Zobrazenie Podmienky'
+          desc: 'podmienky, ktoré určujú či tento produkt je zobrazený.'
+        buy-actions:
+          name: 'Kúpiť Akcie'
+          desc: 'vykonané akcie po jeden úspešnom kúpiť.'
+        sell-actions:
+          name: 'Predať Akcie'
+          desc: 'vykonané akcie po jeden úspešnom predať.'
+        fail-actions:
+          name: 'Zlyhanie Akcie'
+          desc: 'vykonané akcie keď jeden obchodovať zlyhá.'
+        click-event:
+          name: 'Kliknúť Udalosť'
+          desc: 'Vlastný kliknúť pravidlá pre tento produkt tlačidlo.'
+        buy-more:
+          name: 'kúpiť viac'
+          desc: 'či tento produkt môže otvoriť množstvo výberu GUI.'
+        buy-more-menu:
+          name: 'kúpiť viac Ponuka'
+          desc: 'Vyhradená kúpiť-viac ponuka pre tento produkt.'
+          menu:
+            name: 'Ponuka Súbor'
+            desc: 'Ponuka súbor použitá keď tento produkt otvorí daný kúpiť-viac GUI.'
+          max-amount:
+            name: 'Maximum Množstvo'
+            desc: 'Maximálne množstvo voliteľné v daný kúpiť-viac ponuka.'
+          hide-message:
+            name: 'Skryť Správa'
+            desc: 'skryť túto produkt správu o úspechu.'
+          sell-all:
+            name: 'Povoliť predať všetko'
+            desc: 'Povoliť tento produkt do byť spracovaný podľa predať-všetko.'
+          allow-favourite:
+            name: 'Povoliť Obľúbené'
+            desc: 'Povoliť tento produkt do byť pridaný do obľúbené ponuky.'
+        as-sub-button:
+          name: 'Ako Čiastkové Tlačidlo'
+          desc: 'Zobraziť tento produkt ako jeden čiastkové tlačidlo z iný produkt.'
+        bedrock:
+          name: 'Bedrock Nastavenia'
+          desc: 'Bedrock konkrétny zobrazenie nastavenia pre tento produkt.'
+          hide:
+            name: 'Skryť'
+            desc: 'či tento produkt má byť skrytý pri Bedrock.'
+          icon:
+            name: 'Ikona'
+            desc: 'Hodnota alebo URL ikony Bedrock pre tento produkt.'
+        limits:
+          name: 'Zdieľané Obmedzenia'
+          desc: 'Zdieľané zásoba a použitie obmedzenia pre kúpiť a predať.'
+        limits-conditions:
+          name: 'Zdieľané Obmedzenie Skupiny'
+          desc: 'Pomenované podmienka skupiny použité pre daný zdieľané obmedzenie sekcia.'
+        buy-limits:
+          name: 'Kúpiť Obmedzenia'
+          desc: 'Zásoba alebo počty obmedzenia použité do nákupu.'
+        buy-limits-conditions:
+          name: 'Kúpiť Obmedzenie Skupiny'
+          desc: 'Pomenované podmienka skupiny použité pre daný kúpiť obmedzenie sekcia.'
+        sell-limits:
+          name: 'Predať Obmedzenia'
+          desc: 'Zásoba alebo počty obmedzenia použité do predaja.'
+        sell-limits-conditions:
+          name: 'Predať Obmedzenie Skupiny'
+          desc: 'Pomenované podmienka skupiny použité pre daný predať obmedzenie sekcia.'
+        buy-times-reset-mode:
+          name: 'Kúpiť režim obnovenia'
+          desc: 'Ako daný počítadlo nákupov počítadlo obnoví.'
+        buy-times-reset-time:
+          name: 'Kúpiť čas obnovenia'
+          desc: 'keď sa počítadlo nákupov počítadlo obnoví.'
+        buy-times-reset-time-format:
+          name: 'Kúpiť čas obnovenia Formát'
+          desc: 'Čas formát použitá do načítanie daný kúpiť čas obnovenia hodnota.'
+        buy-times-reset-value:
+          name: 'Kúpiť Obnoviť Hodnota'
+          desc: 'Hodnota použité keď sa počítadlo nákupov počítadlo obnoví.'
+        buy-times-max-value:
+          name: 'Kúpiť Maximum Hodnota'
+          desc: 'Maximálne počítadlo nákupov hodnota povolené pred obnoviť.'
+        shared-use-times:
+          name: 'zdieľané počty použití Skupina'
+          desc: 'Produkty s daný rovnaký skupina ID bude zdieľať kúpiť/sell počty a čakacia doba údaje.'
+        sell-times-reset-mode:
+          name: 'Predať režim obnovenia'
+          desc: 'Ako daný počítadlo predajov počítadlo obnoví.'
+        sell-times-reset-time:
+          name: 'Predať čas obnovenia'
+          desc: 'keď sa počítadlo predajov počítadlo obnoví.'
+        sell-times-reset-time-format:
+          name: 'Predať čas obnovenia Formát'
+          desc: 'Čas formát použitá do načítanie daný predať čas obnovenia hodnota.'
+        sell-times-reset-value:
+          name: 'Predať Obnoviť Hodnota'
+          desc: 'Hodnota použité keď sa počítadlo predajov počítadlo obnoví.'
+        sell-times-max-value:
+          name: 'Predať Maximum Hodnota'
+          desc: 'Maximálne počítadlo predajov hodnota povolené pred obnoviť.'
+    button_entry:
+      title: 'Tlačidlo Predvoľba'
+      fields:
+        display-item:
+          name: 'Zobrazenie Predmet'
+          desc: 'Daný zobrazenie predmet použité pre tento tlačidlo.'
+        actions:
+          name: 'Akcie'
+          desc: 'vykonané akcie po kliknutie tento tlačidlo.'
+        fail-actions:
+          name: 'Zlyhanie Akcie'
+          desc: 'vykonané akcie keď tlačidlo podmienky nie sú splnené.'
+        conditions:
+          name: 'Podmienky'
+          desc: 'podmienky, ktoré musí byť splnené pred tento tlačidlo môže byť použitá.'
+        display-conditions:
+          name: 'Zobrazenie Podmienky'
+          desc: 'podmienky, ktoré určujú či tento tlačidlo je zobrazený.'
+    limits_section:
+      title: 'Obmedzenie Sekcia Predvoľba'
+      fields:
+        default:
+          name: 'Predvolené Obmedzenie'
+          desc: 'Obmedzenie použitá keď sa hráč ne porovnať akékoľvek vlastný obmedzenie skupina podmienok.'
+        global:
+          name: 'Globálny Obmedzenie'
+          desc: 'Globálny zdieľané obmedzenie použité do daný celý server pre tento produkt.'
+    single_thing:
+      title: 'jednu položku Predvoľba'
+      fields:
+        display:
+          name: 'Zistený Položka Typ'
+          desc: 'Daný plugin rozpozná daný jednu položku typ z daný polia ktoré aktuálne existovať.'
+        inline-item:
+          name: 'ItemFormat'
+          desc: 'Pretiahnite jeden predmet sem do obnoviť predmet-formát polia pri so zachovaním spoločné riadiace polia.'
+        inline-economy:
+          name: 'EconomyFormat'
+          desc: 'Prepnúť tento jednu položku do formát ekonomiky pri so zachovaním množstvo, akcie a podmienka polia.'
+        amount:
+          name: 'Množstvo'
+          desc: 'Množstvo hodnota. Podporuje pevná čísla, vzorce alebo zástupné symboly v závislosti pri kontexte.'
+        material:
+          name: 'Materiál'
+          desc: 'Základný materiál pre jeden vanilla formát predmetu.'
+        hook-plugin:
+          name: 'Prepojený Predmet Plugin'
+          desc: 'Externý predmet plugin názov použité pre tento jednu položku.'
+        hook-item:
+          name: 'Prepojený Predmet ID'
+          desc: 'Externý predmet ID z daný prepojeného plugin.'
+        match-item:
+          name: 'Porovnať Predmet'
+          desc: 'Použiť porovnať pravidlá namiesto jeden presný predmet sada.'
+        match-placeholder:
+          name: 'Porovnať Zástupný symbol'
+          desc: 'Zástupný symbol použitá do načítať vlastný hodnoty pre porovnanie.'
+        economy-plugin:
+          name: 'Ekonomika Plugin'
+          desc: 'Ekonomika poskytovateľ plugin použité pre tento cena položka.'
+        economy-type:
+          name: 'Ekonomika Typ'
+          desc: 'Mena typ, exp, úrovne, alebo hromadnom-mena ID.'
+        placeholder:
+          name: 'Zobrazenie Zástupný symbol'
+          desc: 'zobrazovaný text použitá v popis a cena zástupné symboly.'
+        min-amount:
+          name: 'Minimum Množstvo'
+          desc: 'Minimálne množstvo keď sa množstvo je dynamické.'
+        max-amount:
+          name: 'Maximum Množstvo'
+          desc: 'Maximálne množstvo keď sa množstvo je dynamické.'
+        start-apply:
+          name: 'Začať Použiť'
+          desc: 'Začať používanie z tento počet transakcií.'
+        end-apply:
+          name: 'Koniec Použiť'
+          desc: 'Ukončiť používanie po tento počet transakcií.'
+        apply:
+          name: 'Použiť Zoznam'
+          desc: 'použiť iba pri tieto transakcia počty.'
+        apply-conditions:
+          name: 'Použiť Podmienky'
+          desc: 'podmienky, ktoré určujú či tento jednu položku pripojí daný aktuálny obchodovať.'
+        require-conditions:
+          name: 'Vyžadovať Podmienky'
+          desc: 'podmienky, ktoré must prejsť po tento jednu položku je vybrané.'
+        give-actions:
+          name: 'Odovzdať Akcie'
+          desc: 'vykonané akcie keď tento jednu položku je odovzdaná.'
+        take-actions:
+          name: 'Odobrať Akcie'
+          desc: 'vykonané akcie keď tento jednu položku je odobraná.'
+        give-item:
+          name: 'Odovzdať Predmet'
+          desc: 'Ak vypnuté, iba odovzdať-akcie spustiť a daný predmet samotný nie je odovzdaná.'
+        take:
+          name: 'Odobrať'
+          desc: 'Ak vypnuté, kontrolovať iba vlastníctvo namiesto skutočne odobratie to.'
+    action_entry:
+      title: 'Akcia Predvoľba'
+      fields:
+        type:
+          name: 'Typ'
+          desc: 'Akcia typ do vykonať.'
+        start-apply:
+          name: 'Začať Použiť'
+          desc: 'Začať vykonávanie z tento počet transakcií.'
+        end-apply:
+          name: 'Koniec Použiť'
+          desc: 'Ukončiť vykonávanie po tento počet transakcií.'
+        apply:
+          name: 'Použiť Zoznam'
+          desc: 'vykonať iba pri tieto transakcia počty.'
+        multi-once:
+          name: 'Hromadnom Raz'
+          desc: 'vykonať iba raz počas hromadnom-kúpiť alebo hromadnom-predať.'
+        sell-all-once:
+          name: 'predať všetko Raz'
+          desc: 'vykonať iba raz počas predať-všetko.'
+        open-once:
+          name: 'Otvoriť Raz'
+          desc: 'ne vykonať znova keď sa ponuka znova otvorí.'
+        click-type:
+          name: 'typ kliknutia'
+          desc: 'Obmedzenie tento akcia do jeden konkrétny typ kliknutia.'
+        bedrock-only:
+          name: 'Bedrock Iba'
+          desc: 'vykonať iba pre Bedrock hráči.'
+        java-only:
+          name: 'Java Iba'
+          desc: 'vykonať iba pre Java hráči.'
+        fail-type:
+          name: 'Zlyhanie Typ'
+          desc: 'vykonať iba pre daný zadaný typ zlyhania.'
+        message:
+          name: 'Správa'
+          desc: 'Správa text odoslaný podľa tento akcia.'
+        main-title:
+          name: 'Hlavný Názov'
+          desc: 'Hlavný názov text.'
+        sub-title:
+          name: 'Čiastkové Názov'
+          desc: 'Podtitul text.'
+        fade-in:
+          name: 'postupné zobrazenie'
+          desc: 'postupné zobrazenie čas v tickoch.'
+        stay:
+          name: 'Trvanie'
+          desc: 'Trvanie čas v tickoch.'
+        fade-out:
+          name: 'postupné zmiznutie'
+          desc: 'postupné zmiznutie čas v tickoch.'
+        sound:
+          name: 'Zvuk'
+          desc: 'Zvuk ID do prehrať.'
+        volume:
+          name: 'Hlasitosť'
+          desc: 'Hlasitosť hodnota.'
+        particle:
+          name: 'Častica'
+          desc: 'Častica ID do vytvoriť.'
+        count:
+          name: 'Počet'
+          desc: 'Číslo z častice do vytvoriť.'
+        offset-x:
+          name: 'Posun X'
+          desc: 'Častica X posun.'
+        offset-y:
+          name: 'Posun Y'
+          desc: 'Častica Y posun.'
+        offset-z:
+          name: 'Posun Z'
+          desc: 'Častica Z posun.'
+        speed:
+          name: 'Rýchlosť'
+          desc: 'Častica rýchlosť.'
+        command:
+          name: 'Príkaz'
+          desc: 'Príkaz vykonané podľa tento akcia.'
+        shop:
+          name: 'Obchod'
+          desc: 'Cieľový obchod ID použité pre tento akcia.'
+        menu:
+          name: 'Ponuka'
+          desc: 'Cieľový ponuka ID použité pre tento akcia.'
+        item:
+          name: 'Predmet'
+          desc: 'Cieľový produkt alebo predmet ID použité pre tento akcia.'
+        amount:
+          name: 'Množstvo'
+          desc: 'Množstvo alebo počet použité pre tento akcia.'
+        sell-all:
+          name: 'predať všetko'
+          desc: 'či sa akcia má spracovať všetko zodpovedajúce predmety.'
+        rate:
+          name: 'Šanca'
+          desc: 'Úspech šanca z 0 do 100.'
+        actions:
+          name: 'Vnorené Akcie'
+          desc: 'Vnorené vykonané akcie podľa tento akcia.'
+        conditions:
+          name: 'Podmienky'
+          desc: 'kontrolované podmienky podľa tento akcia.'
+        server:
+          name: 'Server'
+          desc: 'Cieľový server názov.'
+        potion:
+          name: 'Elixír'
+          desc: 'Elixír efekt ID.'
+        duration:
+          name: 'Trvanie'
+          desc: 'Trvanie v tickoch.'
+        level:
+          name: 'Úroveň'
+          desc: 'Úroveň hodnota použité pre tento akcia.'
+        ambient:
+          name: 'Okolité'
+          desc: 'či sa efekt je okolité.'
+        particles:
+          name: 'Častice'
+          desc: 'či sa efekt zobrazuje častice.'
+        icon:
+          name: 'Ikona'
+          desc: 'či sa efekt zobrazuje jeden ikona.'
+        entity:
+          name: 'Entita'
+          desc: 'Entita alebo MythicMob ID do vytvoriť.'
+        world:
+          name: 'Svet'
+          desc: 'Svet názov použité pre tento akcia.'
+        x:
+          name: 'X'
+          desc: 'X súradnica.'
+        y:
+          name: 'Y'
+          desc: 'Y súradnica.'
+        z:
+          name: 'Z'
+          desc: 'Z súradnica.'
+        yaw:
+          name: 'Yaw'
+          desc: 'Yaw otočenie.'
+        pitch:
+          name: 'Výška tónu'
+          desc: 'Výška tónu otočenie alebo zvuk výška tónu.'
+    condition_entry:
+      title: 'Predvoľba podmienky'
+      fields:
+        type:
+          name: 'Typ'
+          desc: 'Podmienka typ do skontrolovať.'
+        start-apply:
+          name: 'Začať Použiť'
+          desc: 'Začať kontrola z tento počet transakcií.'
+        end-apply:
+          name: 'Koniec Použiť'
+          desc: 'Ukončiť kontrola po tento počet transakcií.'
+        apply:
+          name: 'Použiť Zoznam'
+          desc: 'kontrolovať iba pri tieto transakcia počty.'
+        click-type:
+          name: 'typ kliknutia'
+          desc: 'Obmedzenie tento podmienka do jeden konkrétny typ kliknutia.'
+        bedrock-only:
+          name: 'Bedrock Iba'
+          desc: 'kontrolovať iba pre Bedrock hráči.'
+        java-only:
+          name: 'Java Iba'
+          desc: 'kontrolovať iba pre Java hráči.'
+        meet-actions:
+          name: 'Splnenie Akcie'
+          desc: 'vykonané akcie keď sa podmienka prejde.'
+        not-meet-actions:
+          name: 'Ne Splnenie Akcie'
+          desc: 'vykonané akcie keď sa podmienka zlyhá.'
+        permission:
+          name: 'Oprávnenie'
+          desc: 'Oprávnenie uzol daný hráč musí mať.'
+        placeholder:
+          name: 'Zástupný symbol'
+          desc: 'Zástupný symbol použité pre daný podmienka.'
+        rule:
+          name: 'Pravidlo'
+          desc: 'Porovnanie pravidlo napríklad ==, >=, <=.'
+        value:
+          name: 'Hodnota'
+          desc: 'Cieľový hodnota použité pre porovnanie.'
+        biome:
+          name: 'Bióm'
+          desc: 'Vyžadovaný bióm názov.'
+        world:
+          name: 'Svet'
+          desc: 'Vyžadovaný svet názov.'
+        conditions:
+          name: 'Vnorené podmienky'
+          desc: 'Zoznam vnorených podmienok používaný touto podmienkou.'
+
+
+        menu:
+          name: 'Ponuka'
+          desc: 'Vyžadovaný aktuálne otvorená ponuka ID.'
+        menu-type:
+          name: 'Ponuka Typ'
+          desc: 'Vyžadovaný aktuálne otvorená ponuka typ napríklad Obľúbené alebo Vyhľadávanie.'
+set-custom-placeholder: "&#98FB98[UltimateShop] &fHodnota vlastného zástupného symbolu {placeholder} bola nastavená na: {value}."
+dupe-removed: "&#98FB98[UltimateShop] &fNeplatný predmet bol odstránený z vášho inventára!"
+favourite-added: "&#98FB98[UltimateShop] &fProdukt {item} bol pridaný do ponuky obľúbených {menu}."
+favourite-removed: "&#98FB98[UltimateShop] &fProdukt {item} bol odstránený z ponuky obľúbených {menu}."

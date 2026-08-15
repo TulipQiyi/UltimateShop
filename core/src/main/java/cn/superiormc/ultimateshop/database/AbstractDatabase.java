@@ -14,9 +14,9 @@ public abstract class AbstractDatabase {
 
     public abstract void checkData(ObjectCache cache);
 
-    public abstract void updateData(ObjectCache cache, boolean quitServer);
+    public abstract void updateData(PlayerDataSnapshot snapshot);
 
-    public void updateDataOnDisable(ObjectCache cache, boolean disable) {
-        updateData(cache, true);
+    public void updateDataOnDisable(PlayerDataSnapshot snapshot, boolean disable) {
+        updateData(snapshot);
     }
 }

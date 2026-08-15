@@ -6,14 +6,10 @@ import cn.superiormc.ultimateshop.database.sql.H2Dialect;
 import cn.superiormc.ultimateshop.database.sql.MySQLDialect;
 import cn.superiormc.ultimateshop.database.sql.PostgreSQLDialect;
 import cn.superiormc.ultimateshop.database.sql.SQLiteDialect;
-import cn.superiormc.ultimateshop.managers.CacheManager;
 import cn.superiormc.ultimateshop.managers.ConfigManager;
 import cn.superiormc.ultimateshop.objects.caches.ObjectCache;
 import cn.superiormc.ultimateshop.objects.caches.FavouriteProductReference;
-import cn.superiormc.ultimateshop.objects.caches.ObjectRandomPlaceholderCache;
-import cn.superiormc.ultimateshop.objects.caches.ObjectUseTimesCache;
 import cn.superiormc.ultimateshop.objects.caches.UseTimesStorageKey;
-import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectCustomPlaceholder;
 import cn.superiormc.ultimateshop.utils.CommonUtil;
 import cn.superiormc.ultimateshop.utils.TextUtil;
 import com.zaxxer.hikari.HikariConfig;
@@ -29,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class SQLDatabase extends AbstractDatabase {
 
@@ -118,10 +113,7 @@ public class SQLDatabase extends AbstractDatabase {
 
     @Override
     public void checkData(ObjectCache cache) {
-        CompletableFuture.runAsync(
-                () -> loadData(cache),
-                DatabaseExecutor.getExecutor()
-        );
+        DatabaseExecutor.executeCacheLoad(cache, this::loadData);
     }
 
     private void loadData(ObjectCache cache) {
@@ -264,34 +256,48 @@ public class SQLDatabase extends AbstractDatabase {
     }
 
     @Override
-    public void updateData(ObjectCache cache, boolean quitServer) {
-        CompletableFuture.runAsync(() -> {
-            saveUseTimes(cache);
-            saveFavourites(cache);
-            if (!UltimateShop.freeVersion) {
-                savePlaceholders(cache);
-                saveCustomPlaceholders(cache);
-            }
-            if (quitServer) {
-                CacheManager.cacheManager.removeObjectCache(cache);
-            }
-        }, DatabaseExecutor.getExecutor());
+    public void updateData(PlayerDataSnapshot snapshot) {
+        DatabaseExecutor.executePlayerSave(snapshot.storageId(), () -> saveData(snapshot));
     }
 
-    private void saveFavourites(ObjectCache cache) {
-        if (cache.isServer()) {
+    private void saveData(PlayerDataSnapshot snapshot) {
+        if (dataSource == null || dialect == null) {
             return;
         }
-        String playerUUID = cache.getPlayer().getUniqueId().toString();
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                saveUseTimes(connection, snapshot);
+                saveFavourites(connection, snapshot);
+                if (!UltimateShop.freeVersion) {
+                    savePlaceholders(connection, snapshot);
+                    saveCustomPlaceholders(connection, snapshot);
+                }
+                connection.commit();
+            } catch (SQLException exception) {
+                connection.rollback();
+                throw exception;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement deletePs = conn.prepareStatement(dialect.deleteFavourites());
+    private void saveFavourites(Connection conn, PlayerDataSnapshot snapshot) throws SQLException {
+        if (snapshot.server()) {
+            return;
+        }
+        String playerUUID = snapshot.playerUUID().toString();
+
+        try (PreparedStatement deletePs = conn.prepareStatement(dialect.deleteFavourites());
              PreparedStatement insertPs = conn.prepareStatement(dialect.insertFavourite())) {
 
             deletePs.setString(1, playerUUID);
             deletePs.executeUpdate();
 
-            for (Map.Entry<String, List<FavouriteProductReference>> entry : cache.getFavouriteProductCache().entrySet()) {
+            for (Map.Entry<String, List<FavouriteProductReference>> entry : snapshot.favourites().entrySet()) {
                 List<FavouriteProductReference> references = entry.getValue();
                 for (int i = 0; i < references.size(); i++) {
                     FavouriteProductReference reference = references.get(i);
@@ -311,56 +317,51 @@ public class SQLDatabase extends AbstractDatabase {
             if (dialect.supportBatch()) {
                 insertPs.executeBatch();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    private void saveUseTimes(ObjectCache cache) {
-        String playerUUID = cache.isServer()
-                ? "Global-Server"
-                : cache.getPlayer().getUniqueId().toString();
-
+    private void saveUseTimes(Connection conn, PlayerDataSnapshot snapshot) throws SQLException {
+        String playerUUID = snapshot.storageId();
         String sql = dialect.upsertUseTimes();
 
-        try (Connection conn = dataSource.getConnection();
+        try (PreparedStatement deletePs = conn.prepareStatement(dialect.deleteUseTimes());
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            for (Map.Entry<UseTimesStorageKey, ObjectUseTimesCache> entry : cache.getSharedUseTimesCache().entrySet()) {
+            deletePs.setString(1, playerUUID);
+            deletePs.executeUpdate();
+
+            for (Map.Entry<UseTimesStorageKey, PlayerDataSnapshot.UseTimesSnapshot> entry
+                    : snapshot.useTimes().entrySet()) {
                 writeUseTimesCache(ps, playerUUID, entry.getKey(), entry.getValue());
             }
 
             if (dialect.supportBatch()) {
                 ps.executeBatch();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     private void writeUseTimesCache(PreparedStatement ps,
                                     String playerUUID,
                                     UseTimesStorageKey key,
-                                    ObjectUseTimesCache cache) throws SQLException {
-        if (cache == null || cache.isEmpty()) {
+                                    PlayerDataSnapshot.UseTimesSnapshot state) throws SQLException {
+        if (state == null || state.isEmpty()) {
             return;
         }
         fillUseTimes(
                 ps,
                 playerUUID,
                 key,
-                cache.getBuyUseTimes(),
-                cache.getTotalBuyUseTimes(),
-                cache.getSellUseTimes(),
-                cache.getTotalSellUseTimes(),
-                cache.getLastBuyTime(),
-                cache.getLastSellTime(),
-                cache.getLastResetBuyTime(),
-                cache.getLastResetSellTime(),
-                cache.getCooldownBuyTime(),
-                cache.getCooldownSellTime()
+                state.buyUseTimes(),
+                state.totalBuyUseTimes(),
+                state.sellUseTimes(),
+                state.totalSellUseTimes(),
+                state.lastBuyTime(),
+                state.lastSellTime(),
+                state.lastResetBuyTime(),
+                state.lastResetSellTime(),
+                state.cooldownBuyTime(),
+                state.cooldownSellTime()
         );
     }
 
@@ -398,27 +399,21 @@ public class SQLDatabase extends AbstractDatabase {
         }
     }
 
-    private void savePlaceholders(ObjectCache cache) {
-        String playerUUID = cache.isServer()
-                ? "Global-Server"
-                : cache.getPlayer().getUniqueId().toString();
-
+    private void savePlaceholders(Connection conn, PlayerDataSnapshot snapshot) throws SQLException {
+        String playerUUID = snapshot.storageId();
         String sql = dialect.upsertRandomPlaceholder();
 
-        try (Connection conn = dataSource.getConnection();
+        try (PreparedStatement deletePs = conn.prepareStatement(dialect.deleteRandomPlaceholders());
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            for (ObjectRandomPlaceholderCache ph
-                    : cache.getRandomPlaceholderCache().values()) {
+            deletePs.setString(1, playerUUID);
+            deletePs.executeUpdate();
 
-                if ("ONCE".equals(ph.getPlaceholder().getMode())) continue;
-
+            for (PlayerDataSnapshot.RandomPlaceholderSnapshot placeholder : snapshot.randomPlaceholders()) {
                 ps.setString(1, playerUUID);
-                ps.setString(2, ph.getPlaceholder().getID());
-                ps.setString(3,
-                        CommonUtil.translateStringList(ph.getNowValue()));
-                ps.setString(4,
-                        CommonUtil.timeToString(ph.getRefreshDoneTime()));
+                ps.setString(2, placeholder.id());
+                ps.setString(3, placeholder.nowValue());
+                ps.setString(4, placeholder.refreshDoneTime());
 
                 if (dialect.supportBatch()) {
                     ps.addBatch();
@@ -430,27 +425,23 @@ public class SQLDatabase extends AbstractDatabase {
             if (dialect.supportBatch()) {
                 ps.executeBatch();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    private void saveCustomPlaceholders(ObjectCache cache) {
-        String playerUUID = cache.isServer()
-                ? "Global-Server"
-                : cache.getPlayer().getUniqueId().toString();
-
+    private void saveCustomPlaceholders(Connection conn, PlayerDataSnapshot snapshot) throws SQLException {
+        String playerUUID = snapshot.storageId();
         String sql = dialect.upsertCustomPlaceholder();
 
-        try (Connection conn = dataSource.getConnection();
+        try (PreparedStatement deletePs = conn.prepareStatement(dialect.deleteCustomPlaceholders());
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            for (Map.Entry<ObjectCustomPlaceholder, String> entry
-                    : cache.getCustomPlaceholderCache().entrySet()) {
+            deletePs.setString(1, playerUUID);
+            deletePs.executeUpdate();
+
+            for (Map.Entry<String, String> entry : snapshot.customPlaceholders().entrySet()) {
 
                 ps.setString(1, playerUUID);
-                ps.setString(2, entry.getKey().getID());
+                ps.setString(2, entry.getKey());
                 ps.setString(3, entry.getValue());
 
                 if (dialect.supportBatch()) {
@@ -463,23 +454,12 @@ public class SQLDatabase extends AbstractDatabase {
             if (dialect.supportBatch()) {
                 ps.executeBatch();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     @Override
-    public void updateDataOnDisable(ObjectCache cache, boolean disable) {
-        saveUseTimes(cache);
-        saveFavourites(cache);
-
-        if (!UltimateShop.freeVersion) {
-            savePlaceholders(cache);
-            saveCustomPlaceholders(cache);
-        }
-
-        CacheManager.cacheManager.removeObjectCache(cache);
+    public void updateDataOnDisable(PlayerDataSnapshot snapshot, boolean disable) {
+        saveData(snapshot);
     }
 
     public void logTransaction(LocalDateTime createdAt,
@@ -496,7 +476,7 @@ public class SQLDatabase extends AbstractDatabase {
         if (dataSource == null || dialect == null) {
             return;
         }
-        DatabaseExecutor.getExecutor().execute(() -> {
+        DatabaseExecutor.executeTransaction(() -> {
             try (Connection conn = dataSource.getConnection();
                  PreparedStatement ps = conn.prepareStatement(dialect.insertTransactionLog())) {
                 ps.setTimestamp(1, Timestamp.valueOf(createdAt));

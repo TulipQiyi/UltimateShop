@@ -5,7 +5,7 @@ import cn.superiormc.ultimateshop.utils.CommonUtil;
 
 import java.io.*;
 
-public class InitManager {
+public class InitManager extends AbstractManager {
 
     public static InitManager initManager;
 
@@ -49,13 +49,14 @@ public class InitManager {
         resourceOutput("shops/example.yml", false);
         resourceOutput("shops/daily.yml", false);
         resourceOutput("menus/main.yml", false);
-        resourceOutput("menus/buy-more.yml", false);
-        resourceOutput("menus/buy-more-buy.yml", false);
-        resourceOutput("menus/buy-more-sell.yml", false);
-        resourceOutput("menus/search.yml", false);
-        resourceOutput("menus/favourite.yml", false);
-        resourceOutput("menus/example-shop-menu.yml", false);
-        resourceOutput("menus/daily-shop-menu.yml", false);
+        resourceOutput("buy_more_menus/buy-more.yml", false);
+        resourceOutput("buy_more_menus/buy-more-buy.yml", false);
+        resourceOutput("buy_more_menus/buy-more-sell.yml", false);
+        resourceOutput("search_menus/search.yml", false);
+        resourceOutput("favourite_menus/favourite.yml", false);
+        resourceOutput("item_sell_menus/item-sell.yml", false);
+        resourceOutput("shop_menu_templates/example-shop-menu.yml", false);
+        resourceOutput("shop_menu_templates/daily-shop-menu.yml", false);
         resourceOutput("shared_use_times/example.yml", true);
         resourceOutput("random_placeholders/daily.yml", false);
         resourceOutput("random_placeholders/reset.yml", false);

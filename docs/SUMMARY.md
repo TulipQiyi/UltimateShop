@@ -35,6 +35,7 @@
 * [🔲General Menus](menus/general-menus.md)
 * [🔽Buy More Menus](menus/buy-more-menus.md)
 * [🔍Search Menus - Premium](menus/search-menus-premium.md)
+* [💰Item Sell Menus](menus/item-sell-menus.md)
 * [❤️Favourite Menus - Premium](menus/favourite-menus-premium.md)
 * [🛒Sell All Menu](menus/sell-all-menu.md)
 * [🔀Conditional Display - Premium](menus/conditional-display-premium.md)

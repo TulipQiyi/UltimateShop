@@ -4,7 +4,7 @@ import cn.superiormc.ultimateshop.database.AbstractDatabase;
 import cn.superiormc.ultimateshop.database.SQLDatabase;
 import cn.superiormc.ultimateshop.database.YamlDatabase;
 
-public class DatabaseManager {
+public class DatabaseManager extends AbstractManager {
 
     public static DatabaseManager databaseManager;
 

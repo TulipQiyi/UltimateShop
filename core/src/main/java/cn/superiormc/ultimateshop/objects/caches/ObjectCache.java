@@ -1,8 +1,10 @@
 package cn.superiormc.ultimateshop.objects.caches;
 
 import cn.superiormc.ultimateshop.managers.ConfigManager;
+import cn.superiormc.ultimateshop.managers.CacheManager;
 import cn.superiormc.ultimateshop.managers.DatabaseManager;
 import cn.superiormc.ultimateshop.managers.ErrorManager;
+import cn.superiormc.ultimateshop.database.PlayerDataSnapshot;
 import cn.superiormc.ultimateshop.objects.buttons.ObjectItem;
 import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectCustomPlaceholder;
 import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectRandomPlaceholder;
@@ -61,8 +63,10 @@ public class ObjectCache {
         if (canNotModify()) {
             return;
         }
-        DatabaseManager.databaseManager.database.updateData(this, quitServer);
+        PlayerDataSnapshot snapshot = PlayerDataSnapshot.from(this);
+        DatabaseManager.databaseManager.database.updateData(snapshot);
         if (quitServer) {
+            CacheManager.cacheManager.removeObjectCache(this);
             cancelResetTasks();
         }
     }
@@ -71,7 +75,9 @@ public class ObjectCache {
         if (canNotModify()) {
             return;
         }
-        DatabaseManager.databaseManager.database.updateDataOnDisable(this, disable);
+        PlayerDataSnapshot snapshot = PlayerDataSnapshot.from(this);
+        DatabaseManager.databaseManager.database.updateDataOnDisable(snapshot, disable);
+        CacheManager.cacheManager.removeObjectCache(this);
         cancelResetTasks();
     }
 
@@ -178,21 +184,17 @@ public class ObjectCache {
                                           String refreshDoneTime,
                                           List<String> nowValue) {
 
-        if (placeholder == null || nowValue == null) {
+        if (closed || placeholder == null || nowValue == null) {
             return;
         }
         if (!checkPlaceholderScope(placeholder)) {
             return;
         }
-        randomPlaceholderCache.put(
+        ObjectRandomPlaceholderCache placeholderCache = randomPlaceholderCache.computeIfAbsent(
                 placeholder,
-                new ObjectRandomPlaceholderCache(
-                        this,
-                        placeholder,
-                        nowValue,
-                        CommonUtil.stringToTime(refreshDoneTime)
-                )
+                key -> new ObjectRandomPlaceholderCache(this, key)
         );
+        placeholderCache.loadState(nowValue, CommonUtil.stringToTime(refreshDoneTime));
     }
 
     public void setRandomPlaceholderCache(String id,
@@ -207,19 +209,15 @@ public class ObjectCache {
     }
 
     public ObjectRandomPlaceholderCache getRandomPlaceholderCache(ObjectRandomPlaceholder placeholder) {
-        if (placeholder == null) {
+        if (placeholder == null || !checkPlaceholderScope(placeholder)) {
             return null;
         }
-        if (!checkPlaceholderScope(placeholder)) {
-            return null;
-        }
-        ObjectRandomPlaceholderCache existingCache = randomPlaceholderCache.get(placeholder);
-        if (existingCache != null) {
-            return existingCache;
-        }
-        ObjectRandomPlaceholderCache createdCache = new ObjectRandomPlaceholderCache(this, placeholder);
-        ObjectRandomPlaceholderCache racedCache = randomPlaceholderCache.putIfAbsent(placeholder, createdCache);
-        return racedCache == null ? createdCache : racedCache;
+        ObjectRandomPlaceholderCache placeholderCache = randomPlaceholderCache.computeIfAbsent(
+                placeholder,
+                key -> new ObjectRandomPlaceholderCache(this, key)
+        );
+        placeholderCache.initialize();
+        return placeholderCache;
     }
 
     private boolean checkPlaceholderScope(ObjectRandomPlaceholder placeholder) {

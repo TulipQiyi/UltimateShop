@@ -151,7 +151,7 @@ public class FormInfoGUI extends FormGUI {
                         !ConfigManager.configManager.getBoolean("placeholder.click.enabled"),
                         false,
                         true,
-                        menu.getSection().getInt("max-amount", 64));
+                        1);
                 if (ConfigManager.configManager.getBoolean("menu.bedrock.not-auto-close")) {
                     ShopGUI.openGUI(player, item.getShopObject(), true, true);
                 }

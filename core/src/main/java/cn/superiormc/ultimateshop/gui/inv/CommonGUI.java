@@ -10,6 +10,7 @@ import cn.superiormc.ultimateshop.objects.ObjectThingRun;
 import cn.superiormc.ultimateshop.objects.menus.MenuSender;
 import cn.superiormc.ultimateshop.objects.menus.MenuType;
 import cn.superiormc.ultimateshop.objects.menus.ObjectFavouriteMenu;
+import cn.superiormc.ultimateshop.objects.menus.ObjectItemSellMenu;
 import cn.superiormc.ultimateshop.objects.menus.ObjectMenu;
 import cn.superiormc.ultimateshop.objects.menus.ObjectSearchMenu;
 import cn.superiormc.ultimateshop.utils.CommonUtil;
@@ -88,6 +89,11 @@ public class CommonGUI extends InvGUI {
 
         if (commonMenu.getType().equals(MenuType.Favourite)) {
             FavouriteGUI.openGUI(player, (ObjectFavouriteMenu) commonMenu, bypass, reopen);
+            return;
+        }
+
+        if (commonMenu.getType().equals(MenuType.ItemSell)) {
+            ItemSellGUI.openGUI(player, (ObjectItemSellMenu) commonMenu, bypass, reopen);
             return;
         }
 

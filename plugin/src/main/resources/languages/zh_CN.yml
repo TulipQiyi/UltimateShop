@@ -25,6 +25,8 @@ error:
 plugin:
   search-gui-name-input: "&f请在聊天栏输入要搜索的物品名称，输入 {value} 可清空名称筛选。"
   search-gui-name-empty: "无"
+  item-sell-no-price: "&c没有可出售物品"
+  item-sell-nothing: "&#98FB98[UltimateShop] &c该菜单中没有可出售物品。"
   reloading: "&#98FB98[UltimateShop] &f插件重启中，您的服务器可会有卡顿. 除非特殊情况，我们建议您重启服务器，而不是重启插件，这样能保证数据储存安全."
   reloaded: '&#98FB98[UltimateShop] &f插件已重启!'
   saved: '&#98FB98[UltimateShop] &f物品已保存!'
@@ -122,6 +124,14 @@ favourite-added: "&#98FB98[UltimateShop] &f已将 {item} 加入收藏菜单 {men
 favourite-removed: "&#98FB98[UltimateShop] &f已从收藏菜单 {menu} 移除 {item}。"
 
 override-lang:
+  item-sell-title: '出售物品'
+  item-sell-confirm-name: '&a确认出售'
+  item-sell-confirm-price: '&7预计价格: &f{price}'
+  item-sell-confirm-original-price: '&7原始价格: &f{original-price}'
+  item-sell-confirm-multiplier: '&7最终倍率: &fx{multiplier}'
+  item-sell-confirm-amount: '&7可出售数量: &f{item-amount}'
+  item-sell-confirm-unsellable: '&7不可出售数量: &f{unsellable-amount}'
+  item-sell-confirm-click: '&a点击出售上方物品。'
   favourite-empty-name: '&7空收藏槽位'
   favourite-empty-line-1: '&7把常用商品保存到这里。'
   favourite-empty-line-2: '&7可通过编辑模式排序或移除。'
@@ -384,6 +394,11 @@ editor:
   scope:
     shop: '商店'
     menu: '菜单'
+    shop_menu_template: '商店菜单模板'
+    buy_more_menu: '批量购买菜单'
+    favourite_menu: '收藏菜单'
+    search_menu: '搜索菜单'
+    item_sell_menu: '物品出售菜单'
   common:
     root: '根节点'
     back:
@@ -454,6 +469,21 @@ editor:
     menus:
       name: '&e编辑菜单'
       desc: '&7打开 &f/menus &7目录下的菜单 yml 文件'
+    shop-menu-templates:
+      name: '&e编辑商店菜单模板'
+      desc: '&7打开 &f/shop_menu_templates &7目录下的菜单 yml 文件'
+    buy-more-menus:
+      name: '&e编辑批量购买菜单'
+      desc: '&7打开 &f/buy_more_menus &7目录下的菜单 yml 文件'
+    favourite-menus:
+      name: '&e编辑收藏菜单'
+      desc: '&7打开 &f/favourite_menus &7目录下的菜单 yml 文件'
+    search-menus:
+      name: '&e编辑搜索菜单'
+      desc: '&7打开 &f/search_menus &7目录下的菜单 yml 文件'
+    item-sell-menus:
+      name: '&e编辑物品出售菜单'
+      desc: '&7打开 &f/item_sell_menus &7目录下的菜单 yml 文件'
     close:
       name: '&c关闭'
       desc: '&7关闭编辑器'

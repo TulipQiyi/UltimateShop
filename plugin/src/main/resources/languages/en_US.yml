@@ -29,6 +29,8 @@ plugin:
     &fSell Price: {sell-price}
   search-gui-name-input: "&fType the item name you want to search in chat. Type {value} to remove the name filter."
   search-gui-name-empty: "None"
+  item-sell-no-price: "&cNothing sellable"
+  item-sell-nothing: "&#98FB98[UltimateShop] &cThere are no sellable items in this menu."
   reloading: "&#98FB98[UltimateShop] &fTrying reload the plugin, server may have TPS
     drop or even crash if you have much shop products and online players because we are trying save
     their data in server main thread. We recommend you restart the server instead of reload plugin
@@ -127,6 +129,14 @@ favourite-added: "&#98FB98[UltimateShop] &fAdded {item} into favourite menu {men
 favourite-removed: "&#98FB98[UltimateShop] &fRemoved {item} from favourite menu {menu}."
 
 override-lang:
+  item-sell-title: 'Sell Items'
+  item-sell-confirm-name: '&aConfirm Sale'
+  item-sell-confirm-price: '&7Price: &f{price}'
+  item-sell-confirm-original-price: '&7Original price: &f{original-price}'
+  item-sell-confirm-multiplier: '&7Final multiplier: &fx{multiplier}'
+  item-sell-confirm-amount: '&7Sellable items: &f{item-amount}'
+  item-sell-confirm-unsellable: '&7Unsellable items: &f{unsellable-amount}'
+  item-sell-confirm-click: '&aClick to sell the items above.'
   search-gui-guide-name: '&eSearch Filters'
   search-gui-guide-line-1: '&7Place items in the slots below'
   search-gui-guide-line-2: '&7or type a product name in chat.'
@@ -390,6 +400,11 @@ editor:
   scope:
     shop: 'Shop'
     menu: 'Menu'
+    shop_menu_template: 'Shop Menu Template'
+    buy_more_menu: 'Buy More Menu'
+    favourite_menu: 'Favourite Menu'
+    search_menu: 'Search Menu'
+    item_sell_menu: 'Item Sell Menu'
   common:
     root: 'root'
     back:
@@ -460,6 +475,21 @@ editor:
     menus:
       name: '&eEdit Menus'
       desc: '&7Open menu yml files under &f/menus'
+    shop-menu-templates:
+      name: '&eEdit Shop Menu Templates'
+      desc: '&7Open menu yml files under &f/shop_menu_templates'
+    buy-more-menus:
+      name: '&eEdit Buy More Menus'
+      desc: '&7Open menu yml files under &f/buy_more_menus'
+    favourite-menus:
+      name: '&eEdit Favourite Menus'
+      desc: '&7Open menu yml files under &f/favourite_menus'
+    search-menus:
+      name: '&eEdit Search Menus'
+      desc: '&7Open menu yml files under &f/search_menus'
+    item-sell-menus:
+      name: '&eEdit Item Sell Menus'
+      desc: '&7Open menu yml files under &f/item_sell_menus'
     close:
       name: '&cClose'
       desc: '&7Close the editor'

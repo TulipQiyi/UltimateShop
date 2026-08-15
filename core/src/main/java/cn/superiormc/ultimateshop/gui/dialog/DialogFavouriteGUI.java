@@ -82,7 +82,9 @@ public class DialogFavouriteGUI extends DialogGUI {
         ObjectDisplayItemStack display = result.getDisplayItem(player, 1);
         DialogAction action = display.parseToDialogButton("result_" + result.getIndex(), response -> {
             if (editing) new DialogFavouriteEditGUI(player, menu, result).openGUI(true);
-            else new DialogInfoGUI(player, result.getItem()).openGUI(true);
+            else if (!result.getItem().openPriceModifierMenu(player)) {
+                new DialogInfoGUI(player, result.getItem()).openGUI(true);
+            }
         });
         if (action != null) builder.action(action);
     }

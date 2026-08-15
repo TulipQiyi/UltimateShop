@@ -13,6 +13,7 @@ import cn.superiormc.ultimateshop.objects.items.ItemStorage;
 import cn.superiormc.ultimateshop.objects.items.ThingMode;
 import cn.superiormc.ultimateshop.objects.items.prices.ObjectPrices;
 import cn.superiormc.ultimateshop.utils.CommonUtil;
+import cn.superiormc.ultimateshop.utils.MathUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -54,6 +55,8 @@ public class SellAllGUI extends InvGUI {
         }
         int soldAmount = 0;
         Map<AbstractSingleThing, BigDecimal> result = new HashMap<>();
+        BigDecimal originalTotal = BigDecimal.ZERO;
+        BigDecimal finalTotal = BigDecimal.ZERO;
         boolean hasActionExecuted = false;
         for (String shop : ConfigManager.configManager.shopConfigs.keySet()) {
             for (ObjectItem products : ConfigManager.configManager.getShop(shop).getProductListNotHidden(player)) {
@@ -73,6 +76,10 @@ public class SellAllGUI extends InvGUI {
                         1);
                 if (status.getStatus() == ProductTradeStatus.Status.DONE && status.getGiveResult() != null) {
                     result.putAll(status.getGiveResult().getResultMap());
+                    BigDecimal transactionTotal = status.getGiveResult().getResultMap().values().stream()
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    finalTotal = finalTotal.add(transactionTotal);
+                    originalTotal = originalTotal.add(status.getGiveResult().getOriginalTotal());
                     soldAmount = soldAmount + status.getAmount() * products.getDisplayItemObject().getAmountPlaceholder(player);
                 }
                 if (!products.getSellAction().isEmpty()) {
@@ -81,8 +88,11 @@ public class SellAllGUI extends InvGUI {
             }
         }
         if (!result.isEmpty()) {
+            BigDecimal finalMultiplier = originalTotal.compareTo(BigDecimal.ZERO) <= 0
+                    ? BigDecimal.ONE
+                    : finalTotal.divide(originalTotal, 12, java.math.RoundingMode.HALF_UP);
             LanguageManager.languageManager.sendStringText(player, "start-sell-all", "amount", String.valueOf(soldAmount),
-                    "multiplier", String.valueOf(ShopHelper.getSellMultiplier(player)),
+                    "multiplier", MathUtil.toDisplayString(finalMultiplier),
                     "reward", ObjectPrices.getDisplayNameInLine(player, 1,
                     result, ThingMode.ALL, true
             ));

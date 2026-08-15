@@ -37,8 +37,10 @@ public class FormBuyMoreGUI extends FormGUI {
 
         tempVal2.input(TextUtil.parse(player, ConfigManager.configManager.getStringWithLang(player, "menu.bedrock.buy-or-sell.buttons.amount.name")), getButtonTab());
         tempVal2.validResultHandler(response -> {
-            FormInfoGUI infoGUI = new FormInfoGUI(player, item, response.next());
-            infoGUI.openGUI(true);
+            if (!item.openPriceModifierMenu(player)) {
+                FormInfoGUI infoGUI = new FormInfoGUI(player, item, response.next());
+                infoGUI.openGUI(true);
+            }
         });
         tempVal2.closedOrInvalidResultHandler(response -> finishGUI());
         form = tempVal2.build();

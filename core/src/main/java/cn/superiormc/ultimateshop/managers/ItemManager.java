@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemManager {
+public class ItemManager extends AbstractManager {
 
     private final Map<String, ItemStack> savedItemMap = new HashMap<>();
 

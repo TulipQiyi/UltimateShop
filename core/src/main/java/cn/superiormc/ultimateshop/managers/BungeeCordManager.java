@@ -9,7 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-public class BungeeCordManager {
+public class BungeeCordManager extends AbstractManager {
 
     public static BungeeCordManager bungeeCordManager;
 

@@ -65,7 +65,7 @@ menu:
       - 'favoutite2' # Put more search menu ID here.
 ```
 
-The default favourite menu file is `menus/favourite.yml`, and you can duplicate it to create more favourite menus.
+The default favourite menu file is `favourite_menus/favourite.yml`, and you can duplicate it to create more favourite menus.
 
 Command:
 

@@ -25,7 +25,7 @@ public class ObjectFavouriteMenu extends ObjectMenu {
     private int editModeSlot = -1;
 
     public ObjectFavouriteMenu(String fileName) {
-        super(fileName);
+        super(fileName, FAVOURITE_MENU_FOLDER);
         this.type = MenuType.Favourite;
         initFavouriteStructure();
         TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §f" + fileName + ".yml set as favourite type menu.");

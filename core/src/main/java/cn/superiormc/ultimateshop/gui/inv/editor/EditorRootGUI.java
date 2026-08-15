@@ -32,10 +32,40 @@ public class EditorRootGUI extends InvGUI {
                         EditorLang.text(player, "editor.root.shops.desc", "&7Open shop yml files under &f/shops"),
                         EditorLang.text(player, "editor.action.open", "&aLeft click to open")
                 )));
-        inv.setItem(15, EditorUtil.createItem(Material.BOOK,
+        inv.setItem(12, EditorUtil.createItem(Material.BOOK,
                 EditorLang.text(player, "editor.root.menus.name", "&eEdit Menus"),
                 List.of(
                         EditorLang.text(player, "editor.root.menus.desc", "&7Open menu yml files under &f/menus"),
+                        EditorLang.text(player, "editor.action.open", "&aLeft click to open")
+                )));
+        inv.setItem(13, EditorUtil.createItem(Material.WRITABLE_BOOK,
+                EditorLang.text(player, "editor.root.shop-menu-templates.name", "&eEdit Shop Menu Templates"),
+                List.of(
+                        EditorLang.text(player, "editor.root.shop-menu-templates.desc", "&7Open menu yml files under &f/shop_menu_templates"),
+                        EditorLang.text(player, "editor.action.open", "&aLeft click to open")
+                )));
+        inv.setItem(14, EditorUtil.createItem(Material.CHEST_MINECART,
+                EditorLang.text(player, "editor.root.buy-more-menus.name", "&eEdit Buy More Menus"),
+                List.of(
+                        EditorLang.text(player, "editor.root.buy-more-menus.desc", "&7Open menu yml files under &f/buy_more_menus"),
+                        EditorLang.text(player, "editor.action.open", "&aLeft click to open")
+                )));
+        inv.setItem(15, EditorUtil.createItem(Material.NAME_TAG,
+                EditorLang.text(player, "editor.root.favourite-menus.name", "&eEdit Favourite Menus"),
+                List.of(
+                        EditorLang.text(player, "editor.root.favourite-menus.desc", "&7Open menu yml files under &f/favourite_menus"),
+                        EditorLang.text(player, "editor.action.open", "&aLeft click to open")
+                )));
+        inv.setItem(16, EditorUtil.createItem(Material.COMPASS,
+                EditorLang.text(player, "editor.root.search-menus.name", "&eEdit Search Menus"),
+                List.of(
+                        EditorLang.text(player, "editor.root.search-menus.desc", "&7Open menu yml files under &f/search_menus"),
+                        EditorLang.text(player, "editor.action.open", "&aLeft click to open")
+                )));
+        inv.setItem(21, EditorUtil.createItem(Material.EMERALD,
+                EditorLang.text(player, "editor.root.item-sell-menus.name", "&eEdit Item Sell Menus"),
+                List.of(
+                        EditorLang.text(player, "editor.root.item-sell-menus.desc", "&7Open menu yml files under &f/item_sell_menus"),
                         EditorLang.text(player, "editor.action.open", "&aLeft click to open")
                 )));
         inv.setItem(22, EditorUtil.createItem(Material.BARRIER,
@@ -49,8 +79,28 @@ public class EditorRootGUI extends InvGUI {
             MenuStatusManager.menuStatusManager.openScope(player, EditorScope.SHOP, 0);
             return true;
         }
-        if (slot == 15) {
+        if (slot == 12) {
             MenuStatusManager.menuStatusManager.openScope(player, EditorScope.MENU, 0);
+            return true;
+        }
+        if (slot == 13) {
+            MenuStatusManager.menuStatusManager.openScope(player, EditorScope.SHOP_MENU_TEMPLATE, 0);
+            return true;
+        }
+        if (slot == 14) {
+            MenuStatusManager.menuStatusManager.openScope(player, EditorScope.BUY_MORE_MENU, 0);
+            return true;
+        }
+        if (slot == 15) {
+            MenuStatusManager.menuStatusManager.openScope(player, EditorScope.FAVOURITE_MENU, 0);
+            return true;
+        }
+        if (slot == 16) {
+            MenuStatusManager.menuStatusManager.openScope(player, EditorScope.SEARCH_MENU, 0);
+            return true;
+        }
+        if (slot == 21) {
+            MenuStatusManager.menuStatusManager.openScope(player, EditorScope.ITEM_SELL_MENU, 0);
             return true;
         }
         if (slot == 22) {

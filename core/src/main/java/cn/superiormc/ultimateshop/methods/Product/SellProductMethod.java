@@ -27,6 +27,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
+
 public class SellProductMethod {
 
     public static ProductTradeStatus startSell(ObjectItem item, Player player, boolean forceDisplayMessage) {
@@ -96,6 +98,33 @@ public class SellProductMethod {
                                                boolean ignoreSellMultiplier,
                                                int multi,
                                                double multiplier) {
+        return startSellInternal(storage, item, player, forceDisplayMessage, notCost, ableMaxSell,
+                sellAll, ignoreSellMultiplier, false, multi, multiplier);
+    }
+
+    public static ProductTradeStatus startPriceModifierSell(ItemStorage storage,
+                                                            ObjectItem item,
+                                                            Player player,
+                                                            boolean forceDisplayMessage,
+                                                            boolean ableMaxSell,
+                                                            boolean sellAll,
+                                                            int multi,
+                                                            double multiplier) {
+        return startSellInternal(storage, item, player, forceDisplayMessage, false, ableMaxSell,
+                sellAll, false, true, multi, multiplier);
+    }
+
+    private static ProductTradeStatus startSellInternal(ItemStorage storage,
+                                                        ObjectItem item,
+                                                        Player player,
+                                                        boolean forceDisplayMessage,
+                                                        boolean notCost,
+                                                        boolean ableMaxSell,
+                                                        boolean sellAll,
+                                                        boolean ignoreSellMultiplier,
+                                                        boolean allowPriceModifier,
+                                                        int multi,
+                                                        double multiplier) {
         if (item == null) {
             return ProductTradeStatus.ERROR;
         }
@@ -118,12 +147,9 @@ public class SellProductMethod {
             }
             return ProductTradeStatus.PERMISSION;
         }
-        if (item.getSellPrice().empty) {
+        ObjectPrices sellPrice = allowPriceModifier ? item.getRawSellPrice() : item.getSellPrice();
+        if (sellPrice.empty) {
             return ProductTradeStatus.ERROR;
-        }
-        double finalMultiplier = multiplier;
-        if (!ignoreSellMultiplier && !notCost) {
-            finalMultiplier = MathUtil.multiply(finalMultiplier, ShopHelper.getSellMultiplier(player, item));
         }
         ObjectCache tempVal3 = CacheManager.cacheManager.getObjectCache(player);
         ObjectCache tempVal11 = CacheManager.cacheManager.serverCache;
@@ -233,7 +259,7 @@ public class SellProductMethod {
         }
         // API
         if (!notCost) {
-            giveResult = item.getSellPrice().give(player, playerUseTimes, multi);
+            giveResult = sellPrice.give(player, playerUseTimes, multi);
             ItemPreTransactionEvent event = new ItemPreTransactionEvent(false, player, multi, item, giveResult, takeResult);
             Bukkit.getServer().getPluginManager().callEvent(event);
             if (event.isCancelled()) {
@@ -276,6 +302,13 @@ public class SellProductMethod {
             return ProductTradeStatus.REQUIRE_CONDITION_NOT_MEET;
         }
         // 尝试给物品
+        double finalMultiplier = multiplier;
+        if (!ignoreSellMultiplier) {
+            BigDecimal basePrice = giveResult.getResultMap().values().stream()
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            finalMultiplier = MathUtil.multiply(finalMultiplier, ShopHelper.getSellMultiplier(
+                    player, item, storage, playerUseTimes, multi, basePrice));
+        }
         if (!giveResult.give(playerUseTimes, multi, player, finalMultiplier)) {
             if (shouldSendMessage) {
                 LanguageManager.languageManager.sendStringText(player, "inventory-full");
@@ -314,7 +347,7 @@ public class SellProductMethod {
                     ObjectPrices.getDisplayNameInLine(player,
                             multi,
                             giveResult.getResultMap(),
-                            item.getSellPrice().getMode(),
+                            sellPrice.getMode(),
                             !ConfigManager.configManager.getBoolean("placeholder.status.can-used-everywhere")),
                     "amount",
                     String.valueOf(calculateAmount));
@@ -323,7 +356,7 @@ public class SellProductMethod {
                 ObjectPrices.getDisplayNameInLine(player,
                         multi,
                         giveResult.getResultMap(),
-                        item.getSellPrice().getMode(),
+                        sellPrice.getMode(),
                         !ConfigManager.configManager.getBoolean("placeholder.status.can-used-everywhere")));
         ItemFinishTransactionEvent event = new ItemFinishTransactionEvent(false, player, multi, item);
         Bukkit.getServer().getPluginManager().callEvent(event);

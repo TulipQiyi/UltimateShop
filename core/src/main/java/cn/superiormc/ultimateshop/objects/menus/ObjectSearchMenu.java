@@ -25,7 +25,7 @@ public class ObjectSearchMenu extends ObjectMenu {
     private int noResultSlot = -1;
 
     public ObjectSearchMenu(String fileName) {
-        super(fileName);
+        super(fileName, SEARCH_MENU_FOLDER);
         this.type = MenuType.Search;
         initSearchStructure();
         TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §f" + fileName + ".yml set as search type menu.");

@@ -116,7 +116,7 @@ public class MathUtil {
                     double max = Math.max(d[0], d[1]);
                     return min == max ? min : random.nextDouble(min, max);
                 });
-                return BigDecimal.valueOf(Crunch.compileExpression(mathStr, env).evaluate());
+                return BigDecimal.valueOf(Crunch.compileExpression(mathStr, env).evaluate()).setScale(scale, RoundingMode.HALF_UP);
             }
             return BigDecimal.valueOf(Crunch.evaluateExpression(mathStr)).setScale(scale, RoundingMode.HALF_UP);
         }

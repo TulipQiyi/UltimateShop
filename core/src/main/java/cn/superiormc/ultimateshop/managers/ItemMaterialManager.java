@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-public class ItemMaterialManager {
+public class ItemMaterialManager extends AbstractManager {
 
     public static ItemMaterialManager itemMaterialManager;
 

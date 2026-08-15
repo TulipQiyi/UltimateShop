@@ -69,7 +69,7 @@ menu:
       - 'search2' # Put more search menu ID here.
 ```
 
-The default search menu file is `menus/search.yml`, and you can duplicate it to create more search menus.
+The default search menu file is `search_menus/search.yml`, and you can duplicate it to create more search menus.
 
 Command:
 

@@ -81,6 +81,8 @@ public class SellStickListener implements Listener {
                     return;
                 }
                 Map<AbstractSingleThing, BigDecimal> result = new HashMap<>();
+                BigDecimal originalTotal = BigDecimal.ZERO;
+                BigDecimal finalTotal = BigDecimal.ZERO;
                 boolean hasActionExecuted = false;
                 int cooldown = ConfigManager.configManager.getInt("sell.sell-stick.cooldown", -1);
                 if (cooldown < 5) {
@@ -108,6 +110,10 @@ public class SellStickListener implements Listener {
                                 sellStick.getMultiplier());
                         if (status.getStatus() == ProductTradeStatus.Status.DONE && status.getGiveResult() != null) {
                             result.putAll(status.getGiveResult().getResultMap());
+                            BigDecimal transactionTotal = status.getGiveResult().getResultMap().values().stream()
+                                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                            finalTotal = finalTotal.add(transactionTotal);
+                            originalTotal = originalTotal.add(status.getGiveResult().getOriginalTotal());
                         }
                         if (!products.getSellAction().isEmpty()) {
                             hasActionExecuted = true;
@@ -115,7 +121,9 @@ public class SellStickListener implements Listener {
                     }
                 }
                 if (!result.isEmpty()) {
-                    double finalMultiplier = MathUtil.multiply(sellStick.getMultiplier(), ShopHelper.getSellMultiplier(event.getPlayer()));
+                    BigDecimal finalMultiplier = originalTotal.compareTo(BigDecimal.ZERO) <= 0
+                            ? BigDecimal.ONE
+                            : finalTotal.divide(originalTotal, 12, java.math.RoundingMode.HALF_UP);
                     LanguageManager.languageManager.sendStringText(event.getPlayer(), "start-sell-stick",
                             "reward", ObjectPrices.getDisplayNameInLine(event.getPlayer(), 1,
                                     result, ThingMode.ALL, true),
