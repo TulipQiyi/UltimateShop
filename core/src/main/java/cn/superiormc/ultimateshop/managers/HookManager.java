@@ -66,9 +66,6 @@ public class HookManager extends AbstractManager {
         if (CommonUtil.checkPluginLoad("PlayerPoints")) {
             registerNewEconomyHook("PlayerPoints", new EconomyPlayerPointsHook());
         }
-        if (CommonUtil.checkPluginLoad("ExcellentEconomy")) {
-            registerNewEconomyHook("ExcellentEconomy", new EconomyExcellentEconomyHook());
-        }
         if (CommonUtil.checkPluginLoad("UltraEconomy")) {
             registerNewEconomyHook("UltraEconomy", new EconomyUltraEconomyHook());
         }
