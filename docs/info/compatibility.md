@@ -8,30 +8,29 @@ Direct compatibility refers to the use of item plugins or the economy of economi
 
 ### <mark style="color:red;">Directly</mark> supported item plugins list
 
-* ItemsAdder
-* Oraxen
-* EcoItems
-* EcoArmor
-* MMOItems
-* MythicMobs
-* eco
-* NeigeItems
-* ExecutableItems
-* Nexo
-* CraftEngine
+- ItemsAdder
+- Oraxen
+- EcoItems
+- EcoArmor
+- MMOItems
+- MythicMobs
+- eco
+- NeigeItems
+- ExecutableItems
+- Nexo
+- CraftEngine
 
 You can use ItemBridge as custom item provider which supports more custom item plugins, click [here](../format/itembridge.md) to know more.
 
 ### <mark style="color:red;">Directly</mark> supported economy plugins list
 
-* PlayerPoints
-* CoinsEngine
-* UltraEconomy
-* EcoBits
-* PEconomy
-* RedisEconomy
-* RoyaleEconomy
-* VotingPlugin
+- PlayerPoints
+- UltraEconomy
+- EcoBits
+- PEconomy
+- RedisEconomy
+- RoyaleEconomy
+- VotingPlugin
 
 The following provides an example of directly obtaining items from the **ItemsAdder** plugin through the direct compatibility feature in **ItemFormat** and using economy from **Vault** plugin in **EconomyFormat**:
 
@@ -41,7 +40,7 @@ items:
     price-mode: CLASSIC_ALL
     product-mode: CLASSIC_ALL
     products:
-      1: 
+      1:
         hook-plugin: ItemsAdder # Item Format
         hook-item: fishing_pack:common_fishing_bait # Item Forma
     buy-prices:
@@ -49,10 +48,10 @@ items:
         economy-plugin: Vault # Economy Format
         amount: 5
         start-apply: 0
-        placeholder: '&65 Coins'
+        placeholder: "&65 Coins"
 ```
 
-### <mark style="color:red;">Directly</mark> supported protection plugins list  <a href="#directly-supported-protection-plugins-list-premium" id="directly-supported-protection-plugins-list-premium"></a>
+### <mark style="color:red;">Directly</mark> supported protection plugins list <a href="#directly-supported-protection-plugins-list-premium" id="directly-supported-protection-plugins-list-premium"></a>
 
 {% hint style="info" %}
 Although the protection plugin you are using is not on this list, as long as the corresponding plugin can prevent the player from interacting with the corresponding container, UltimateShop will not trigger a sell stick, depending on how the author of the plugin you are using wrote their plugin.
@@ -60,33 +59,33 @@ Although the protection plugin you are using is not on this list, as long as the
 
 If players do not have permission to open container within these protection plugins areas, UltimateShop can prevent players use sell stick in these areas.
 
-* BentoBox
-* Dominion
-* GriefPrevention
-* HuskTowns
-* HuskClaims
-* Lands
-* PlotSquared
-* Residence
-* Towny
-* WorldGuard
-* SuperiorSkyblock2
+- BentoBox
+- Dominion
+- GriefPrevention
+- HuskTowns
+- HuskClaims
+- Lands
+- PlotSquared
+- Residence
+- Towny
+- WorldGuard
+- SuperiorSkyblock2
 
-### <mark style="color:red;">Directly</mark> supported hologram plugins list  <a href="#directly-supported-protection-plugins-list-premium" id="directly-supported-protection-plugins-list-premium"></a>
+### <mark style="color:red;">Directly</mark> supported hologram plugins list <a href="#directly-supported-protection-plugins-list-premium" id="directly-supported-protection-plugins-list-premium"></a>
 
 Support create hologram to display sell chest info.
 
-* CMI
-* DecentHolograms
-* FancyHolograms
+- CMI
+- DecentHolograms
+- FancyHolograms
 
 ## **Indirect compatibility**
 
 Indirect compatibility refers to the flexible use of various features of plugins to enable them to associate with these plugins.
 
-* [Save Item](../features/saved-item-item-manager.md): We told you a command called `/shop saveitem` at [Commands](commands-and-permissions.md) page, we also told you can set `material` option in [Item Format](../format/itemformat-tm/)  to the save item ID you was set to use them.
-* Buy Actions: We told you a option called `buy-actions` in shop configs at [Shops](../shops/shops.md) page. In [Actions](../format/action-format.md) page, we also told you we support use command in actions, so just use the give item command here, all is done.
-* Give Actions: We told you this feature at [Single Things](../shops/products-config-single-thing/) page which is very similar to **Buy Actions**. What's more, we even give you an example at that page.
+- [Save Item](../features/saved-item-item-manager.md): We told you a command called `/shop saveitem` at [Commands](commands-and-permissions.md) page, we also told you can set `material` option in [Item Format](../format/itemformat-tm/) to the save item ID you was set to use them.
+- Buy Actions: We told you a option called `buy-actions` in shop configs at [Shops](../shops/shops.md) page. In [Actions](../format/action-format.md) page, we also told you we support use command in actions, so just use the give item command here, all is done.
+- Give Actions: We told you this feature at [Single Things](../shops/products-config-single-thing/) page which is very similar to **Buy Actions**. What's more, we even give you an example at that page.
 
 ### Example: Use for not supported item plugins as products
 
@@ -95,25 +94,25 @@ In this example, we first fill in the **ItemFormat** through the display item op
 In the `products` option, we use the [Custom Sell Match](../features/custom-item-match-method.md) feature, which allows us to flexibly set the rules for selling matches for this item, such as `contains-lore`, etc. Then, we use `give-actions` format to execute the item give command, so that player can obtain this item after buy.
 
 ```yaml
-    display-item:
-      material: APPLE
-      # You can hold the item and type command /shop generateitemformat to get the ItemFormat here.
-    products:
+display-item:
+  material: APPLE
+  # You can hold the item and type command /shop generateitemformat to get the ItemFormat here.
+products:
+  1:
+    # Sell Match
+    match-item:
+      contains-lore:
+        - "test1"
+    # Buy Give Command
+    give-actions:
       1:
-        # Sell Match
-        match-item:
-          contains-lore:
-            - 'test1'
-        # Buy Give Command
-        give-actions:
-          1:
-            multi-once: true
-            type: console_command
-            command: 'items give {player} {amount}'
-          2:
-            type: message
-            message: 'test message'
-        amount: 64
+        multi-once: true
+        type: console_command
+        command: "items give {player} {amount}"
+      2:
+        type: message
+        message: "test message"
+    amount: 64
 ```
 
 If you use the Paper server and the item is fixed (the items generated each time are identical), you can use the Save item function: you only need to use the `/shop saveitem` command, then use the `material` option in **ItemFormat**, and fill in the ID of the save item in this option.
@@ -127,31 +126,31 @@ Require <mark style="color:red;">**PREMIUM**</mark> version of UltimateShop!
 {% endhint %}
 
 ```yaml
-    products:
+products:
+  1:
+    # The product
+    material: APPLE
+    amount: 64
+buy-prices:
+  1:
+    # Buy Match Placeholder
+    match-placeholder: "%economy_now_balance_placeholder%"
+    amount: 500
+    # Buy Take Actions
+    take-actions:
       1:
-        # The product
-        material: APPLE
-        amount: 64
-    buy-prices:
+        multi-once: true
+        type: console_command
+        command: "eco take {player} {amount}"
+sell-prices:
+  1:
+    # Sell Give Actions
+    give-actions:
       1:
-        # Buy Match Placeholder
-        match-placeholder: '%economy_now_balance_placeholder%'
-        amount: 500
-        # Buy Take Actions
-        take-actions:
-          1:
-            multi-once: true
-            type: console_command
-            command: 'eco take {player} {amount}'
-    sell-prices:
-      1:
-        # Sell Give Actions
-        give-actions:
-          1:
-            multi-once: true
-            type: 'console_command'
-            command: 'eco give {player} {amount}'
-        amount: 500
+        multi-once: true
+        type: "console_command"
+        command: "eco give {player} {amount}"
+    amount: 500
 ```
 
 ## MythicChanger: Extra Item Format option
@@ -195,20 +194,20 @@ nbt:
 
 Supported NBT Type: '
 
-* byte
-* short
-* int
-* long
-* float
-* double
-* string
+- byte
+- short
+- int
+- long
+- float
+- double
+- string
 
 For example:
 
 ```yaml
 nbt:
-  string: 
-    customNBT: 'Hello!'
+  string:
+    customNBT: "Hello!"
   int:
     anotherNBTComponent.theNBTKey: 5
 ```

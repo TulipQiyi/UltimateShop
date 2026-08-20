@@ -1,5 +1,5 @@
 name: UltimateShop
-version: '${revision}'
+version: "${revision}"
 main: cn.superiormc.ultimateshop.UltimateShop
 api-version: 1.14
 folia-supported: true
@@ -22,7 +22,6 @@ softdepend:
   - Vault
   - PlayerPoints
   - UltraEconomy
-  - CoinsEngine
   - ExcellentEconomy
   - RedisEconomy
   - RoyaleEconomy
