@@ -1,0 +1,54 @@
+name: Build UltimateShop
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Java 26
+      uses: actions/setup-java@v4
+      with:
+        java-version: '26'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Setup Maven
+      uses: stCarolas/setup-maven@v4.5
+      with:
+        maven-version: '3.9.6'
+        
+    - name: Build
+      run: mvn clean package -DskipTests
+      
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: UltimateShop
+        path: |
+          **/target/*.jar
+          !**/target/original-*.jar
+          !**/target/*-sources.jar
+          !**/target/*-javadoc.jar
+        retention-days: 30
+        compression-level: 6
+        
+    - name: Upload child-module
+      uses: actions/upload-artifact@v4
+      with:
+        name: UltimateShop-plugin
+        path: plugin/target/*.jar
+        retention-days: 30
+        compression-level: 6
+      # 只有当 plugin 模块存在时才执行
+      if: success()
