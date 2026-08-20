@@ -24,12 +24,12 @@ public class InitManager extends AbstractManager {
     public void init() {
         resourceOutput("languages/en_US.yml", true);
         resourceOutput("languages/zh_CN.yml", true);
-        resourceOutput("legacy_language_files/cs_CZ.yml", true);
-        resourceOutput("legacy_language_files/sk_SK.yml", true);
-        resourceOutput("legacy_language_files/es_ES.yml", true);
-        resourceOutput("legacy_language_files/de_DE.yml", true);
-        resourceOutput("legacy_language_files/pt_BR.yml", true);
-        resourceOutput("legacy_language_files/tr_TR.yml", true);
+        resourceOutput("languages/cs_CZ.yml", true);
+        resourceOutput("languages/sk_SK.yml", true);
+        resourceOutput("languages/es_ES.yml", true);
+        resourceOutput("languages/de_DE.yml", true);
+        resourceOutput("languages/pt_BR.yml", true);
+        resourceOutput("languages/tr_TR.yml", true);
         resourceOutput("editor-enable-confirm.yml", true);
         resourceOutput("shops/concretes.yml", false);
         resourceOutput("shops/blocks.yml", false);
