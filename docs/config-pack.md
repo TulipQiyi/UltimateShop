@@ -8,6 +8,8 @@ Those config packs are not included in plugin, even not in premium version of pl
 
 {% hint style="success" %}
 **Apply your work:** `pqguanfang@foxmail.com`
+
+Display your work here do not charge creator anything but the creator must provide it product files to approve so we can confirm your work in real and do not have major issues.
 {% endhint %}
 
 ## Redstone Labs - Shop Configuration

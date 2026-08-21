@@ -3,7 +3,6 @@
 * [🎉Welcome](README.md)
 * [🌏Other Language Wiki](other-language-wiki.md)
 * [💬Config Pack](config-pack.md)
-* [Business License](business-license.md)
 
 ## 📦Info
 
@@ -17,7 +16,7 @@
 * [❓FAQ](info/faq.md)
 * [🆚Compare](info/compare.md)
 
-## &#x20;📋Format
+## 📋Format
 
 * [📊Understanding YAML/This wiki](format/understanding-yaml-this-wiki.md)
 * [🛒Info of ItemFormat™](format/info-of-itemformat-tm.md)
@@ -30,7 +29,7 @@
 * [⚖️Condition Format](format/condition-format.md)
 * [➗Math Calculate Format](format/math-calculate-format.md)
 
-## &#x20;🔌Menus
+## 🔌Menus
 
 * [🔲General Menus](menus/general-menus.md)
 * [🔽Buy More Menus](menus/buy-more-menus.md)
@@ -52,6 +51,7 @@
 * [♻️Product Config: Buy/Sell Times Reset](shops/product-config-buy-sell-times-reset.md)
 * [🔗Shared Product Data - Premium](shops/shared-product-data-premium.md)
 * [💰Sell Multiplier - Premium](shops/sell-multiplier-premium.md)
+* [💹Price Modifier](shops/price-modifier.md)
 * [⚡Example: Common Usage](shops/example-common-usage.md)
 * [🌱Example: Stock (like in life)](shops/example-stock-like-in-life.md)
 * [📅Example: Daily Shop/Rotating Shop](shops/example-daily-shop-rotating-shop.md)

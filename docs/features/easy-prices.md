@@ -1,7 +1,7 @@
 # 💴Easy Prices
 
-{% hint style="warning" %}
-❌This feature is no longer get support and will be <mark style="color:red;">removed</mark> in future version.
+{% hint style="danger" %}
+The code provided for this feature has not been updated for a long time and may have potential issues. The plugin author does not plan to provide any fixes or follow-up updates for this feature. Use it at your own risk.
 {% endhint %}
 
 You can use `prices` section in `config.yml` file to create new easy prices!
