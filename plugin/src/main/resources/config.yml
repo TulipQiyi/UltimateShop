@@ -38,6 +38,12 @@ force-display-fail-message: false
 cache:
   # If you are facing multi servers sync issue, try greater this value.
   load-delay: 7
+  reset-task:
+    # Reset deadlines are rounded forward into this many seconds so nearby entries run together.
+    # Set to 0 to disable deadline merging. Maximum value: 3600.
+    merge-seconds: 1
+    # Maximum number of due reset entries processed in one server tick. Maximum value: 10000.
+    max-tasks-per-tick: 100
 
 sell:
   # Support Value: Bukkit or ItemFormat.

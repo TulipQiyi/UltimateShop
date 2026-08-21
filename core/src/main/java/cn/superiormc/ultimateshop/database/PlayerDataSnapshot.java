@@ -99,6 +99,9 @@ public record PlayerDataSnapshot(
         }
     }
 
-    public record RandomPlaceholderSnapshot(String id, String nowValue, String refreshDoneTime) {
+    public record RandomPlaceholderSnapshot(String id,
+                                            String nowValue,
+                                            String refreshDoneTime,
+                                            String lastResetTime) {
     }
 }

@@ -232,6 +232,45 @@ public class ObjectRandomPlaceholder {
         return CommonUtil.timeToString(getRefreshDoneTimeObject(player, id), ConfigManager.configManager.getString("placeholder.refresh.format"));
     }
 
+    public static LocalDateTime getLastResetTimeObject(Player player, String id) {
+        if (UltimateShop.freeVersion) {
+            return null;
+        }
+        ObjectRandomPlaceholder placeholder = ConfigManager.configManager.getRandomPlaceholder(id);
+        if (placeholder == null) {
+            return null;
+        }
+        ObjectCache cache;
+        if (placeholder.perPlayer) {
+            if (player == null) {
+                ErrorManager.errorManager.sendErrorMessage("§cThe random placeholder is per player and can not sync data with server cache.");
+                return null;
+            }
+            cache = CacheManager.cacheManager.getObjectCache(player);
+        } else {
+            cache = CacheManager.cacheManager.serverCache;
+        }
+        if (cache == null) {
+            return null;
+        }
+        ObjectRandomPlaceholderCache placeholderCache = cache.getRandomPlaceholderCache(placeholder);
+        return placeholderCache == null ? null : placeholderCache.getLastResetTime();
+    }
+
+    public static String getLastResetTime(Player player, String id) {
+        LocalDateTime lastResetTime = getLastResetTimeObject(player, id);
+        if (lastResetTime == null) {
+            return ConfigManager.configManager.getStringWithLang(
+                    player,
+                    "placeholder.refresh.never"
+            );
+        }
+        return CommonUtil.timeToString(
+                lastResetTime,
+                ConfigManager.configManager.getString("placeholder.refresh.format")
+        );
+    }
+
     public static String getNextTime(Player player, String id) {
         if (UltimateShop.freeVersion) {
             return "";

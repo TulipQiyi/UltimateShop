@@ -7,10 +7,9 @@ import cn.superiormc.ultimateshop.managers.ErrorManager;
 import cn.superiormc.ultimateshop.objects.items.subobjects.ObjectRandomPlaceholder;
 import cn.superiormc.ultimateshop.utils.CommandUtil;
 import cn.superiormc.ultimateshop.utils.CommonUtil;
-import cn.superiormc.ultimateshop.utils.SchedulerUtil;
 import cn.superiormc.ultimateshop.utils.TextUtil;
 
-import java.time.Duration;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,11 +17,13 @@ import java.util.List;
 
 public class ObjectRandomPlaceholderCache {
 
+    private static final int NEVER_REFRESH_YEAR = 2999;
+
     private List<String> nowValue = null;
 
     private LocalDateTime refreshDoneTime = null;
 
-    private SchedulerUtil resetTask;
+    private LocalDateTime lastResetTime = null;
 
     private boolean initialized;
 
@@ -44,15 +45,23 @@ public class ObjectRandomPlaceholderCache {
         setRefreshTime();
     }
 
-    public synchronized void loadState(List<String> value, LocalDateTime refreshTime) {
+    public synchronized void loadState(List<String> value,
+                                       LocalDateTime refreshTime,
+                                       LocalDateTime loadedLastResetTime) {
         if (value == null) {
             return;
         }
         cancelResetTask();
         this.nowValue = new ArrayList<>(value);
         this.refreshDoneTime = refreshTime;
+        this.lastResetTime = loadedLastResetTime;
+        migrateLegacyCustomState();
         this.initialized = true;
-        scheduleResetTask();
+        activateResetTask();
+    }
+
+    public synchronized void loadState(List<String> value, LocalDateTime refreshTime) {
+        loadState(value, refreshTime, null);
     }
 
     public ObjectRandomPlaceholder getPlaceholder() {
@@ -60,20 +69,35 @@ public class ObjectRandomPlaceholderCache {
     }
 
     public synchronized LocalDateTime getRefreshDoneTime() {
-        if (refreshDoneTime != null && !refreshDoneTime.isAfter(CommonUtil.getNowTime())) {
+        if ("CUSTOM".equals(placeholder.getMode())
+                || refreshDoneTime != null && !refreshDoneTime.isAfter(CommonUtil.getNowTime())) {
             setRefreshTime();
         }
         return refreshDoneTime;
     }
 
+    public synchronized LocalDateTime getLastResetTime() {
+        return lastResetTime;
+    }
+
     public synchronized void removeRefreshDoneTime() {
         refreshDoneTime = null;
+        lastResetTime = null;
     }
 
     public synchronized void cancelResetTask() {
-        if (resetTask != null) {
-            resetTask.cancel();
-            resetTask = null;
+        RandomPlaceholderResetTaskPool.unregister(this);
+    }
+
+    public synchronized void activateResetTask() {
+        if (!initialized || cache.canNotModify()) {
+            return;
+        }
+        if ("CUSTOM".equals(placeholder.getMode())) {
+            setRefreshTime();
+            scheduleResetTask();
+        } else {
+            scheduleResetTask();
         }
     }
 
@@ -110,10 +134,45 @@ public class ObjectRandomPlaceholderCache {
             return;
         }
         if (mode.equals("ONCE")) {
+            lastResetTime = CommonUtil.getNowTime();
             setPlaceholder(notUseBungee);
             return;
         }
-        boolean needRefresh = nowValue == null || refreshDoneTime == null || !refreshDoneTime.isAfter(CommonUtil.getNowTime());
+        LocalDateTime now = CommonUtil.getNowTime();
+        LocalDateTime customRefreshTime = null;
+        if (mode.equals("CUSTOM")) {
+            customRefreshTime = getCustomRefreshTime(time);
+            if (customRefreshTime == null) {
+                refreshDoneTime = neverRefresh();
+                cancelResetTask();
+                if (nowValue == null) {
+                    setPlaceholder(notUseBungee);
+                }
+                return;
+            }
+            if (lastResetTime != null && !lastResetTime.isBefore(customRefreshTime)) {
+                refreshDoneTime = neverRefresh();
+                cancelResetTask();
+                if (nowValue == null) {
+                    setPlaceholder(notUseBungee);
+                }
+                return;
+            }
+            if (customRefreshTime.isAfter(now)
+                    && nowValue != null
+                    && refreshDoneTime != null
+                    && (isNeverRefresh(refreshDoneTime) || refreshDoneTime.isAfter(now))
+                    && !customRefreshTime.equals(refreshDoneTime)) {
+                refreshDoneTime = customRefreshTime;
+                cancelResetTask();
+                scheduleResetTask();
+                return;
+            }
+        }
+        boolean hadValue = nowValue != null;
+        boolean needRefresh = nowValue == null || refreshDoneTime == null
+                || !refreshDoneTime.isAfter(now)
+                || mode.equals("CUSTOM") && !customRefreshTime.isAfter(now);
         for (ObjectRandomPlaceholder tempVal1 : placeholder.getNotSameAs()) {
             if (tempVal1.equals(getPlaceholder())) {
                 continue;
@@ -131,37 +190,84 @@ public class ObjectRandomPlaceholderCache {
                     refreshDoneTime = getTimerRefreshTime(time);
                     break;
                 case "CUSTOM":
-                    refreshDoneTime = CommonUtil.stringToTime(time, placeholder.getConfig().getString("time-format", "yyyy-MM-dd HH:mm:ss"));
+                    refreshDoneTime = customRefreshTime;
+                    if (!customRefreshTime.isAfter(now)) {
+                        refreshDoneTime = neverRefresh();
+                    }
                     break;
                 case "RANDOM_PLACEHOLDER":
                     if (time.equals(placeholder.getID())) {
-                        refreshDoneTime = CommonUtil.getNowTime().withYear(2999);
+                        refreshDoneTime = neverRefresh();
                     } else {
                         refreshDoneTime = ObjectRandomPlaceholder.getRefreshDoneTimeObject(cache.getPlayer(), time);
                     }
                     break;
                 default:
-                    refreshDoneTime = CommonUtil.getNowTime().withYear(2999);
+                    refreshDoneTime = neverRefresh();
                     break;
             }
 
             cancelResetTask();
             scheduleResetTask();
+            if (hadValue || mode.equals("CUSTOM") && !customRefreshTime.isAfter(now)) {
+                lastResetTime = now;
+            }
             setPlaceholder(notUseBungee);
             CommandUtil.updateGUI(cache.getPlayer());
         }
     }
 
     private void scheduleResetTask() {
-        if (!ConfigManager.configManager.getBoolean("use-times.auto-reset-mode")
+        String mode = placeholder.getMode();
+        if (!isSchedulableMode(mode)
+                || !ConfigManager.configManager.getBoolean("use-times.auto-reset-mode")
                 || refreshDoneTime == null
-                || refreshDoneTime.getYear() == 2999) {
+                || isNeverRefresh(refreshDoneTime)) {
             return;
         }
 
-        long delayMillis = Duration.between(CommonUtil.getNowTime(), refreshDoneTime).toMillis();
-        long delayTicks = Math.max(0, delayMillis / 50);
-        resetTask = SchedulerUtil.runTaskLater(this::setRefreshTime, delayTicks + 20);
+        RandomPlaceholderResetTaskPool.register(this, refreshDoneTime);
+    }
+
+    private boolean isSchedulableMode(String mode) {
+        return "TIMED".equals(mode)
+                || "TIMER".equals(mode)
+                || "CUSTOM".equals(mode)
+                || "RANDOM_PLACEHOLDER".equals(mode);
+    }
+
+    private LocalDateTime getCustomRefreshTime(String time) {
+        try {
+            return CommonUtil.stringToTime(
+                    time,
+                    placeholder.getConfig().getString(
+                            "time-format",
+                            "yyyy-MM-dd HH:mm:ss"
+                    )
+            );
+        } catch (DateTimeException exception) {
+            ErrorManager.errorManager.sendErrorMessage(
+                    "§cError: Your reset time " + time + " is invalid."
+            );
+            return null;
+        }
+    }
+
+    private void migrateLegacyCustomState() {
+        if (!"CUSTOM".equals(placeholder.getMode())
+                || lastResetTime != null
+                || !isNeverRefresh(refreshDoneTime)) {
+            return;
+        }
+        lastResetTime = CommonUtil.getNowTime();
+    }
+
+    private LocalDateTime neverRefresh() {
+        return CommonUtil.getNowTime().withYear(NEVER_REFRESH_YEAR);
+    }
+
+    private boolean isNeverRefresh(LocalDateTime time) {
+        return time != null && time.getYear() == NEVER_REFRESH_YEAR;
     }
 
     public void setPlaceholder(boolean notUseBungee) {
@@ -174,10 +280,11 @@ public class ObjectRandomPlaceholderCache {
         }
         nowValue = new ArrayList<>(element);
         if (!notUseBungee && BungeeCordManager.bungeeCordManager != null) {
-            BungeeCordManager.bungeeCordManager.sendToOtherServer(
+            BungeeCordManager.bungeeCordManager.sendRandomPlaceholderToOtherServer(
                     placeholder.getID(),
                     CommonUtil.translateStringList(nowValue),
-                    CommonUtil.timeToString(refreshDoneTime));
+                    CommonUtil.timeToString(refreshDoneTime),
+                    CommonUtil.timeToString(lastResetTime));
         }
     }
 
@@ -188,7 +295,8 @@ public class ObjectRandomPlaceholderCache {
         return new RandomPlaceholderSnapshot(
                 placeholder.getID(),
                 CommonUtil.translateStringList(nowValue),
-                CommonUtil.timeToString(refreshDoneTime)
+                CommonUtil.timeToString(refreshDoneTime),
+                CommonUtil.timeToString(lastResetTime)
         );
     }
 

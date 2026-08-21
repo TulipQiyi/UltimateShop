@@ -62,6 +62,7 @@ public class SQLiteDialect extends DatabaseDialect {
                 placeholderID TEXT NOT NULL,
                 nowValue TEXT,
                 refreshDoneTime TEXT,
+                lastResetTime TEXT,
                 PRIMARY KEY (playerUUID, placeholderID)
             )
         """;
@@ -125,13 +126,14 @@ public class SQLiteDialect extends DatabaseDialect {
         return """
             INSERT INTO ultimateshop_randomPlaceholders (
                 playerUUID, placeholderID,
-                nowValue, refreshDoneTime
+                nowValue, refreshDoneTime, lastResetTime
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
             ON CONFLICT(playerUUID, placeholderID)
             DO UPDATE SET
                 nowValue = excluded.nowValue,
-                refreshDoneTime = excluded.refreshDoneTime
+                refreshDoneTime = excluded.refreshDoneTime,
+                lastResetTime = excluded.lastResetTime
         """;
     }
 

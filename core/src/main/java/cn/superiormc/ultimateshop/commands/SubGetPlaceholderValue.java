@@ -33,6 +33,7 @@ public class SubGetPlaceholderValue extends AbstractCommand {
                 for (ObjectRandomPlaceholder tempVal2: ConfigManager.configManager.getRandomPlaceholders()) {
                     tempVal1.add("{random_" + tempVal2.getID() + "}");
                     tempVal1.add("{random-times_" + tempVal2.getID() + "}");
+                    tempVal1.add("{random-last-reset_" + tempVal2.getID() + "}");
                 }
                 for (ObjectConditionalPlaceholder tempVal3 : ConfigManager.configManager.getConditionalPlaceholders()) {
                     tempVal1.add("{conditional_" + tempVal3.getID() + "}");

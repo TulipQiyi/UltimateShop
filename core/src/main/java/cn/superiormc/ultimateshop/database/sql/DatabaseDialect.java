@@ -35,6 +35,11 @@ public abstract class DatabaseDialect {
 
     public abstract String createRandomPlaceholderTable();
 
+    public String addRandomPlaceholderLastResetTimeColumn() {
+        return "ALTER TABLE ultimateshop_randomPlaceholders ADD COLUMN lastResetTime "
+                + dateTimeType();
+    }
+
     public abstract String createCustomPlaceholderTable();
 
     public abstract String createFavouriteTable();

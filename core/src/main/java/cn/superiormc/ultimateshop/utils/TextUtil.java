@@ -234,6 +234,7 @@ public class TextUtil {
     public static Pattern pattern6 = Pattern.compile("\\{random-next_(.*?)}");
     public static Pattern pattern7 = Pattern.compile("\\{cron_\"([^\"]+)\"\\}");
     public static Pattern pattern8 = Pattern.compile("\\{custom_(.*?)}");
+    public static Pattern pattern9 = Pattern.compile("\\{random-last-reset_(.*?)}");
 
     public static String parseBuiltInPlaceholder(String text, Player player) {
         text = text.replace("{discount_", "{conditional_");
@@ -310,6 +311,12 @@ public class TextUtil {
             String placeholder = matcher8.group(1);
             text = text.replace("{custom_" + placeholder + "}",
                     ObjectCustomPlaceholder.getNowValue(player, placeholder));
+        }
+        Matcher matcher9 = pattern9.matcher(text);
+        while (matcher9.find()) {
+            String placeholder = matcher9.group(1);
+            text = text.replace("{random-last-reset_" + placeholder + "}",
+                    ObjectRandomPlaceholder.getLastResetTime(player, placeholder));
         }
         text = CommonUtil.parseLang(player, text);
         return text;
