@@ -52,6 +52,7 @@ public class PostgreSQLDialect extends DatabaseDialect {
                 placeholderID VARCHAR(48) NOT NULL,
                 nowValue TEXT,
                 refreshDoneTime TIMESTAMP,
+                lastResetTime TIMESTAMP,
                 PRIMARY KEY (playerUUID, placeholderID)
             )
         """;
@@ -115,13 +116,14 @@ public class PostgreSQLDialect extends DatabaseDialect {
         return """
             INSERT INTO ultimateshop_randomPlaceholders (
                 playerUUID, placeholderID,
-                nowValue, refreshDoneTime
+                nowValue, refreshDoneTime, lastResetTime
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
             ON CONFLICT (playerUUID, placeholderID)
             DO UPDATE SET
                 nowValue = EXCLUDED.nowValue,
-                refreshDoneTime = EXCLUDED.refreshDoneTime
+                refreshDoneTime = EXCLUDED.refreshDoneTime,
+                lastResetTime = EXCLUDED.lastResetTime
         """;
     }
 

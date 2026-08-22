@@ -52,6 +52,7 @@ public class H2Dialect extends DatabaseDialect {
                 placeholderID VARCHAR(48) NOT NULL,
                 nowValue TEXT,
                 refreshDoneTime TIMESTAMP,
+                lastResetTime TIMESTAMP,
                 PRIMARY KEY (playerUUID, placeholderID)
             )
         """;
@@ -103,9 +104,9 @@ public class H2Dialect extends DatabaseDialect {
         return """
             MERGE INTO ultimateshop_randomPlaceholders
             (playerUUID, placeholderID,
-             nowValue, refreshDoneTime)
+             nowValue, refreshDoneTime, lastResetTime)
             KEY (playerUUID, placeholderID)
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         """;
     }
 

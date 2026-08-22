@@ -35,6 +35,13 @@ public class BungeeCordManager extends AbstractManager {
     public void sendToOtherServer(String id,
                                   String nowValue,
                                   String lastRefreshTime) {
+        sendRandomPlaceholderToOtherServer(id, nowValue, lastRefreshTime, null);
+    }
+
+    public void sendRandomPlaceholderToOtherServer(String id,
+                                                   String nowValue,
+                                                   String lastRefreshTime,
+                                                   String lastResetTime) {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);
         try {
@@ -45,7 +52,8 @@ public class BungeeCordManager extends AbstractManager {
             DataOutputStream msgout = new DataOutputStream(msgbytes);
             msgout.writeUTF(id);
             msgout.writeUTF(nowValue);
-            msgout.writeUTF(lastRefreshTime);
+            msgout.writeUTF(Objects.requireNonNullElse(lastRefreshTime, "null"));
+            msgout.writeUTF(Objects.requireNonNullElse(lastResetTime, "null"));
             out.writeShort(msgbytes.toByteArray().length);
             out.write(msgbytes.toByteArray());
             Bukkit.getServer().sendPluginMessage(UltimateShop.instance, "BungeeCord", b.toByteArray());

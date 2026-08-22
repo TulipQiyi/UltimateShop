@@ -83,7 +83,9 @@ elements:
 
 Use `{random_<ID>;;<Number>}` placeholder to display it's value, like `{random_daily;;2}` will query `daily` random placeholder's **second** element picked. For more info, please view [Placeholders](built-in-placeholders.md) page. For example of this placeholder usage, please view [Daily Shop](../shops/example-daily-shop-rotating-shop.md) page.
 
-Use `{random_times_<ID>}` placeholder to display the reset time of the placeholder, like `{random_times_daily}`.
+Use `{random-times_<ID>}` placeholder to display the reset time of the placeholder, like `{random-times_daily}`.
+
+Use `{random-last-reset_<ID>}` placeholder to display the last time its value was reset, like `{random-last-reset_daily}`. It displays `Never` until the first reset occurs.
 
 ## Reset Placeholder
 
@@ -97,11 +99,11 @@ Supports below reset mode:
 * **ONCE**: Each time the placeholer is used, it will reset and is not able to use in the price, as the price seen by the player opening the shop and the actual transaction result are calculated twice, so you cannot achieve price synchronization which means price player seen in shop will not same as the price player actually cost.
 * **TIMER**: It will reset after the time you specify, for example, after 5 hours.
 * **TIMED**: It will be reset at the corresponding time, such as 8:15 pm.
-* **CUSTOM**: Directly enter the reset time in reset time, and the plugin will not perform any calculations. Recommend obtain reset time through the Placeholder API results. You need set time format at `reset-time-format`  option to helps us know how does your PlaceholderAPI results be like.&#x20;
+* **CUSTOM**: Directly enter the reset time in reset time, and the plugin will not perform any calculations. Recommend obtain reset time through the Placeholder API results. You need set time format at `time-format` option to helps us know how does your PlaceholderAPI results be like.&#x20;
 
-We will first generate reset time after random placeholder be used once. The reset time will not automatically adjust based on configuration updates. If you set the reset time incorrectly, you will need to delete the corresponding data.
+We first generate the reset time after the random placeholder is used. CUSTOM targets are re-evaluated when the placeholder or its refresh time is queried, and the pooled task is updated when the target changes.
 
-Do <mark style="color:red;">**NOT**</mark> use `COOLDOWN_TIMER/COOLDOWN_TIMED/COOLDOWN_CUSTOM` reset mode here, they will not work in random placeholder, and since random placeholder data is always saved in server, so random placeholder's `TIMER/TIMED/CUSTOM` effect is same as product config's `CUSTOM_TIMER/CUSTOM_TIMED/COOLDOWN_CUSTOM` reset mode.
+Do <mark style="color:red;">**NOT**</mark> use `COOLDOWN_TIMER`, `COOLDOWN_TIMED`, or `COOLDOWN_CUSTOM` reset mode here; they are not supported by random placeholders.
 
 ### Reset Time
 
@@ -142,30 +144,31 @@ reset-mode: 'TIMED'
 reset-time: '20:00:00;;19:00:00'
 ```
 
-In this example, this product or random placeholder will reset reset at 19:00 and 20:00 every day.
+In this example, this random placeholder will reset at 19:00 and 20:00 every day.
 
 #### CUSTOM
 
-You only need to enter a Placeholder API placeholder here, and the result of the placeholder must include the complete year, month, day, hour, minute, and second. You also need to enter their format in the reset time format option, because different types of placeholders return different time formats, making it difficult for plugins to achieve uniformity.&#x20;
+You only need to enter a Placeholder API placeholder here, and the result of the placeholder must include the complete year, month, day, hour, minute, and second. You also need to enter its format in the `time-format` option. The same CUSTOM target executes only once; `lastResetTime` is persisted so it will not repeat after a restart.
 
 ### Cron Reset (Weekly Reset/Monthly Reset)&#x20;
 
 You can use Cron format in reset time.&#x20;
 
 * Set reset mode to `CUSTOM`.
-* Use `{cron_"<Cron Expression>"}` built-in placeholder in reset time. Don't miss out the `"` symbol. The `<Cron Expression>`  should use **Quartz** format.
+* Use `{cron_"<Cron Expression>"}` built-in placeholder in reset time. Don't miss out the `"` symbol. The `<Cron Expression>` should use **Quartz** format.
 
 For example:
 
 ```yaml
 reset-mode: 'CUSTOM'
 reset-time: '{cron_"0 0 0 ? * 5}'
+time-format: 'yyyy-MM-dd HH:mm:ss'
 ```
 
 You can obtain the Cron expression you want by asking ChatGPT or use [this tool](https://freeformatter.com/cron-expression-generator-quartz.html). For example, the Cron expression in this example means to reset at 0:00 every Thursday. We do not provide any help related to how to write Cron expression.
 
 {% hint style="info" %}
-You **MUST** make sure that time format of the result of Cron placeholder (set it in `config.yml` file) and the time format you set here is same. By default, they are same.
+You **MUST** make sure that time format of the result of Cron placeholder (set it in `config.yml` file) and the `time-format` you set here is same. By default, they are same.
 {% endhint %}
 
 ## Testing

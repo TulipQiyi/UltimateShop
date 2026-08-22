@@ -28,7 +28,9 @@ public class DialogInfoGUI extends DialogGUI {
 
     private final ObjectMoreMenu menu;
 
-    private final String amount;
+    private final int amount;
+
+    private final boolean enableBuyMore;
 
     public DialogInfoGUI(Player player, ObjectItem item) {
         this(player, item, "1");
@@ -38,7 +40,8 @@ public class DialogInfoGUI extends DialogGUI {
         super(player);
         this.item = item;
         this.menu = item.getBuyMoreMenu();
-        this.amount = amount;
+        this.enableBuyMore = item.getBuyMore() && menu != null && ConfigManager.configManager.containsClickAction("select-amount");
+        this.amount = getAmount(amount);
     }
 
     @Override
@@ -48,26 +51,25 @@ public class DialogInfoGUI extends DialogGUI {
             return;
         }
         String itemName = item.getDisplayName(player);
-        String title = getDialogText("info.title", "item-name", itemName, "amount", amount);
+        String title = getDialogText("info.title", "item-name", itemName, "amount", String.valueOf(amount));
         DialogView.Builder builder = DialogView.builder(title);
         List<String> content = new ArrayList<>();
         if (item.getDisplayItem(player).hasItemMeta()) {
             List<String> lore = UltimateShop.methodUtil.getItemLore(item.getDisplayItem(player).getItemMeta());
             if (lore != null) content.addAll(lore);
         }
-        int nowAmount = Math.max(1, Math.min(Integer.parseInt(amount), menu.getSection().getInt("max-amount", 64)));
-        content.addAll(ModifyDisplayItem.getModifiedLore(player, nowAmount, item, false, true, "general"));
+        content.addAll(ModifyDisplayItem.getModifiedLore(player, amount, item, false, true, "general"));
         if (!content.isEmpty()) {
             builder.body(String.join("\n", content));
         }
         boolean b = ConfigManager.configManager.getBoolean("placeholder.click.enabled");
         if (!item.getBuyPrice().empty) {
             builder.action(DialogAction.of("buy",
-                    getDialogText("info.buttons.buy", "item-name", itemName), response -> BuyProductMethod.startBuy(item, player, !b, false, nowAmount)));
+                    getDialogText("info.buttons.buy", "item-name", itemName), response -> BuyProductMethod.startBuy(item, player, !b, false, amount)));
         }
         if (!item.getSellPrice().empty) {
             builder.action(DialogAction.of("sell", getDialogText("info.buttons.sell", "item-name", itemName),
-                    response -> SellProductMethod.startSell(item, player, !b, false, nowAmount)));
+                    response -> SellProductMethod.startSell(item, player, !b, false, amount)));
             if (ConfigManager.configManager.containsClickAction("sell-all") && item.isEnableSellAll()) {
                 builder.action(DialogAction.of("sell_all", getDialogText("info.buttons.sell-all", "item-name", itemName),
                         response -> SellProductMethod.startSell(item, player, !b, false, true,
@@ -104,5 +106,24 @@ public class DialogInfoGUI extends DialogGUI {
     @Override
     public ObjectMenu getMenu() {
         return menu;
+    }
+
+    public int getAmount(String amountString) {
+        if (!enableBuyMore) {
+            return 1;
+        }
+        int realAmount;
+        try {
+            realAmount = Integer.parseInt(amountString);
+            if (realAmount < 1) {
+                realAmount = 1;
+            } else if (realAmount > menu.getSection().getInt("max-amount", 64)) {
+                realAmount = Math.max(1, menu.getSection().getInt("max-amount", 64));
+            }
+        }
+        catch (Throwable e) {
+            realAmount = 1;
+        }
+        return realAmount;
     }
 }

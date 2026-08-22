@@ -100,6 +100,13 @@ public class SQLDatabase extends AbstractDatabase {
 
             if (!UltimateShop.freeVersion) {
                 stmt.execute(dialect.createRandomPlaceholderTable());
+                ensureColumn(
+                        conn,
+                        stmt,
+                        "ultimateshop_randomPlaceholders",
+                        "lastResetTime",
+                        dialect.addRandomPlaceholderLastResetTimeColumn()
+                );
                 stmt.execute(dialect.createCustomPlaceholderTable());
                 stmt.execute(dialect.createTransactionLogTable());
                 for (String indexSql : dialect.createTransactionLogIndexes()) {
@@ -114,6 +121,23 @@ public class SQLDatabase extends AbstractDatabase {
     @Override
     public void checkData(ObjectCache cache) {
         DatabaseExecutor.executeCacheLoad(cache, this::loadData);
+    }
+
+    private void ensureColumn(Connection conn,
+                              Statement stmt,
+                              String tableName,
+                              String columnName,
+                              String alterSql) throws SQLException {
+        try (ResultSet columns = conn.getMetaData().getColumns(
+                conn.getCatalog(), null, null, null)) {
+            while (columns.next()) {
+                if (tableName.equalsIgnoreCase(columns.getString("TABLE_NAME"))
+                        && columnName.equalsIgnoreCase(columns.getString("COLUMN_NAME"))) {
+                    return;
+                }
+            }
+        }
+        stmt.execute(alterSql);
     }
 
     private void loadData(ObjectCache cache) {
@@ -205,7 +229,7 @@ public class SQLDatabase extends AbstractDatabase {
             throws SQLException {
 
         String sql = """
-                SELECT placeholderID, nowValue, refreshDoneTime
+                SELECT placeholderID, nowValue, refreshDoneTime, lastResetTime
                 FROM ultimateshop_randomPlaceholders
                 WHERE playerUUID = ?
                 """;
@@ -222,6 +246,7 @@ public class SQLDatabase extends AbstractDatabase {
                     cache.setRandomPlaceholderCache(
                             rs.getString("placeholderID"),
                             refreshDoneTime,
+                            rs.getString("lastResetTime"),
                             CommonUtil.translateString(nowValue)
                     );
                 }
@@ -414,6 +439,7 @@ public class SQLDatabase extends AbstractDatabase {
                 ps.setString(2, placeholder.id());
                 ps.setString(3, placeholder.nowValue());
                 ps.setString(4, placeholder.refreshDoneTime());
+                ps.setString(5, placeholder.lastResetTime());
 
                 if (dialect.supportBatch()) {
                     ps.addBatch();

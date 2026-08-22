@@ -37,12 +37,10 @@ public class FormInfoGUI extends FormGUI {
 
     private final String amount;
 
+    private final boolean enableBuyMore;
+
     public FormInfoGUI(Player owner, ObjectItem item) {
-        super(owner);
-        this.item = item;
-        this.menu = item.getBuyMoreMenu();
-        this.amount = "1";
-        constructGUI();
+        this(owner, item, "1");
     }
 
     public FormInfoGUI(Player owner, ObjectItem item, String amount) {
@@ -50,6 +48,7 @@ public class FormInfoGUI extends FormGUI {
         this.item = item;
         this.menu = item.getBuyMoreMenu();
         this.amount = amount;
+        this.enableBuyMore = item.getBuyMore() && menu != null && ConfigManager.configManager.containsClickAction("select-amount");
         constructGUI();
     }
 
@@ -64,10 +63,9 @@ public class FormInfoGUI extends FormGUI {
             return;
         }
         SimpleForm.Builder tempVal2 = SimpleForm.builder();
-
         tempVal2.title(TextUtil.parse(player, ConfigManager.configManager.getStringWithLang(player, "menu.bedrock.info.title", "Shop",
                         "item-name", item.getDisplayName(player),
-                        "amount", amount)));
+                        "amount", String.valueOf(getAmount()))));
         List<String> content = new ArrayList<>();
         if (item.getDisplayItem(player).hasItemMeta() && item.getDisplayItem(player).getItemMeta().hasLore()) {
             content.addAll(UltimateShop.methodUtil.getItemLore(item.getDisplayItem(player).getItemMeta()));
@@ -126,7 +124,7 @@ public class FormInfoGUI extends FormGUI {
                 tempVal2.button(sellAll);
             }
         }
-        if (item.getBuyMore() && ConfigManager.configManager.containsClickAction("select-amount")) {
+        if (item.getBuyMore() && menu != null && ConfigManager.configManager.containsClickAction("select-amount")) {
             tempVal2.button(buyMore);
         }
         for (ButtonComponent buttonComponent : clickEvents.values()) {
@@ -227,13 +225,16 @@ public class FormInfoGUI extends FormGUI {
     }
 
     public int getAmount() {
+        if (!enableBuyMore) {
+            return 1;
+        }
         int realAmount;
         try {
             realAmount = Integer.parseInt(amount);
             if (realAmount < 1) {
                 realAmount = 1;
             } else if (realAmount > menu.getSection().getInt("max-amount", 64)) {
-                realAmount = menu.getSection().getInt("max-amount", 64);
+                realAmount = Math.max(1, menu.getSection().getInt("max-amount", 64));
             }
         }
         catch (Throwable e) {

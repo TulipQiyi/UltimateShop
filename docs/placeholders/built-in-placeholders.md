@@ -1,5 +1,7 @@
 # 🔧Built-in Placeholders
 
+The `{random-last-reset_<ID>}` placeholder displays the last time a random placeholder value was reset. It returns the configured `placeholder.refresh.never` text before the first reset.
+
 {% hint style="info" %}
 By default, **placeholder displayed in GUI** will only refreshed when player **open the menu or click the button**. If you want to auto update placeholder value, you need enable `menu.shop.update` option in `config.yml` file. Remeber: this can even cost <mark style="color:red;">**x20**</mark> plugin performance than normal when open the GUI. This is <mark style="color:red;">**NOT**</mark> a good choice to enable this.
 {% endhint %}
@@ -44,7 +46,7 @@ For example:
 
 `%ultimateshop_example_A_buy-limit-player%`
 
-For random, random times, random next, compare and conditional placeholder, you don't need specife the shop and the product, just put the placeholder after `ultimateshop`. For example:
+For random, random times, random last reset, random next, compare and conditional placeholder, you don't need specife the shop and the product, just put the placeholder after `ultimateshop`. For example:
 
 `%ultimateshop_{random-times_rotate}%`
 

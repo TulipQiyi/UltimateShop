@@ -99,9 +99,15 @@ public class YamlDatabase extends AbstractDatabase {
 
                     String nowValue = phSection.getString("nowValue", null);
                     String refreshDoneTime = phSection.getString("refreshDoneTime", null);
+                    String lastResetTime = phSection.getString("lastResetTime", null);
 
                     if (nowValue != null && refreshDoneTime != null) {
-                        cache.setRandomPlaceholderCache(phID, refreshDoneTime, CommonUtil.translateString(nowValue));
+                        cache.setRandomPlaceholderCache(
+                                phID,
+                                refreshDoneTime,
+                                lastResetTime,
+                                CommonUtil.translateString(nowValue)
+                        );
                     }
                 });
             }
@@ -154,6 +160,7 @@ public class YamlDatabase extends AbstractDatabase {
                 ConfigurationSection phSection = randomSection.createSection(placeholder.id());
                 phSection.set("nowValue", placeholder.nowValue());
                 phSection.set("refreshDoneTime", placeholder.refreshDoneTime());
+                phSection.set("lastResetTime", placeholder.lastResetTime());
             }
 
             ConfigurationSection customSection = config.createSection("customPlaceholder");

@@ -52,6 +52,7 @@ public class MySQLDialect extends DatabaseDialect {
                 placeholderID VARCHAR(48) NOT NULL,
                 nowValue TEXT,
                 refreshDoneTime DATETIME,
+                lastResetTime DATETIME,
                 PRIMARY KEY (playerUUID, placeholderID)
             )
         """;
@@ -108,11 +109,12 @@ public class MySQLDialect extends DatabaseDialect {
     public String upsertRandomPlaceholder() {
         return """
             INSERT INTO ultimateshop_randomPlaceholders
-            (playerUUID, placeholderID, nowValue, refreshDoneTime)
-            VALUES (?, ?, ?, ?)
+            (playerUUID, placeholderID, nowValue, refreshDoneTime, lastResetTime)
+            VALUES (?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
                 nowValue = VALUES(nowValue),
-                refreshDoneTime = VALUES(refreshDoneTime)
+                refreshDoneTime = VALUES(refreshDoneTime),
+                lastResetTime = VALUES(lastResetTime)
         """;
     }
 

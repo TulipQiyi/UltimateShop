@@ -263,9 +263,12 @@ public class ObjectUseTimesCache {
                 sendBungee(direction.cooldownChannel, null, notUseBungee);
                 break;
             case "COOLDOWN_CUSTOM":
-                state.cooldownTime = UltimateShop.freeVersion
-                        ? CommonUtil.stringToTime(time)
-                        : CommonUtil.stringToTime(time, getResetFormat(direction));
+                LocalDateTime customRefreshTime = createCustomRefreshTime(direction, time, UltimateShop.freeVersion);
+                if (isNever(customRefreshTime)) {
+                    state.cooldownTime = null;
+                    return customRefreshTime;
+                }
+                state.cooldownTime = customRefreshTime;
                 break;
             default:
                 break;
@@ -338,10 +341,23 @@ public class ObjectUseTimesCache {
             case "TIMER" -> createTimerRefreshTime(direction, time, false);
             case "CUSTOM" -> UltimateShop.freeVersion
                     ? neverRefresh()
-                    : CommonUtil.stringToTime(time, getResetFormat(direction));
+                    : createCustomRefreshTime(direction, time, false);
             case "RANDOM_PLACEHOLDER" -> ObjectRandomPlaceholder.getRefreshDoneTimeObject(cache.getPlayer(), time);
             default -> neverRefresh();
         };
+    }
+
+    private LocalDateTime createCustomRefreshTime(Direction direction,
+                                                  String configuredTime,
+                                                  boolean useDefaultFormat) {
+        LocalDateTime refreshTime = useDefaultFormat
+                ? CommonUtil.stringToTime(configuredTime)
+                : CommonUtil.stringToTime(configuredTime, getResetFormat(direction));
+        LocalDateTime lastResetTime = state(direction).lastResetTime;
+        if (refreshTime != null && lastResetTime != null && !lastResetTime.isBefore(refreshTime)) {
+            return neverRefresh();
+        }
+        return refreshTime;
     }
 
     private LocalDateTime createTimedRefreshTime(Direction direction,
@@ -523,7 +539,7 @@ public class ObjectUseTimesCache {
     }
 
     private void refresh(Direction direction) {
-        if (product == null) {
+        if (product == null || cache.canNotModify()) {
             return;
         }
 

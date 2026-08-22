@@ -95,38 +95,49 @@ public class ObjectCache {
             return new ObjectUseTimesCache(this);
         }
 
-        return useTimesCache.computeIfAbsent(item, key -> {
-            UseTimesStorageKey storageKey = key.getUseTimesStorageKey();
-            ObjectUseTimesCache existing = sharedUseTimesCache.get(storageKey);
-            if (existing != null) {
-                existing.bindProduct(key);
-                return existing;
+        ObjectUseTimesCache existing = useTimesCache.get(item);
+        if (existing != null) {
+            return existing;
+        }
+
+        synchronized (this) {
+            if (closed) {
+                return new ObjectUseTimesCache(this);
             }
 
-            int defaultBuyTimes = 0;
-            int defaultSellTimes = 0;
+            return useTimesCache.computeIfAbsent(item, key -> {
+                UseTimesStorageKey storageKey = key.getUseTimesStorageKey();
+                ObjectUseTimesCache shared = sharedUseTimesCache.get(storageKey);
+                if (shared != null) {
+                    shared.bindProduct(key);
+                    return shared;
+                }
 
-            if (ConfigManager.configManager.getBoolean("use-times.set-reset-value-by-default")) {
-                defaultBuyTimes = key.getBuyTimesResetValue(player);
-                defaultSellTimes = key.getSellTimesResetValue(player);
-            }
+                int defaultBuyTimes = 0;
+                int defaultSellTimes = 0;
 
-            ObjectUseTimesCache created = new ObjectUseTimesCache(this,
-                    defaultBuyTimes,
-                    0,
-                    defaultSellTimes,
-                    0,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    key
-            );
-            sharedUseTimesCache.put(storageKey, created);
-            return created;
-        });
+                if (ConfigManager.configManager.getBoolean("use-times.set-reset-value-by-default")) {
+                    defaultBuyTimes = key.getBuyTimesResetValue(player);
+                    defaultSellTimes = key.getSellTimesResetValue(player);
+                }
+
+                ObjectUseTimesCache created = new ObjectUseTimesCache(this,
+                        defaultBuyTimes,
+                        0,
+                        defaultSellTimes,
+                        0,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        key
+                );
+                sharedUseTimesCache.put(storageKey, created);
+                return created;
+            });
+        }
     }
 
     public synchronized void setUseTimesCache(String shop,
@@ -183,6 +194,13 @@ public class ObjectCache {
     public void setRandomPlaceholderCache(ObjectRandomPlaceholder placeholder,
                                           String refreshDoneTime,
                                           List<String> nowValue) {
+        setRandomPlaceholderCache(placeholder, refreshDoneTime, null, nowValue);
+    }
+
+    public void setRandomPlaceholderCache(ObjectRandomPlaceholder placeholder,
+                                          String refreshDoneTime,
+                                          String lastResetTime,
+                                          List<String> nowValue) {
 
         if (closed || placeholder == null || nowValue == null) {
             return;
@@ -194,18 +212,29 @@ public class ObjectCache {
                 placeholder,
                 key -> new ObjectRandomPlaceholderCache(this, key)
         );
-        placeholderCache.loadState(nowValue, CommonUtil.stringToTime(refreshDoneTime));
+        placeholderCache.loadState(
+                nowValue,
+                CommonUtil.stringToTime(refreshDoneTime),
+                lastResetTime == null ? null : CommonUtil.stringToTime(lastResetTime)
+        );
     }
 
     public void setRandomPlaceholderCache(String id,
                                           String refreshDoneTime,
+                                          List<String> nowValue) {
+        setRandomPlaceholderCache(id, refreshDoneTime, null, nowValue);
+    }
+
+    public void setRandomPlaceholderCache(String id,
+                                          String refreshDoneTime,
+                                          String lastResetTime,
                                           List<String> nowValue) {
 
         if (nowValue == null) {
             return;
         }
         ObjectRandomPlaceholder placeholder = ConfigManager.configManager.getRandomPlaceholder(id);
-        setRandomPlaceholderCache(placeholder, refreshDoneTime, nowValue);
+        setRandomPlaceholderCache(placeholder, refreshDoneTime, lastResetTime, nowValue);
     }
 
     public ObjectRandomPlaceholderCache getRandomPlaceholderCache(ObjectRandomPlaceholder placeholder) {
@@ -414,7 +443,7 @@ public class ObjectCache {
     }
 
     public void close() {
-        closed = true;
+        cancelResetTasks();
         if (player != null) {
             TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §fUnloaded player data: " + player.getName() + ".");
         }
@@ -422,6 +451,9 @@ public class ObjectCache {
 
     public void ready() {
         ready = true;
+        randomPlaceholderCache.values().forEach(
+                ObjectRandomPlaceholderCache::activateResetTask
+        );
         if (player != null) {
             TextUtil.sendMessage(null, TextUtil.pluginPrefix() + " §fLoaded player data: " + player.getName() + ".");
         }
